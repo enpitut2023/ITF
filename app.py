@@ -1,26 +1,24 @@
-from flask import Flask
-from flask import render_template
+from flask import render_template, jsonify, Flask
 import os
-from flask import Flask, jsonify
-import firebase_admin
 from firebase_admin import credentials, firestore
 import json
+import firebase_admin
 from google.cloud import firestore
 from google.oauth2.service_account import Credentials
 
 # 環境変数からFirebaseサービスアカウントキーを読み込みます
-service_account_key = json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_ITF_DATABASE_B9026'))
+# service_account_key = json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_ITF_DATABASE_B9026'))
 
-# Firebaseクライアントを初期化します
-credentials = Credentials.from_service_account_info(service_account_key)
-db = firestore.Client(credentials=credentials)
+# # Firebaseクライアントを初期化します
+# credentials = Credentials.from_service_account_info(service_account_key)
+# db = firestore.Client(credentials=credentials)
 
 # # Firebaseの認証情報を使用してFirebase Admin SDKを初期化します
-# cred = credentials.Certificate('itf-database-credential.json')
-# firebase_admin.initialize_app(cred)
+cred = credentials.Certificate('itf-database-credential.json')
+firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
-# db = firestore.client()
+db = firestore.client()
 
 @app.route("/")
 def hello_world():
