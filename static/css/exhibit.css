@@ -1,4 +1,4 @@
-h1 {
+h2 {
   text-align: center;
 }
 
@@ -6,11 +6,59 @@ form {
   text-align: center;
 }
 
-.name,.place,.time{
-  margin-top: 40px;
+.book,.subject {
+  height: 40px;
+  width: 20%;
+  
+
 }
 
-.book {
-  height: 40px;
+.btn-submit{
+  text-align: center;
+  display: flex;
+  margin: 15px;
+}
+.menu{
+  display: flex;
+  justify-content: space-around;
+}
 
+.header{
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+li{
+  margin: 20px;
+  list-style: none;
+}
+
+a {
+  text-decoration: none
+}
+
+input[type="submit"] {
+	width: 5%;
+    font-size: 15px;
+    color: #fff;
+	display: inline-block;
+    padding: 15px 0px;
+    text-align: center;
+	background-color: #5c87a6;
+    border: 1px solid #5c87a6;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 1s;
+}
+
+/*--hover--*/
+input[type="submit"]:hover {
+    color: #5c87a6;
+    background-color: #ffffff;
+    border: 1px solid #5c87a6;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 1s;
 }

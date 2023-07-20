@@ -1,19 +1,137 @@
-.menu{
-  display: flex;
-  justify-content: space-around;
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap");
+@media screen and (max-width: 767.8px) {
+  .is-pc {
+    display: none !important;
+  }
 }
 
-.header{
-  display: flex;
-  justify-content: space-between;
-  margin: 20px;
+@media screen and (min-width: 768px) {
+  .is-sp {
+    display: none !important;
+  }
 }
 
-li{
+body {
+  overflow-x: hidden;
+  font-family: "Noto Serif JP", serif;
+  color: #000;
+}
+
+.wrapper {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+
+a:hover {
+  opacity: 0.7;
+}
+
+.container {
+  max-width: 1280px;
+  padding: 0 40px;
+  margin: 0 auto;
+}
+
+.menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+li {
   margin: 20px;
   list-style: none;
 }
 
-a {
-  text-decoration: none
+/*---------------------
+商品一覧
+---------------------*/
+.product {
+  padding: 10rem 0;
+}
+
+.product-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  background: #eee;
+  padding: 4rem;
+  border-radius: 10px;
+}
+
+.product-item:not(:first-child) {
+  margin-top: 3rem;
+}
+
+.product-detail {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.product-name {
+  font-size: 1.6rem;
+  margin-left: 2rem;
+}
+
+.product-btn {
+  text-align: center;
+  margin-top: 32px;
+}
+
+.access-btn a {
+  position: relative;
+  display: inline-block;
+  padding: 20px 56px;
+  background: #333;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.access-btn a::after {
+  content: "";
+  background: transparent url(../img/button-arrow.svg) no-repeat center/contain;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
 }

@@ -38,6 +38,11 @@ def get_data():
     # JSON形式でデータを返します
     return jsonify(results)
 
+@app.route("/purchase_confirmation")
+def purchase_confirmation():
+  return render_template('purchase_confirmation.html')
+
+
 
 if __name__ == '__main__':
   app.run(debug=False)
