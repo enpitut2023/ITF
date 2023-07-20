@@ -1,0 +1,48 @@
+.menu{
+    display: flex;
+    justify-content: space-around;
+  }
+  
+.header{
+    display: flex;
+    justify-content: space-around;
+}
+  
+li{
+    margin: 20px;
+    list-style: none;
+  }
+
+.textbookname{
+    width: 70%; /*親要素いっぱい広げる*/
+    padding: 15px 20px; /*ボックスを大きくする*/
+    font-size: 16px;
+    border-radius: 3px; /*ボックス角の丸み*/
+    border: 2px solid #ddd; /*枠線*/
+    box-sizing: border-box; /*横幅の解釈をpadding, borderまでとする*/
+}
+
+.textbookname:focus {
+    box-shadow: 0 0 5px 0 rgba(255,153,0,1);
+    border: 2px solid #FFF !important;
+    outline: 0;
+  }
+
+  .btn-submit{
+    display: block;
+    padding: 7px 25px;
+    border-radius: 7px;
+    border: none;
+    border-bottom: 4px solid #1d7dcc;
+    background-color: #2196f3;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    appearance: none;
+  }
+  .btn-submit:active {
+    margin-top: 3px;
+    background-color: #309bf2;
+    border-bottom: 2px solid #006366;
+  }
