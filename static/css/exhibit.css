@@ -9,10 +9,15 @@ form {
 .book,.subject {
   height: 40px;
   width: 20%;
+  
 
 }
 
-
+.btn-submit{
+  text-align: center;
+  display: flex;
+  margin: 15px;
+}
 .menu{
   display: flex;
   justify-content: space-around;
