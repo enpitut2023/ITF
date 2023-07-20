@@ -8,6 +8,7 @@ form {
 
 .book {
   height: 40px;
+  width: 20%;
 
 }
 
@@ -29,4 +30,29 @@ li{
 
 a {
   text-decoration: none
+}
+
+input[type="submit"] {
+	width: 5%;
+    font-size: 15px;
+    color: #fff;
+	display: inline-block;
+    padding: 15px 0px;
+    text-align: center;
+	background-color: #5c87a6;
+    border: 1px solid #5c87a6;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 1s;
+}
+
+/*--hover--*/
+input[type="submit"]:hover {
+    color: #5c87a6;
+    background-color: #ffffff;
+    border: 1px solid #5c87a6;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 1s;
 }
