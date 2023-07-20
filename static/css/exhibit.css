@@ -6,11 +6,12 @@ form {
   text-align: center;
 }
 
-.book {
+.book,.subject {
   height: 40px;
   width: 20%;
 
 }
+
 
 .menu{
   display: flex;
