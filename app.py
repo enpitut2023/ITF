@@ -16,6 +16,10 @@ def mypage():
 def exhibit():
   return render_template('exhibit.html')
 
+@app.route("/purchase_confirmation")
+def purchase_confirmation():
+  return render_template('purchase_confirmation.html')
+
 
 if __name__ == '__main__':
   app.run(debug=False)
