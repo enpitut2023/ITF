@@ -1,0 +1,19 @@
+.menu{
+  display: flex;
+  justify-content: space-around;
+}
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+li{
+  margin: 20px;
+  list-style: none;
+}
+
+a {
+  text-decoration: none
+}
