@@ -1,4 +1,4 @@
-h1 {
+h2 {
   text-align: center;
 }
 
@@ -6,11 +6,27 @@ form {
   text-align: center;
 }
 
-.name,.place,.time{
-  margin-top: 40px;
-}
-
 .book {
   height: 40px;
 
+}
+
+.menu{
+  display: flex;
+  justify-content: space-around;
+}
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+li{
+  margin: 20px;
+  list-style: none;
+}
+
+a {
+  text-decoration: none
 }
