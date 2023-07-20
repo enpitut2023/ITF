@@ -3,8 +3,8 @@ import os
 from firebase_admin import credentials, firestore
 import json
 import firebase_admin
-from google.cloud import firestore
-from google.oauth2.service_account import Credentials
+# from google.cloud import firestore
+# from google.oauth2.service_account import Credentials
 
 # 環境変数からFirebaseサービスアカウントキーを読み込みます
 # service_account_key = json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_ITF_DATABASE_B9026'))
