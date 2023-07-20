@@ -1,0 +1,174 @@
+@charset 'utf-8';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap');
+
+//*--------------------//
+//変数
+//--------------------*//
+
+//*-------------- font -------------------*//
+$main-font: 'Noto Serif JP', serif;
+
+//*-------------- 全体 -------------------*//
+$main-color: #fff;
+$font-color: #000;
+
+//*-------------- header -------------------*//
+//$header-height: 70px;
+
+//*-------------- section-common -------------------*//
+//$section-padding: 80px;
+//$section-padding-sp: 48px;
+
+//マップ型変数$breakpointsを定義
+$breakpoints: (
+  //キー  値
+  "sm": "screen and (max-width: 576px)",     //576px以下（スマホ）
+  "sp": "screen and (max-width: 767.8px)",     //767px以下（スマホ）
+  "md": "screen and (min-width: 768px)",     //768px以上（タブレット）
+  "ex-lg": "screen and (max-width: 1200px)",  //1200px以下
+) !default;
+//メディアクエリ用のmixinを定義。デフォ値はsp
+@mixin mq($breakpoint: sp) {
+  //map-get(マップ型変数, キー)で値を取得
+  @media #{map-get($breakpoints, $breakpoint)} {
+    //この中をカスタムできる,
+    @content;
+  }
+}
+
+@include mq(sp) {
+  .is-pc {
+    display: none !important;
+  }
+}
+
+@include mq(md) {
+  .is-sp {
+    display: none !important;
+  }
+}
+
+html {
+  font-size: 62.5%;
+
+  @media screen and (min-width: 768px) and (max-width: 1440px)  {
+    // font-size: 0.625vw;
+    // font-size: 0.52083vw;
+    // font-size: 1vw;  // = 40px / (コンテナ幅px / 100vw * 4rem)
+  }
+}
+
+body {
+  overflow-x: hidden;
+  font-family: $main-font;
+  color: $font-color;
+  //line-height: 1.5;
+}
+
+.wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: $font-color;
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.container {
+//	width: 93%;
+  max-width: 1280px;
+  padding: 0 40px;
+  margin: 0 auto;
+}
+
+.menu{
+  display: flex;
+  justify-content: space-around;
+}
+
+.header{
+  display: flex;
+  justify-content: space-around;
+}
+
+li{
+  margin: 20px;
+  list-style: none;
+}
+
+
+/*---------------------
+商品一覧
+---------------------*/
+.product {
+  padding: 10rem 0;
+}
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  background: #eee;
+  padding: 4rem;
+  border-radius: 10px;
+
+  &:not(:first-child) {
+    margin-top: 3rem;
+  }
+
+}
+
+.product-detail {
+  display: flex;
+  // justify-content: space-between;
+}
+
+.product-img {
+}
+
+.product-name {
+  font-size: 2.4rem;
+  margin-left: 2rem;
+}
+
+.product-btn {
+  text-align: center;
+  margin-top: 32px;
+}
+
+.access-btn a {
+  position: relative;
+  display: inline-block;
+  padding: 20px 56px;
+  background: #333;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+
+  &::after {
+    content: "";
+    background: transparent url(../img/button-arrow.svg) no-repeat
+      center/contain;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+  }
+}
