@@ -1,0 +1,16 @@
+h1 {
+  text-align: center;
+}
+
+form {
+  text-align: center;
+}
+
+.name,.place,.time{
+  margin-top: 40px;
+}
+
+.book {
+  height: 40px;
+
+}
