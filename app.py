@@ -55,14 +55,14 @@ def get_data():
 def set_data():
 
     # Firestoreからデータ
-    docs_ref = db.collection('test').document('0Zw5QLkK65hjJdkce4Az')
-    one_exhibit_data['出品者']="1"
-    one_exhibit_data['教科書名']="2"
+    docs_ref = db.collection('test')
+    one_exhibit_data['出品者']="test"
+    one_exhibit_data['教科書名']="test"
     one_exhibit_data['受け取り場所']="test"
     one_exhibit_data['受け取り時間']="test"
     one_exhibit_data['受取人']="test"
 
-    docs_ref.update({"1":one_exhibit_data})
+    docs_ref.add(one_exhibit_data)
 
 
 
