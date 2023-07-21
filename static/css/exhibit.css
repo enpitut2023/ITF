@@ -1,9 +1,13 @@
 h2 {
   text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 50px;
 }
 
 form {
   text-align: center;
+  margin-top: 15px;
 }
 
 .book{
@@ -12,31 +16,11 @@ form {
 }
 
 .subject{
-  margin-top: 20px;
 }
 
 .btn-submit{
   text-align: center;
   margin: 15px;
-}
-.menu{
-  display: flex;
-  justify-content: space-around;
-}
-
-.header{
-  display: flex;
-  justify-content: space-between;
-  margin: 20px;
-}
-
-li{
-  margin: 20px;
-  list-style: none;
-}
-
-a {
-  text-decoration: none
 }
 
 input[type="submit"] {
