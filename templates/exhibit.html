@@ -3,22 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exhibit</title>
+  <title>ITF. ～出品～</title>
+  <link rel="stylesheet" href="./static/css/reset.css">
   <link rel="stylesheet" href="/static/css/exhibit.css">
+  <link rel="stylesheet" href="./static/css/style.css">
 </head>
 <body>
-  <div class="header">
-    <div class="title">
-      <h1>ITF</h1>
-      <p>Informative Textbook Fleamarket</p>
-    </div>
-  
-      <ul class="menu">
+  <header>
+    <div class="header">
+      <a href="/" class="title-container">
+        <h1 class="title">ITF.</h1>
+        <p class="title-sub">Informative Textbook Fleamarket</p>
+      </a>
+      <!-- PC用メニュー -->
+      <ul class="menu is-pc">
         <li><a href="#">購入情報</a></li>
         <li><a href="/exhibit">出品</a></li>
         <li><a href="/mypage">Mypage</a></li>
       </ul>
     </div>
+  
+    <!-- SP用メニュー -->
+    <div id="navArea" class="is-sp">
+      <nav>
+        <div class="inner">
+          <ul class="menu">
+            <li><a href="#">購入情報</a></li>
+            <li><a href="/exhibit">出品</a></li>
+            <li><a href="/mypage">Mypage</a></li>
+          </ul>
+      </nav>
+      <div class="toggle_btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div id="mask"></div>
+    </div>
+  </header>
 
   <h2>出品</h2>
   <form method="POST" action="/exhibit">
@@ -29,7 +51,10 @@
       <input type="submit" class="btn-submit" value="出品"  onclick="showAlert()">
     </div>
   </form>
+    
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="./static/javascript/script.js"></script>
   <script src="./static/javascript/exhibit.js"></script>
-
 </body>
 </html>

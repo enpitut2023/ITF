@@ -56,7 +56,7 @@ def exhibit():
     one_exhibit_data['教科書名']=textname
 
     docs_ref.add(one_exhibit_data)
-    return redirect('/exhibit')
+    return redirect('/')
     
 
 @app.route('/get_data')
