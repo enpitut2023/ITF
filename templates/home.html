@@ -50,63 +50,17 @@
       <section class="product">
         {% for result in results %}
         <div class="product-item">
-          <p>{{result["教科書名"]}}</p>
+          <div class="product-detail">
+            <img src="./static/img/book.png" class="product-img" alt="">
+            <h1 class="product-name">{{result["教科書名"]}}</h1>
+          </div><!-- /.product-detail -->
+          <div class="tab-product__link product-btn">
+            <a class="button-arrow-right" href="/purchase_confirmation">欲しい！</a>
+          </div>
+          
         </div>
         {% endfor %}
-        <div class="product-item">
-          <div class="product-detail">
-            <img src="./static/img/book.png" class="product-img" alt="">
-            <h1 class="product-name">苦しんで覚えるC言語</h1>
-          </div><!-- /.product-detail -->
-          <div class="tab-product__link product-btn">
-            <a class="button-arrow-right" href="/purchase_confirmation">欲しい！</a>
-          </div>
-        </div><!-- /.product-item -->
-        <div class="product-item">
-          <div class="product-detail">
-            <img src="./static/img/book.png" class="product-img" alt="">
-            <h1 class="product-name">マセマ　線形代数</h1>
-          </div><!-- /.product-detail -->
-          <div class="tab-product__link product-btn">
-            <a class="button-arrow-right" href="/purchase_confirmation">欲しい！</a>
-          </div>
-        </div><!-- /.product-item -->
-        <div class="product-item">
-          <div class="product-detail">
-            <img src="./static/img/book.png" class="product-img" alt="">
-            <h1 class="product-name">微分積分学</h1>
-          </div><!-- /.product-detail -->
-          <div class="tab-product__link product-btn">
-            <a class="button-arrow-right" href="">欲しい！</a>
-          </div>
-        </div><!-- /.product-item -->
-        <div class="product-item">
-          <div class="product-detail">
-            <img src="./static/img/book.png" class="product-img" alt="">
-            <h1 class="product-name">オライリージャパン　Deep learning</h1>
-          </div><!-- /.product-detail -->
-          <div class="tab-product__link product-btn">
-            <a class="button-arrow-right" href="/purchase_confirmation">欲しい！</a>
-          </div>
-        </div><!-- /.product-item -->
-        <div class="product-item">
-          <div class="product-detail">
-            <img src="./static/img/book.png" class="product-img" alt="">
-            <h1 class="product-name">Git・GitHub入門</h1>
-          </div><!-- /.product-detail -->
-          <div class="tab-product__link product-btn">
-            <a class="button-arrow-right" href="/purchase_confirmation">欲しい！</a>
-          </div>
-        </div><!-- /.product-item -->
-        <div class="product-item">
-          <div class="product-detail">
-            <img src="./static/img/book.png" class="product-img" alt="">
-            <h1 class="product-name">ソフトウェアリポジトリ分析技法</h1>
-          </div><!-- /.product-detail -->
-          <div class="tab-product__link product-btn">
-            <a class="button-arrow-right" href="/purchase_confirmation">欲しい！</a>
-          </div>
-        </div><!-- /.product-item -->
+
       </section><!-- /.product -->
     </div><!-- /.container -->
 
