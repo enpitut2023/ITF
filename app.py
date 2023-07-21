@@ -41,7 +41,9 @@ def hello_world():
 @app.route("/mypage")
 def mypage():
   return render_template('mypage.html')
-
+@app.route("/login")
+def mypage():
+  return render_template('login.html')
 
 @app.route("/exhibit",methods=['GET','POST'])
 def exhibit():
@@ -83,6 +85,9 @@ def purchase_confirmation():
   return render_template('purchase_confirmation.html')
 
 
+@app.route("/signup")
+def signup():
+  return render_template('signup.html')
 
 if __name__ == '__main__':
   app.run(debug=False)

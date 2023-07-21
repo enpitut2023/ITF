@@ -45,16 +45,16 @@
   <h2>出品</h2>
   <form method="POST" action="/exhibit">
     <div class="name">
-      <input type="text" class="book" placeholder="教科書名" name="textname">       
+      <input type="text" class="book" placeholder="教科書名" name="textname" required>       
     </div>
     <div class="subject">
-      <input type="submit" class="btn-submit" value="登録">
+      <input type="submit" class="btn-submit" value="出品"  onclick="showAlert()">
     </div>
   </form>
-  <!--練習-->
-
+    
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script src="./static/javascript/script.js"></script>
+  <script src="./static/javascript/exhibit.js"></script>
 </body>
 </html>
