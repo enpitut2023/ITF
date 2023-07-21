@@ -12,6 +12,37 @@ $main-font: 'Noto Serif JP', serif;
 $main-color: #fff;
 $font-color: #000;
 
+
+//マップ型変数$breakpointsを定義
+$breakpoints: (
+  //キー  値
+  "sm": "screen and (max-width: 576px)",     //576px以下（スマホ）
+  "sp": "screen and (max-width: 767.8px)",     //767px以下（スマホ）
+  "md": "screen and (min-width: 768px)",     //768px以上（タブレット）
+  "ex-lg": "screen and (max-width: 1200px)",  //1200px以下
+) !default;
+//メディアクエリ用のmixinを定義。デフォ値はsp
+@mixin mq($breakpoint: sp) {
+  //map-get(マップ型変数, キー)で値を取得
+  @media #{map-get($breakpoints, $breakpoint)} {
+    //この中をカスタムできる,
+    @content;
+  }
+}
+
+@include mq(sp) {
+  .is-pc {
+    display: none !important;
+  }
+}
+
+@include mq(md) {
+  .is-sp {
+    display: none !important;
+  }
+}
+
+
 body {
   overflow-x: hidden;
   font-family: $main-font;
@@ -19,9 +50,11 @@ body {
   //line-height: 1.5;
 }
 
-.menu{
-  display: flex;
-  justify-content: space-around;
+.menu {
+  @include mq(md) {
+    display: flex;
+    justify-content: space-around;
+  }
 }
 
 .header {
@@ -45,8 +78,20 @@ body {
 li{
   margin: 20px;
   list-style: none;
+  font-size: 16px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 a {
-  text-decoration: none
+  text-decoration: none;
+  color: $font-color;
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 0.7;
+  }
 }

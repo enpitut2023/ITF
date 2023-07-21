@@ -1,16 +1,30 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap");
+@media screen and (max-width: 767.8px) {
+  .is-pc {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .is-sp {
+    display: none !important;
+  }
+}
+
 body {
   overflow-x: hidden;
   font-family: "Noto Serif JP", serif;
   color: #000;
 }
 
-.menu {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+@media screen and (min-width: 768px) {
+  .menu {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+  }
 }
 
 .header {
@@ -34,8 +48,21 @@ body {
 li {
   margin: 20px;
   list-style: none;
+  font-size: 16px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 a {
   text-decoration: none;
+  color: #000;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+
+a:hover {
+  opacity: 0.7;
 }
