@@ -17,7 +17,8 @@ credentials = Credentials.from_service_account_file(key_path)
 app = Flask(__name__)
 db = firestore.Client(credentials=credentials)
 
-one_exhibit_data = {
+# 出品データ
+exhibit_data = {
     "教科書名": None,
     "出品者": None,
     "受け取り場所": None,
@@ -27,8 +28,45 @@ one_exhibit_data = {
 # Firestoreからデータ
 docs_ref = db.collection('exhibit')
 
+# ユーザーデータ
+user_data = {
+    "ユーザー名": None,
+    "メール": None,
+    "学類": None,
+    "学年": None,
+}
+# Firestoreからデータ
+user_docs_ref = db.collection('user')
+
 @app.route("/")
-def hello_world():
+def first():
+  return redirect("/home")
+
+@app.route("/login")
+def login():
+  return render_template("login.html") 
+
+@app.route("/signup",methods=['GET','POST'])
+def signup():
+  if request.method=='GET':
+    return render_template("signup.html") 
+  else:
+    mail_adress = request.form.get('mail_adress')
+    user_name = request.form.get('user_name')
+    school = request.form.get('school')
+    year = request.form.get('year')
+
+    user_data['ユーザー名']=user_name
+    user_data['メール']=mail_adress
+    user_data['学類']=school
+    user_data['学年']=year
+
+    user_docs_ref.add(user_data)    
+    return redirect('/home')
+ 
+#仮
+@app.route("/home")
+def home():
   # Firestoreからデータを取得します
   docs =docs_ref.get()
   # Firestoreから取得したデータをリストに格納します
@@ -38,23 +76,54 @@ def hello_world():
   
   return render_template('home.html',results=results)
 
-@app.route("/mypage")
-def mypage():
-  return render_template('mypage.html')
+
+@app.route("/<username>/home")
+def userhome(username):
+  # Firestoreからデータを取得します
+  docs =docs_ref.get()
+  # Firestoreから取得したデータをリストに格納します
+  results = []
+  for doc in docs:
+      results.append(doc.to_dict())
+  
+  return render_template('home.html',results=results,username=username)
 
 
+@app.route("/<username>/mypage")
+def mypage(username):
+    # Firestoreからデータを取得します
+  docs =user_docs_ref.get()
+  # Firestoreから取得したデータをリストに格納します
+  for doc in docs:
+      data = doc.to_dict()
+      if(data["ユーザー名"]==username):
+        return render_template('mypage.html',data=data)
+      
+#仮
 @app.route("/exhibit",methods=['GET','POST'])
-def exhibit():
+def testexhibit():
   if request.method=='GET':
     return render_template('exhibit.html')
   else:
     textname = request.form.get('textname')
 
+    exhibit_data['教科書名']=textname
 
-    one_exhibit_data['教科書名']=textname
-
-    docs_ref.add(one_exhibit_data)
+    docs_ref.add(exhibit_data)
     return redirect('/exhibit')
+
+@app.route("/<username>/exhibit",methods=['GET','POST'])
+def exhibit(username):
+  if request.method=='GET':
+    return render_template('exhibit.html',username=username)
+  else:
+    textname = request.form.get('textname')
+
+    exhibit_data['出品者']=username
+    exhibit_data['教科書名']=textname
+
+    docs_ref.add(exhibit_data)
+    return redirect(f'/{username}/home')
     
 
 @app.route('/get_data')
@@ -72,9 +141,9 @@ def get_data():
 @app.route('/set_data', methods=['POST'])
 def set_data():
     textname = request.form.get('textname')
-    one_exhibit_data['教科書名']=textname
+    exhibit_data['教科書名']=textname
 
-    docs_ref.add(one_exhibit_data)
+    docs_ref.add(exhibit_data)
     return redirect('/exhibit')
 
 
@@ -83,9 +152,6 @@ def purchase_confirmation():
   return render_template('purchase_confirmation.html')
 
 
-@app.route("/signup")
-def signup():
-  return render_template('signup.html')
 
 if __name__ == '__main__':
   app.run(debug=False)
