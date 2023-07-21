@@ -3,10 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mypage</title>
+  <title>ITF. ～マイページ～</title>
+  <link rel="stylesheet" href="./static/css/reset.css">
+  <link rel="stylesheet" href="./static/css/home.css">
+  <link rel="stylesheet" href="./static/css/style.css">
   <link rel="stylesheet" href="/static/css/mypage.css">
 </head>
 <body>
+  <header>
+    <div class="header">
+      <a href="/" class="title-container">
+        <h1 class="title">ITF.</h1>
+        <p class="title-sub">Informative Textbook Fleamarket</p>
+      </a>
+      <!-- PC用メニュー -->
+      <ul class="menu is-pc">
+        <li><a href="#">購入情報</a></li>
+        <li><a href="/exhibit">出品</a></li>
+        <li><a href="/mypage">Mypage</a></li>
+      </ul>
+    </div>
+  
+    <!-- SP用メニュー -->
+    <div id="navArea" class="is-sp">
+      <nav>
+        <div class="inner">
+          <ul class="menu">
+            <li><a href="#">購入情報</a></li>
+            <li><a href="/exhibit">出品</a></li>
+            <li><a href="/mypage">Mypage</a></li>
+          </ul>
+      </nav>
+      <div class="toggle_btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div id="mask"></div>
+    </div>
+  </header>
+
   <h1>Mypage</h1>
   <ul>
     <li>ユーザー名</li>
@@ -19,5 +55,9 @@
     <li>{{data["学類"]}}</li>
 
   </ul>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="./static/javascript/script.js"></script>
 </body>
 </html>
