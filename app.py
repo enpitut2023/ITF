@@ -1,4 +1,5 @@
 from flask import render_template, jsonify, Flask
+from flask import request, redirect, session
 import os
 # from firebase_admin import credentials
 import json
@@ -51,18 +52,15 @@ def get_data():
     # JSON形式でデータを返します
     return jsonify(results)
 
-@app.route('/set_data', methods=['GET','POST'])
+@app.route('/set_data', methods=['POST'])
 def set_data():
+    textname = request.form.get('textname')
 
     # Firestoreからデータ
     docs_ref = db.collection('test').document('0Zw5QLkK65hjJdkce4Az')
-    one_exhibit_data['出品者']="1"
-    one_exhibit_data['教科書名']="2"
-    one_exhibit_data['受け取り場所']="test"
-    one_exhibit_data['受け取り時間']="test"
-    one_exhibit_data['受取人']="test"
+    one_exhibit_data['教科書名']= textname
 
-    docs_ref.update({"1":one_exhibit_data})
+    docs_ref.update({id:one_exhibit_data})
 
 
 
