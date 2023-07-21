@@ -91,13 +91,25 @@ def userhome(username):
 
 @app.route("/<username>/mypage")
 def mypage(username):
+
+
     # Firestoreからデータを取得します
-  docs =user_docs_ref.get()
+  docs =docs_ref.get()
   # Firestoreから取得したデータをリストに格納します
+  results = []
+  for doc in docs:
+    doc = doc.to_dict()
+    if doc["出品者"]==username:
+      results.append(doc)
+        # Firestoreから取得したデータをリストに格納します
+        
+  # Firestoreからデータを取得します
+  docs =user_docs_ref.get()
   for doc in docs:
       data = doc.to_dict()
       if(data["ユーザー名"]==username):
-        return render_template('mypage.html',data=data)
+        return render_template('mypage.html',data=data,results=results)
+  
       
 #仮
 @app.route("/exhibit",methods=['GET','POST'])
