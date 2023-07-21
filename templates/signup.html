@@ -1,9 +1,12 @@
 <h1>ITF. - 会員登録</h1>
 <div>
-    <form action="/" method="POST">
-        メールアドレス<input type="text" name="user_name" placeholder="uアドレス">
-        ニックネーム(公開されます)<input type="text" name="user_name" placeholder="ニックネーム">
-        学類<select>
+    <form action="/signup" method="POST">
+        メールアドレス
+        <input type="text" name="mail_adress" placeholder="uアドレス">
+        ニックネーム(公開されます)
+        <input type="text" name="user_name" placeholder="ニックネーム">
+        学類
+        <select name="school">
             <option value="" selected>選択してください</option>
             <option>情報科学類</option>
             <option>情報メディア創成学類</option>
@@ -12,7 +15,8 @@
             <option>応理</option>
             <option>体専</option>
         </select>
-        学年<select>
+        学年
+        <select name="year">
             <option value="" selected>選択してください</option>
             <option>B1</option>
             <option>B2</option>
