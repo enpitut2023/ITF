@@ -24,44 +24,58 @@ one_exhibit_data = {
     "受け取り時間": None,
     "受取人": None,
 }
-
+# Firestoreからデータ
+docs_ref = db.collection('exhibit')
 
 @app.route("/")
 def hello_world():
-  return render_template('home.html')
+  # Firestoreからデータを取得します
+  docs =docs_ref.get()
+  # Firestoreから取得したデータをリストに格納します
+  results = []
+  for doc in docs:
+      results.append(doc.to_dict())
+  
+  return render_template('home.html',results=results)
 
 @app.route("/mypage")
 def mypage():
   return render_template('mypage.html')
 
 
-@app.route("/exhibit")
+@app.route("/exhibit",methods=['GET','POST'])
 def exhibit():
-  return render_template('exhibit.html')
+  if request.method=='GET':
+    return render_template('exhibit.html')
+  else:
+    textname = request.form.get('textname')
 
-@app.route('/get_data`')
+
+    one_exhibit_data['教科書名']=textname
+
+    docs_ref.add(one_exhibit_data)
+    return redirect('/exhibit')
+    
+
+@app.route('/get_data')
 def get_data():
     # Firestoreからデータを取得します
-    docs = db.collection('test').get()
-
+    docs =docs_ref.get()
     # Firestoreから取得したデータをリストに格納します
     results = []
     for doc in docs:
         results.append(doc.to_dict())
 
     # JSON形式でデータを返します
-    return jsonify(results)
+    return results
 
 @app.route('/set_data', methods=['POST'])
 def set_data():
     textname = request.form.get('textname')
+    one_exhibit_data['教科書名']=textname
 
-    # Firestoreからデータ
-    docs_ref = db.collection('test').document('0Zw5QLkK65hjJdkce4Az')
-    one_exhibit_data['教科書名']= textname
-
-    docs_ref.update({id:one_exhibit_data})
-
+    docs_ref.add(one_exhibit_data)
+    return redirect('/exhibit')
 
 
 @app.route("/purchase_confirmation")
