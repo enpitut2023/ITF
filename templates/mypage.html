@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ITF. ～マイページ～</title>
-  <link rel="stylesheet" href="./static/css/reset.css">
-  <link rel="stylesheet" href="./static/css/home.css">
-  <link rel="stylesheet" href="./static/css/style.css">
+  <link rel="stylesheet" href="/static/css/reset.css">
+  <link rel="stylesheet" href="/static/css/home.css">
+  <link rel="stylesheet" href="/static/css/style.css">
   <link rel="stylesheet" href="/static/css/mypage.css">
 </head>
 <body>
@@ -55,6 +55,13 @@
     <li>{{data["学類"]}}</li>
 
   </ul>
+  <div class="myexhibits">
+    {% for result in results %}
+    <div class="myexhibit">
+      <p class="textbook">{{result["教科書名"]}}</p>
+    </div>
+    {% endfor %}
+  </div>
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
