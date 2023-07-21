@@ -6,16 +6,17 @@ form {
   text-align: center;
 }
 
-.book,.subject {
-  height: 40px;
-  width: 20%;
-  
+.book{
+  width: 30%;
+  height: 50px;
+}
 
+.subject{
+  margin-top: 20px;
 }
 
 .btn-submit{
   text-align: center;
-  display: flex;
   margin: 15px;
 }
 .menu{
@@ -39,10 +40,9 @@ a {
 }
 
 input[type="submit"] {
-	width: 5%;
+  width: 30%;
     font-size: 15px;
     color: #fff;
-	display: inline-block;
     padding: 15px 0px;
     text-align: center;
 	background-color: #5c87a6;

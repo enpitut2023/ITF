@@ -48,6 +48,11 @@
 
     <div class="container">
       <section class="product">
+        {% for result in results %}
+        <div class="product-item">
+          <p>{{result["教科書名"]}}</p>
+        </div>
+        {% endfor %}
         <div class="product-item">
           <div class="product-detail">
             <img src="./static/img/book.png" class="product-img" alt="">

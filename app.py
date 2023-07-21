@@ -1,4 +1,5 @@
 from flask import render_template, jsonify, Flask
+from flask import request, redirect, session
 import os
 # from firebase_admin import credentials
 import json
@@ -23,47 +24,58 @@ one_exhibit_data = {
     "受け取り時間": None,
     "受取人": None,
 }
-
+# Firestoreからデータ
+docs_ref = db.collection('exhibit')
 
 @app.route("/")
 def hello_world():
-  return render_template('home.html')
+  # Firestoreからデータを取得します
+  docs =docs_ref.get()
+  # Firestoreから取得したデータをリストに格納します
+  results = []
+  for doc in docs:
+      results.append(doc.to_dict())
+  
+  return render_template('home.html',results=results)
 
 @app.route("/mypage")
 def mypage():
   return render_template('mypage.html')
 
 
-@app.route("/exhibit")
+@app.route("/exhibit",methods=['GET','POST'])
 def exhibit():
-  return render_template('exhibit.html')
+  if request.method=='GET':
+    return render_template('exhibit.html')
+  else:
+    textname = request.form.get('textname')
 
-@app.route('/get_data`')
+
+    one_exhibit_data['教科書名']=textname
+
+    docs_ref.add(one_exhibit_data)
+    return redirect('/exhibit')
+    
+
+@app.route('/get_data')
 def get_data():
     # Firestoreからデータを取得します
-    docs = db.collection('test').get()
-
+    docs =docs_ref.get()
     # Firestoreから取得したデータをリストに格納します
     results = []
     for doc in docs:
         results.append(doc.to_dict())
 
     # JSON形式でデータを返します
-    return jsonify(results)
+    return results
 
-@app.route('/set_data', methods=['GET','POST'])
+@app.route('/set_data', methods=['POST'])
 def set_data():
-
-    # Firestoreからデータ
-    docs_ref = db.collection('test')
-    one_exhibit_data['出品者']="test"
-    one_exhibit_data['教科書名']="test"
-    one_exhibit_data['受け取り場所']="test"
-    one_exhibit_data['受け取り時間']="test"
-    one_exhibit_data['受取人']="test"
+    textname = request.form.get('textname')
+    one_exhibit_data['教科書名']=textname
 
     docs_ref.add(one_exhibit_data)
-
+    return redirect('/exhibit')
 
 
 @app.route("/purchase_confirmation")
