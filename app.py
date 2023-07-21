@@ -42,7 +42,7 @@ def hello_world():
 def mypage():
   return render_template('mypage.html')
 @app.route("/login")
-def mypage():
+def login():
   return render_template('login.html')
 
 @app.route("/exhibit",methods=['GET','POST'])
