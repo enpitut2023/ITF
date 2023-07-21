@@ -41,7 +41,9 @@ def hello_world():
 @app.route("/mypage")
 def mypage():
   return render_template('mypage.html')
-
+@app.route("/login")
+def mypage():
+  return render_template('login.html')
 
 @app.route("/exhibit",methods=['GET','POST'])
 def exhibit():
