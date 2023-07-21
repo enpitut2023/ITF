@@ -1,11 +1,11 @@
 from flask import render_template, jsonify, Flask
 from flask import request, redirect, session
 import os
-# from firebase_admin import credentials
 import json
 import firebase_admin
 from google.cloud import firestore
 from google.oauth2.service_account import Credentials
+from firebase_admin import auth
 
 # 環境変数からFirebaseサービスアカウントキーを読み込みます
 # service_account_key = json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_ITF_DATABASE_B9026'))
@@ -13,6 +13,8 @@ from google.oauth2.service_account import Credentials
 # Firebaseクライアントを初期化します
 key_path='itf-database-credential.json'
 credentials = Credentials.from_service_account_file(key_path)
+cred = firebase_admin.credentials.Certificate(key_path)
+firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
 db = firestore.Client(credentials=credentials)
@@ -145,6 +147,17 @@ def set_data():
 
     docs_ref.add(exhibit_data)
     return redirect('/exhibit')
+
+@app.route('/test_signup', methods=['GET', 'POST'])
+def signup_test():
+    try:
+        user = auth.create_user(
+            email="namiki.takeyama@gmail.com",
+            password="password"
+        )
+        return jsonify({'uid': user.uid}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 
 # @app.route('/delete', methods=['GET'])
