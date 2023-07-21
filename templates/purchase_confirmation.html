@@ -3,35 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="./static/css/home.css">
-
+  <title>ITF. ～購入詳細ページ～</title>
+  <link rel="stylesheet" href="./static/css/reset.css">
+  <link rel="stylesheet" href="/static/css/home.css">
+  <link rel="stylesheet" href="./static/css/style.css">
 </head>
 <body>
-  <div class="header">
-    <div class="title">
-      <h1>ITF</h1>
-      <p>Informative Textbook Fleamarket</p>
+  <header>
+    <div class="header">
+      <a href="/" class="title-container">
+        <h1 class="title">ITF.</h1>
+        <p class="title-sub">Informative Textbook Fleamarket</p>
+      </a>
+      <!-- PC用メニュー -->
+      <ul class="menu is-pc">
+        <li><a href="#">購入情報</a></li>
+        <li><a href="/exhibit">出品</a></li>
+        <li><a href="/mypage">Mypage</a></li>
+      </ul>
     </div>
   
+    <!-- SP用メニュー -->
+    <div id="navArea" class="is-sp">
+      <nav>
+        <div class="inner">
+          <ul class="menu">
+            <li><a href="#">購入情報</a></li>
+            <li><a href="/exhibit">出品</a></li>
+            <li><a href="/mypage">Mypage</a></li>
+          </ul>
+      </nav>
+      <div class="toggle_btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div id="mask"></div>
+    </div>
+  </header>
+
     <div>
       <h2>フリマサイト - 購入情報</h2>
-    
+
       <h3>商品情報</h3>
+      <div id="product-info"></div> <!-- 商品情報を表示する要素 -->
+
       <!-- ここに商品情報の表示や入力フォームを追加します -->
-      
-      <h3>配送情報</h3>
+
+      <h3>取引情報</h3>
       <form>
-        <h4>配送場所</h4>
-        <input type="radio" id="location1" name="location" value="東京">
-        <label for="location1">東京</label><br>
-        <input type="radio" id="location2" name="location" value="大阪">
-        <label for="location2">大阪</label><br>
-        <input type="radio" id="location3" name="location" value="名古屋">
-        <label for="location3">名古屋</label><br>
+        <!-- 取引場所の入力フォーム -->
+        <h4>取引場所</h4>
+        <input type="radio" id="location1" name="location" value="３学">
+        <label for="location1">３学</label><br>
+        <input type="radio" id="location2" name="location" value="春日エリア">
+        <label for="location2">春日エリア</label><br>
+        <input type="radio" id="location3" name="location" value="医学エリア">
+        <label for="location3">医学エリア</label><br>
         <!-- 他の場所のラジオボタンを追加する場合は、同様にinputとlabelを追加します -->
-        
-        <h4>配送日時</h4>
+
+        <!-- 取引日時の入力フォーム -->
+        <h4>取引日時</h4>
         <input type="radio" id="datetime1" name="datetime" value="今日">
         <label for="datetime1">今日</label><br>
         <input type="radio" id="datetime2" name="datetime" value="明日">
@@ -41,9 +73,9 @@
         <!-- 他の日時のラジオボタンを追加する場合は、同様にinputとlabelを追加します -->
       </form>
     </div>
-  
-   </div>
 
-
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="./static/javascript/script.js"></script>
 </body>
 </html>

@@ -1,48 +1,32 @@
 h2 {
   text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 50px;
 }
 
 form {
   text-align: center;
+  margin-top: 15px;
 }
 
-.book,.subject {
-  height: 40px;
-  width: 20%;
-  
+.book{
+  width: 30%;
+  height: 50px;
+}
 
+.subject{
 }
 
 .btn-submit{
   text-align: center;
-  display: flex;
   margin: 15px;
-}
-.menu{
-  display: flex;
-  justify-content: space-around;
-}
-
-.header{
-  display: flex;
-  justify-content: space-between;
-  margin: 20px;
-}
-
-li{
-  margin: 20px;
-  list-style: none;
-}
-
-a {
-  text-decoration: none
 }
 
 input[type="submit"] {
-	width: 5%;
+  width: 30%;
     font-size: 15px;
     color: #fff;
-	display: inline-block;
     padding: 15px 0px;
     text-align: center;
 	background-color: #5c87a6;

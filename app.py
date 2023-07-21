@@ -1,4 +1,5 @@
 from flask import render_template, jsonify, Flask
+from flask import request, redirect, session
 import os
 # from firebase_admin import credentials
 import json
@@ -16,53 +17,154 @@ credentials = Credentials.from_service_account_file(key_path)
 app = Flask(__name__)
 db = firestore.Client(credentials=credentials)
 
-one_exhibit_data = {
+# 出品データ
+exhibit_data = {
     "教科書名": None,
     "出品者": None,
     "受け取り場所": None,
     "受け取り時間": None,
     "受取人": None,
 }
+# Firestoreからデータ
+docs_ref = db.collection('exhibit')
 
+# ユーザーデータ
+user_data = {
+    "ユーザー名": None,
+    "メール": None,
+    "学類": None,
+    "学年": None,
+}
+# Firestoreからデータ
+user_docs_ref = db.collection('user')
 
 @app.route("/")
-def hello_world():
-  return render_template('home.html')
+def first():
+  return redirect("/home")
 
-@app.route("/mypage")
-def mypage():
-  return render_template('mypage.html')
+@app.route("/login")
+def login():
+  return render_template("login.html") 
+
+@app.route("/signup",methods=['GET','POST'])
+def signup():
+  if request.method=='GET':
+    return render_template("signup.html") 
+  else:
+    mail_adress = request.form.get('mail_adress')
+    user_name = request.form.get('user_name')
+    school = request.form.get('school')
+    year = request.form.get('year')
+
+    user_data['ユーザー名']=user_name
+    user_data['メール']=mail_adress
+    user_data['学類']=school
+    user_data['学年']=year
+
+    user_docs_ref.add(user_data)    
+    return redirect('/home')
+ 
+#仮
+@app.route("/home")
+def home():
+  # Firestoreからデータを取得します
+  docs =docs_ref.get()
+  # Firestoreから取得したデータをリストに格納します
+  results = []
+  for doc in docs:
+      results.append(doc.to_dict())
+  
+  return render_template('home.html',results=results)
 
 
-@app.route("/exhibit")
-def exhibit():
-  return render_template('exhibit.html')
+@app.route("/<username>/home")
+def userhome(username):
+  # Firestoreからデータを取得します
+  docs =docs_ref.get()
+  # Firestoreから取得したデータをリストに格納します
+  results = []
+  for doc in docs:
+      results.append(doc.to_dict())
+  
+  return render_template('home.html',results=results,username=username)
 
-@app.route('/get_data`')
+
+@app.route("/<username>/mypage")
+def mypage(username):
+    # Firestoreからデータを取得します
+  docs =user_docs_ref.get()
+  # Firestoreから取得したデータをリストに格納します
+  for doc in docs:
+      data = doc.to_dict()
+      if(data["ユーザー名"]==username):
+        return render_template('mypage.html',data=data)
+      
+#仮
+@app.route("/exhibit",methods=['GET','POST'])
+def testexhibit():
+  if request.method=='GET':
+    return render_template('exhibit.html')
+  else:
+    textname = request.form.get('textname')
+
+    exhibit_data['教科書名']=textname
+
+    docs_ref.add(exhibit_data)
+    return redirect('/exhibit')
+
+@app.route("/<username>/exhibit",methods=['GET','POST'])
+def exhibit(username):
+  if request.method=='GET':
+    return render_template('exhibit.html',username=username)
+  else:
+    textname = request.form.get('textname')
+
+    exhibit_data['出品者']=username
+    exhibit_data['教科書名']=textname
+
+    docs_ref.add(exhibit_data)
+    return redirect(f'/{username}/home')
+    
+
+@app.route('/get_data')
 def get_data():
     # Firestoreからデータを取得します
-    docs = db.collection('test').get()
-
+    docs =docs_ref.get()
     # Firestoreから取得したデータをリストに格納します
     results = []
     for doc in docs:
         results.append(doc.to_dict())
 
     # JSON形式でデータを返します
-    return jsonify(results)
+    return results
 
-@app.route('/set_data', methods=['GET','POST'])
+@app.route('/set_data', methods=['POST'])
 def set_data():
+    textname = request.form.get('textname')
+    exhibit_data['教科書名']=textname
 
-    # Firestoreからデータ
-    docs_ref = db.collection('test')
-    one_exhibit_data['出品者']="test"
-    one_exhibit_data['教科書名']="test"
-    one_exhibit_data['受け取り場所']="test"
-    one_exhibit_data['受け取り時間']="test"
-    one_exhibit_data['受取人']="test"
+    docs_ref.add(exhibit_data)
+    return redirect('/exhibit')
 
-    docs_ref.add(one_exhibit_data)
+
+# @app.route('/delete', methods=['GET'])
+#delete処理
+def delete_data(
+      doc_id : str = "3v86oConj2OtW4mI0vxL"
+):
+    doc_ref = docs_ref.document(doc_id)
+    doc_ref.delete()
+    return {"message": "Data deleted successfully"}, 200
+
+# @app.route("/update", methods=['GET', 'POST'])
+def update_data(
+      doc_id : str = "6pjrviOAMg2UvxyR0h9f"
+):
+    copied_data = one_exhibit_data.copy()
+    copied_data['教科書名']="textname"
+    doc_ref = docs_ref.document(doc_id)
+    doc_ref.update(copied_data)
+    return redirect('/update')
 
 
 

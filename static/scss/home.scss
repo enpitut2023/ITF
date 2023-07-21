@@ -12,13 +12,6 @@ $main-font: 'Noto Serif JP', serif;
 $main-color: #fff;
 $font-color: #000;
 
-//*-------------- header -------------------*//
-//$header-height: 70px;
-
-//*-------------- section-common -------------------*//
-//$section-padding: 80px;
-//$section-padding-sp: 48px;
-
 //マップ型変数$breakpointsを定義
 $breakpoints: (
   //キー  値
@@ -49,12 +42,12 @@ $breakpoints: (
 }
 
 html {
-  // font-size: 62.5%;
+  font-size: 62.5%;
 
   @media screen and (min-width: 768px) and (max-width: 1440px)  {
-    // font-size: 0.625vw;
-    // font-size: 0.52083vw;
-    // font-size: 1vw;  // = 40px / (コンテナ幅px / 100vw * 4rem)
+    font-size: 0.625vw;
+    font-size: 0.52083vw;
+    font-size: 1vw;  // = 40px / (コンテナ幅px / 100vw * 4rem)
   }
 }
 
@@ -97,20 +90,20 @@ a {
   margin: 0 auto;
 }
 
-.menu{
-  display: flex;
-  justify-content: space-around;
-}
+// .menu{
+//   display: flex;
+//   justify-content: space-around;
+// }
 
-.header{
-  display: flex;
-  justify-content: space-around;
-}
+// .header{
+//   display: flex;
+//   justify-content: space-around;
+// }
 
-li{
-  margin: 20px;
-  list-style: none;
-}
+// li{
+//   margin: 20px;
+//   list-style: none;
+// }
 
 
 /*---------------------
@@ -118,11 +111,26 @@ li{
 ---------------------*/
 .product {
   padding: 10rem 0;
+  font-size: 62.5%;
+
+  @media screen and (min-width: 768px) and (max-width: 1440px)  {
+    font-size: 0.625vw;
+    font-size: 0.52083vw;
+    font-size: 1vw;  // = 40px / (コンテナ幅px / 100vw * 4rem)
+  }
 }
+
 .product-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  @include mq(md) {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  @include mq(sp) {
+    text-align: center;
+  }
+
   background: #eee;
   padding: 4rem;
   border-radius: 10px;
@@ -130,28 +138,47 @@ li{
   &:not(:first-child) {
     margin-top: 3rem;
   }
-
 }
 
 .product-detail {
-  display: flex;
-  // justify-content: space-between;
+  @include mq(md) {
+    display: flex;
+  }
 }
 
 .product-img {
+  width: 100%;
+  max-width: 200px;
+  
+  @include mq(sp) {
+    max-width: 300px;
+  }
 }
 
 .product-name {
-  font-size: 1.6rem;
-  margin-left: 2rem;
+  font-size: 2rem;
+
+  @include mq(md) {
+    margin-left: 2rem;
+  }
+  
+  @include mq(sp) {
+    margin-top: 20px;
+    font-size: 22px;
+    
+  }
 }
 
 .product-btn {
-  text-align: center;
   margin-top: 32px;
+  
+  @include mq(sp) {
+    text-align: right;
+  }
 }
 
-.access-btn a {
+.product-btn a {
+  font-size: 1.4rem;
   position: relative;
   display: inline-block;
   padding: 20px 56px;
@@ -159,6 +186,7 @@ li{
   color: #fff;
   border-radius: 6px;
   font-weight: bold;
+  white-space: nowrap;
 
   &::after {
     content: "";

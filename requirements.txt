@@ -2,4 +2,3 @@ Flask
 gunicorn
 firebase_admin
 google-cloud
-firebase-admin
