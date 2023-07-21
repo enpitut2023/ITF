@@ -80,6 +80,27 @@ def set_data():
     return redirect('/exhibit')
 
 
+# @app.route('/delete', methods=['GET'])
+#delete処理
+def delete_data(
+      doc_id : str = "3v86oConj2OtW4mI0vxL"
+):
+    doc_ref = docs_ref.document(doc_id)
+    doc_ref.delete()
+    return {"message": "Data deleted successfully"}, 200
+
+# @app.route("/update", methods=['GET', 'POST'])
+def update_data(
+      doc_id : str = "6pjrviOAMg2UvxyR0h9f"
+):
+    copied_data = one_exhibit_data.copy()
+    copied_data['教科書名']="textname"
+    doc_ref = docs_ref.document(doc_id)
+    doc_ref.update(copied_data)
+    return redirect('/update')
+
+
+
 @app.route("/purchase_confirmation")
 def purchase_confirmation():
   return render_template('purchase_confirmation.html')
