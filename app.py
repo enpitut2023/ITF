@@ -12,7 +12,7 @@ import copy
 # service_account_key = json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_ITF_DATABASE_B9026'))
 
 # Firebaseクライアントを初期化します
-key_path='itf-database-credential.json'
+key_path = 'itf-database-credential.json'
 credentials = Credentials.from_service_account_file(key_path)
 cred = firebase_admin.credentials.Certificate(key_path)
 firebase_admin.initialize_app(cred)
@@ -28,7 +28,7 @@ exhibit_data = {
     "受け取り日時": None,
     "受け取り時間": None,
     "受取人": None,
-    "状態" : "available",
+    "状態": "available",
 }
 # Firestoreからデータ
 docs_ref = db.collection('exhibit')
@@ -43,114 +43,118 @@ user_data = {
 # Firestoreからデータ
 user_docs_ref = db.collection('user')
 
+
 @app.route("/")
 def first():
-  return redirect("/home")
+    return redirect("/home")
+
 
 @app.route("/login")
 def login():
-  return render_template("login.html") 
+    return render_template("login.html")
 
-@app.route("/signup",methods=['GET','POST'])
+
+@app.route("/signup", methods=['GET', 'POST'])
 def signup():
-  if request.method=='GET':
-    return render_template("signup.html") 
-  else:
-    mail_adress = request.form.get('mail_adress')
-    user_name = request.form.get('user_name')
-    school = request.form.get('school')
-    year = request.form.get('year')
+    if request.method == 'GET':
+        return render_template("signup.html")
+    else:
+        mail_adress = request.form.get('mail_adress')
+        user_name = request.form.get('user_name')
+        school = request.form.get('school')
+        year = request.form.get('year')
 
-    user_data['ユーザー名']=user_name
-    user_data['メール']=mail_adress
-    user_data['学類']=school
-    user_data['学年']=year
+        user_data['ユーザー名'] = user_name
+        user_data['メール'] = mail_adress
+        user_data['学類'] = school
+        user_data['学年'] = year
 
-    user_docs_ref.add(user_data)    
-    return redirect('/home')
- 
-#仮
+        user_docs_ref.add(user_data)
+        return redirect('/home')
+
+# 仮
+
+
 @app.route("/home")
 def home():
-  # Firestoreからデータを取得します
-  docs =docs_ref.get()
-  # Firestoreから取得したデータをリストに格納します
-  results = []
-  for doc in docs:
-      results.append(doc.to_dict())
-  
-  return render_template('home.html',results=docs)
+    # Firestoreからデータを取得します
+    docs = docs_ref.get()
+    # Firestoreから取得したデータをリストに格納します
+    results = []
+    for doc in docs:
+        results.append(doc.to_dict())
+
+    return render_template('home.html', results=docs)
 
 
 @app.route("/<username>/home")
 def userhome(username):
-  # Firestoreからデータを取得します
-  docs =docs_ref.get()
-  # Firestoreから取得したデータをリストに格納します
-  results = []
-  for doc in docs:
-      results.append(doc.to_dict())
-  
-  return render_template('home.html',results=results,username=username)
+    # Firestoreからデータを取得します
+    docs = docs_ref.get()
+    # Firestoreから取得したデータをリストに格納します
+    results = []
+    for doc in docs:
+        results.append(doc.to_dict())
+
+    return render_template('home.html', results=results, username=username)
 
 
 @app.route("/<username>/mypage")
 def mypage(username):
 
+    # Firestoreからデータを取得します
+    docs = docs_ref.get()
+    # Firestoreから取得したデータをリストに格納します
+    results = []
+    for doc in docs:
+        doc = doc.to_dict()
+        if doc["出品者"] == username:
+            results.append(doc)
+            # Firestoreから取得したデータをリストに格納します
 
     # Firestoreからデータを取得します
-  docs =docs_ref.get()
-  # Firestoreから取得したデータをリストに格納します
-  results = []
-  for doc in docs:
-    doc = doc.to_dict()
-    if doc["出品者"]==username:
-      results.append(doc)
-        # Firestoreから取得したデータをリストに格納します
-        
-  # Firestoreからデータを取得します
-  docs =user_docs_ref.get()
-  for doc in docs:
-      data = doc.to_dict()
-      if(data["ユーザー名"]==username):
-        return render_template('mypage.html',data=data,results=results)
-  
-      
-#仮
-@app.route("/exhibit",methods=['GET','POST'])
+    docs = user_docs_ref.get()
+    for doc in docs:
+        data = doc.to_dict()
+        if (data["ユーザー名"] == username):
+            return render_template('mypage.html', data=data, results=results)
+
+
+# 仮
+@app.route("/exhibit", methods=['GET', 'POST'])
 def testexhibit():
-  if request.method=='GET':
-    return render_template('exhibit.html')
-  else:
-    textname = request.form.get('textname')
+    if request.method == 'GET':
+        return render_template('exhibit.html')
+    else:
+        textname = request.form.get('textname')
 
-    exhibit_data['教科書名']=textname
-    doc_ref = docs_ref.add(exhibit_data)
-    # doc_id is accessed as follows
+        exhibit_data['教科書名'] = textname
+        doc_ref = docs_ref.add(exhibit_data)
+        # doc_id is accessed as follows
 
-    # docs_ref.add(exhibit_data)
-    return redirect('/exhibit')
+        # docs_ref.add(exhibit_data)
+        return redirect('/exhibit')
 
 
-@app.route("/<username>/exhibit",methods=['GET','POST'])
+@app.route("/<username>/exhibit", methods=['GET', 'POST'])
 def exhibit(username):
-  if request.method=='GET':
-    return render_template('exhibit.html',username=username)
-  else:
-    textname = request.form.get('textname')
+    if request.method == 'GET':
+        return render_template('exhibit.html', username=username)
+    else:
+        textname = request.form.get('textname')
 
-    exhibit_data['出品者']=username
-    exhibit_data['教科書名']=textname
-    exhibit_data["状態"]= "available"
+        exhibit_data['出品者'] = username
+        exhibit_data['教科書名'] = textname
+        exhibit_data["状態"] = "available"
 
-    docs_ref.add(exhibit_data)
-    return redirect(f'/{username}/home')
-    
+        docs_ref.add(exhibit_data)
+        return redirect(f'/{username}/home')
+
 
 @app.route('/get_data')
 def get_data():
     # Firestoreからデータを取得します
-    docs =docs_ref.get()
+    docs = docs_ref.get()
     # Firestoreから取得したデータをリストに格納します
     results = []
     for doc in docs:
@@ -159,13 +163,15 @@ def get_data():
     # JSON形式でデータを返します
     return results
 
+
 @app.route('/set_data', methods=['POST'])
 def set_data():
     textname = request.form.get('textname')
-    exhibit_data['教科書名']=textname
+    exhibit_data['教科書名'] = textname
 
     docs_ref.add(exhibit_data)
     return redirect('/exhibit')
+
 
 @app.route('/test_signup', methods=['GET', 'POST'])
 def signup_test():
@@ -177,7 +183,7 @@ def signup_test():
         return jsonify({'uid': user.uid}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
-    
+
 
 @app.route('/delete/<doc_id>', methods=['GET'])
 # delete処理
@@ -199,7 +205,7 @@ def delete_data(doc_id):
 @app.route("/update/<doc_id>", methods=['GET', 'POST'])
 def update_data(doc_id):
     copied_data = one_exhibit_data.copy()
-    copied_data['教科書名']="textname"
+    copied_data['教科書名'] = "textname"
     doc_ref = docs_ref.document(doc_id)
     doc_ref.update(copied_data)
     return redirect('/update')
@@ -213,7 +219,6 @@ def update_data(doc_id):
 #     doc_ref = docs_ref.document(doc_id)
 #     doc_ref.update(copied_data)
 #     return redirect('/update')
-
 
 
 # @app.route("/purchase_confirmation", methods=['GET','POST'])
@@ -232,27 +237,27 @@ def update_data(doc_id):
 #     docs_ref.document(doc_id).update({'受け取り時間': time})
 #     return redirect('/home')
 
-@app.route("/purchase_confirmation/<doc_id>", methods=['GET','POST'])
+@app.route("/purchase_confirmation/<doc_id>", methods=['GET', 'POST'])
 def purchase_confirmation(doc_id):
-    if request.method=='GET':
-      return render_template('purchase_confirmation.html')
+    if request.method == 'GET':
+        return render_template('purchase_confirmation.html')
     else:
-      location = request.form.get('location')
-      date = request.form.get('date')
-      time = request.form.get('time')
-      exhibit_ref = db.collection('exhibit').document(doc_id)
+        location = request.form.get('location')
+        date = request.form.get('date')
+        time = request.form.get('time')
 
-      copied_exhibit_data=copy.deepcopy(exhibit_data)
-      copied_exhibit_data['状態']= 'sold'
-      copied_exhibit_data['受け取り場所']= location
-      copied_exhibit_data['受け取り日時']= date
-      copied_exhibit_data['受け取り時間']= time
+        # firebaseからユーザー情報を取得
+        exhibit_ref = db.collection('exhibit').document(doc_id)
+        fetched_exhibit_data = exhibit_ref.get().to_dict()
 
-      exhibit_ref.update(copied_exhibit_data)
-      return redirect("/home")
+        fetched_exhibit_data['状態'] = 'sold'
+        fetched_exhibit_data['受け取り場所'] = location
+        fetched_exhibit_data['受け取り日時'] = date
+        fetched_exhibit_data['受け取り時間'] = time
 
+        exhibit_ref.update(fetched_exhibit_data)
+        return redirect("/home")
 
-    
     # @app.route("/purchase_confirmation/<doc_id>", methods=['GET','POST'])
     # def purchase_confirmation(doc_id):
     #     if request.method=='GET':
@@ -279,6 +284,5 @@ def purchase_confirmation(doc_id):
 # def thanks():
 #   return render_template('thanks.html')
 
-
 if __name__ == '__main__':
-  app.run(debug=False)
+    app.run(debug=False)
