@@ -164,12 +164,11 @@ def mypage(id):
   # Firestoreから取得したデータをリストに格納します
   results = []
   for doc in docs:
-    doc = doc.to_dict()
-    if doc["出品者"]==username:
+    if doc.to_dict()["出品者"]==username:
       results.append(doc)
         # Firestoreから取得したデータをリストに格納します
         
-    return render_template('mypage.html',data=fetched_user_data,results=results,id=id)
+  return render_template('mypage.html',data=fetched_user_data,results=results,id=id)
   
       
 
@@ -226,12 +225,12 @@ def signup_test():
         return jsonify({'error': str(e)}), 400
 
 
-@app.route('/delete/<doc_id>', methods=['GET'])
+@app.route('/<id>/delete/<doc_id>', methods=['GET'])
 # delete処理
-def delete_data(doc_id):
+def delete_data(doc_id,id):
     doc_ref = docs_ref.document(doc_id)
     doc_ref.delete()
-    return {"message": "Data deleted successfully"}, 200
+    return redirect(f"/{id}/mypage")
 
 
 # @app.route('/delete/<doc_id>', methods=['GET'])

@@ -12,7 +12,7 @@
 <body>
   <header>
     <div class="header">
-      <a href="/" class="title-container">
+      <a href="/{{id}}/home" class="title-container">
         <h1 class="title">ITF.</h1>
         <p class="title-sub">Informative Textbook Fleamarket</p>
       </a>
@@ -57,14 +57,15 @@
     </ul>
   </div>
 
-  <div class="container"></div>
+  <div class="container">
   <div class="product">
     {% for result in results %}
     <div class="product-item">
       <div class="product-detail">
         <img src="/static/img/book.png" class="product-img" alt="">
-        <h1 class="product-name">{{result["教科書名"]}}</h1>
+        <h1 class="product-name">{{result.to_dict()["教科書名"]}}</h1>
       </div><!-- /.product-detail -->
+      <button class="delete_button"><a class="delete" href="javascript:void(0);" onclick="var yes=confirm('ホントに削除してもよろしいですか'); if(yes) location.href='/{{id}}/delete/{{result.id}}'; return false;">削除</a></button>
     </div>
     {% endfor %}
   </div>
