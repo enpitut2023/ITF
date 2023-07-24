@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="./static/css/reset.css">
   <link rel="stylesheet" href="/static/css/home.css">
   <link rel="stylesheet" href="./static/css/style.css">
+
+  
 </head>
 <body>
   <header>
@@ -53,8 +55,9 @@
       <!-- ここに商品情報の表示や入力フォームを追加します -->
 
       <h3>取引情報</h3>
-      <form>
-        <!-- 取引場所の入力フォーム -->
+
+      <form id="purchase-form" method="POST" action="/purchase_confirmation">
+        
         <h4>取引場所</h4>
         <input type="radio" id="location1" name="location" value="3gaku">
         <label for="location1">３学</label><br>
@@ -64,21 +67,19 @@
         <label for="location3">医学エリア</label><br>
         <input type="radio" id="location4" name="location" value="hirakasu">
         <label for="location4">平カス</label><br>
-        <!-- 他の場所のラジオボタンを追加する場合は、同様にinputとlabelを追加します -->
-
-        
-        
+    
         <label for="date">受け取り日時：</label>
         <input type="date" id="date" name="date" value="">
         <label for="time">受け取り時間：</label>
         <input type="time" id="time" name="time" value="">
-        <input type="submit" value="場所日時を指定">
+        <input type="submit" id="submit-button" value="場所日時を指定">
+    </form>
 
-      </form>
     </div>
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script src="./static/javascript/script.js"></script>
+
 </body>
 </html>
