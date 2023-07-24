@@ -6,6 +6,7 @@
   <title>ITF. ～購入詳細ページ～</title>
   <link rel="stylesheet" href="./static/css/reset.css">
   <link rel="stylesheet" href="/static/css/home.css">
+  <link rel="stylesheet" href="/static/css/purchase_confirmation.css">
   <link rel="stylesheet" href="./static/css/style.css">
 </head>
 <body>
@@ -42,39 +43,50 @@
     </div>
   </header>
 
-    <div>
-      <h2>フリマサイト - 購入情報</h2>
+    <div class="confirm-container">
+      <h2 class="confirm-heading">フリマサイト - 購入情報</h2>
 
-      <h3>商品情報</h3>
-      <div id="product-info">
-      <!-- 商品情報を表示する要素 -->
-      </div>
+      <div class="confirm-info-container">
+        <h3 class="confirm-info-heading">商品情報</h3>
+        <div id="confirm-info">
+        <!-- 商品情報を表示する要素 -->
+        <p>苦しんで覚えるC言語</p>
+        </div>
+      </div><!-- /.confirm-info-container -->
 
       <!-- ここに商品情報の表示や入力フォームを追加します -->
 
-      <h3>取引情報</h3>
-      <form action="/thanks" method="POST">
-        <!-- 取引場所の入力フォーム -->
-        <h4>取引場所</h4>
-        <input type="radio" id="location1" name="location" value="3gaku">
-        <label for="location1">３学</label><br>
-        <input type="radio" id="location2" name="location" value="kasuga">
-        <label for="location2">春日エリア</label><br>
-        <input type="radio" id="location3" name="location" value="igaku">
-        <label for="location3">医学エリア</label><br>
-        <input type="radio" id="location4" name="location" value="hirakasu">
-        <label for="location4">平カス</label><br>
-        <!-- 他の場所のラジオボタンを追加する場合は、同様にinputとlabelを追加します -->
-
-        
-        
-        <label for="date">受け取り日時：</label>
-        <input type="date" id="date" name="date" value="">
-        <label for="time">受け取り時間：</label>
-        <input type="time" id="time" name="time" value="">
-        <input type="submit" value="場所日時を指定">
-
-      </form>
+      <div class="confirm-detail">
+        <h3 class="confirm-deal-heading">取引情報</h3>
+        <form action="/thanks" method="POST">
+          <!-- 取引場所の入力フォーム -->
+          <h4 class="confirm-location">取引場所：</h4>
+          <div class="confirm-input">
+            <input type="radio" id="location1" name="location" value="3gaku">
+            <label for="location1">３学</label><br>
+            <input type="radio" id="location2" name="location" value="kasuga">
+            <label for="location2">春日エリア</label><br>
+            <input type="radio" id="location3" name="location" value="igaku">
+            <label for="location3">医学エリア</label><br>
+            <input type="radio" id="location4" name="location" value="hirakasu">
+            <label for="location4">平カス</label><br>
+            <!-- 他の場所のラジオボタンを追加する場合は、同様にinputとlabelを追加します -->
+          </div><!-- /.confirm-input -->
+  
+          <div class="confirm-date">
+            <div class="confirm-date-container">
+              <label for="date">受け取り日時：</label>
+              <input type="date" id="date" name="date" value="">
+            </div>
+            <div class="confirm-date-container">
+              <label for="time">受け取り時間：</label>
+              <input type="time" id="time" name="time" value="">
+            </div><!-- /.confirm-date-container -->
+            <input type="submit" value="場所日時を確定">
+          </div><!-- /.confirm-date -->
+  
+        </form>
+      </div><!-- /.confirm-detail -->
     </div>
 
   <!-- jQuery -->
