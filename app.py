@@ -5,8 +5,10 @@ import json
 import firebase_admin
 from google.cloud import firestore
 from google.oauth2.service_account import Credentials
-from firebase_admin import auth
-
+from firebase_admin import auth, initialize_app
+import re
+from flask_socketio import SocketIO, emit
+import copy
 # 環境変数からFirebaseサービスアカウントキーを読み込みます
 # service_account_key = json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_ITF_DATABASE_B9026'))
 
@@ -33,38 +35,84 @@ docs_ref = db.collection('exhibit')
 # ユーザーデータ
 user_data = {
     "ユーザー名": None,
-    "メール": None,
+    "認証": None, # verified or None
     "学類": None,
     "学年": None,
 }
-# Firestoreからデータ
-user_docs_ref = db.collection('user')
+
 
 @app.route("/")
 def first():
-  return redirect("/home")
+  return redirect('/register')
+ 
+# ユーザーデータベース登録
+@app.route("/register",methods=['GET','POST'])
+def register():
+  if request.method=='GET':
+    return render_template("register.html") 
+  else:
+    user_name = request.form.get('user_name')
+    school = request.form.get('school')
+    year = request.form.get('year')
+
+
+  # データベース登録
+    user_data['ユーザー名']=user_name
+    user_data['学類']=school
+    user_data['学年']=year
+    # Firestoreからデータ
+    user_docs_ref = db.collection('user').document()
+    user_docs_ref.set(user_data)
+    id=user_docs_ref.id  
+    print(id)
+
+    return redirect(f'{id}/signup')
+  
+# FIrebaseサインアップ入力、メール送信
+@app.route("/<id>/signup")
+def signup(id):
+  return render_template("signup.html",id=id)
+
+# メール認証
+@app.route("/<id>/auth")
+def mail_auth(id):
+  return render_template("auth.html",id=id) 
+
+@app.route("/<id>/flag")
+def veri_flag(id):
+  # 認証用のid
+  uid = request.args.get('uid')
+  tsukuba_mails=["@u.tsukuba.ac.jp","@s.tsukuba.ac.jp"]
+  print(uid)
+  user=auth.get_user(uid)
+  email = user.email
+  print(email)
+  # uidからメールアドレスを取得し、筑波のものかを確かめる
+  # Check if email ends with @u.tsukuba.ac.jp
+  for tsukuba_mail in tsukuba_mails:
+    if tsukuba_mail in email:
+    # Firestoreからデータ
+      user_docs_ref = db.collection('user').document(id)
+      fetched_user_data=user_docs_ref.get().to_dict()
+      fetched_user_data["認証"]="verified"
+      user_docs_ref.update(fetched_user_data)
+      return redirect("/home")  
+    
+  return redirect(f"/{id}/signup")
+      
+    
+    
+  
 
 @app.route("/login")
 def login():
   return render_template("login.html") 
 
-@app.route("/signup",methods=['GET','POST'])
-def signup():
-  if request.method=='GET':
-    return render_template("signup.html") 
-  else:
-    mail_adress = request.form.get('mail_adress')
-    user_name = request.form.get('user_name')
-    school = request.form.get('school')
-    year = request.form.get('year')
 
-    user_data['ユーザー名']=user_name
-    user_data['メール']=mail_adress
-    user_data['学類']=school
-    user_data['学年']=year
 
-    user_docs_ref.add(user_data)    
-    return redirect('/home')
+    
+  
+
  
 #仮
 @app.route("/home")
@@ -193,11 +241,49 @@ def update_data(
 
 
 
-@app.route("/purchase_confirmation")
+@app.route("/purchase_confirmation",methods=['GET','POST'])
 def purchase_confirmation():
-  return render_template('purchase_confirmation.html')
+  if request.method=='GET':
+      # URLのクエリパラメータを取得
+    # book_name = request.args.get('book')
+    # seller_name = request.args.get('seller')
+    # それかurlにidを埋め込む
+    return render_template('purchase_confirmation.html')
+  # else:
+  #   place = request.form.get('place')
+  #   date = request.form.get('date')
+  #   #データのラベル変更、場所、日時追加
+  #   docs =docs_ref.get()
+  #   for doc in docs:
+  #     doc = doc.to_dict()
+  #     if #idが等しければ:  
+       #データのラベル変更、場所、日時追加
+
+# チャット
+# app.config['SECRET_KEY'] = 'secret_key'
+# socketio = SocketIO(app)
+
+# チャットのメッセージを保存するリスト
+# messages = []
 
 
+# @app.route("/chat")
+# def chat():
+#   messages = Message.query.all()
+#     chat_history = [{'sender': message.sender, 'message': message.message} for message in messages]
+#     return render_template('index.html', chat_history=chat_history)
+  
+  
+# @socketio.on('message')
+# def handle_message(data):  # 受け取るデータを辞書型として受け取る
+#     sender = data['sender']
+#     message_content = data['message'] #会話内容
+    
+#     # 新しいメッセージをデータベースに保存
+#     new_message = Message(sender=sender, message=message_content)
+#     db.session.add(new_message)
+#     db.session.commit()
 
-if __name__ == '__main__':
-  app.run(debug=False)
+#     emit('message', {'sender': sender, 'message': message_content}, broadcast=True)
+# if __name__ == '__main__':
+#   app.run(debug=False)

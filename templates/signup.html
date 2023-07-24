@@ -1,30 +1,45 @@
-<h1>ITF. - 会員登録</h1>
-<div>
-    <form action="/signup" method="POST">
-        メールアドレス
-        <input type="text" name="mail_adress" placeholder="uアドレス">
-        ニックネーム(公開されます)
-        <input type="text" name="user_name" placeholder="ニックネーム">
-        学類
-        <select name="school">
-            <option value="" selected>選択してください</option>
-            <option>情報科学類</option>
-            <option>情報メディア創成学類</option>
-            <option>知識情報・図書館学類</option>
-            <option>理工</option>
-            <option>応理</option>
-            <option>体専</option>
-        </select>
-        学年
-        <select name="year">
-            <option value="" selected>選択してください</option>
-            <option>B1</option>
-            <option>B2</option>
-            <option>B3</option>
-            <option>B4</option>
-            <option>M1</option>
-            <option>M2</option>
-        <input type="submit" value="登録">
-    </form>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login / Registration </title>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+  
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+  </head>
+  <body>
+    <div id="firebaseui-auth-container"></div>
 
-</div>
+    <script>
+
+        var firebaseConfig = {
+        apiKey: "AIzaSyChq4Rjh0dHn2tR-LQnDInIqREybBBqjQQ",
+        authDomain: "itf-database-b9026.firebaseapp.com",
+        projectId: "itf-database-b9026",
+        storageBucket: "itf-database-b9026.appspot.com",
+        messagingSenderId: "746644474935",
+        appId: "1:746644474935:web:259a335cfe264d3acc03b2"
+        };
+        // firebase の初期化
+        firebase.initializeApp(firebaseConfig);
+
+        var uiConfig = {
+        signInSuccessUrl: '/{{id}}/auth', // ログインに成功したときに飛ぶページ
+        signInOptions: [
+            {
+            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID 
+            //メール認証のみ使用する。google 認証などを使う場合はさらに羅列する。
+            }
+        ],
+        };
+
+        // firebase auth ui を使用
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+  </body>
+</html>

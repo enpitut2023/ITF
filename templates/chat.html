@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<!-- ... -->
+<body>
+  <h1>Flask Chat</h1>
+  <div id="chat-box">
+    {% for message in chat_history %}
+        <p>{{ message.sender }}: {{ message.message }}</p>
+    {% endfor %}
+</div>
+  <input type="text" id="user-input" placeholder="Enter your message..." />
+  <button onclick="sendMessage()">Send</button>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+  <script>
+      var socket = io();
+      var username = prompt('Please enter your username:'); // ユーザー名の入力
+
+      function appendMessage(sender, message) {
+          var chatBox = document.getElementById('chat-box');
+          var messageElement = document.createElement('p');
+          messageElement.innerHTML = sender + ': ' + message; // 送信元の名前を表示
+          chatBox.appendChild(messageElement);
+      }
+
+      function sendMessage() {
+          var userMessage = document.getElementById('user-input').value;
+          appendMessage('You', userMessage); // 自分の名前を送信元として表示
+          document.getElementById('user-input').value = '';
+
+          // Send the message and sender name to the server via WebSocket
+          socket.emit('message', { sender: username, message: userMessage });
+      }
+
+      socket.on('message', function(data) {
+          appendMessage(data.sender, data.message); // 受信したデータの送信元名を表示
+      });
+  </script>
+</body>
+</html>
+
+</html>
