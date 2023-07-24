@@ -1,13 +1,17 @@
-# ITF.
-**I**nformative **T**extbook **F**leaMarket
+<h1 align="center">
+   ITF.
+</h1>
 
-## Description
+<div align="center">
+   <strong>I</strong>nformative <strong>T</strong>extbook <strong>F</strong>leaMarket
+</div>
 
-### URL
+
+## URL
 https://itf.onrender.com/
 
 
-### EVP
+## EVP
 `ITF.（Informative Textbook Fleamarket.)` は
 `試験や授業による書籍の購入にかかる費用`を解決したい
 `筑波大学生`向けの
@@ -16,14 +20,13 @@ https://itf.onrender.com/
 `フリマアプリ`とは違って送料/手数料なし，送り手側の配達準備なし，筑波大生限定のため直接取引の高い安全性，教科書情報(その教科書が本当に必要かわからない)の共有，さらには，新しいつながりの期待等のメリットがあります．
 
 
-### Members
-- kou7306 (PO)
-- takeyamayuki (SM)
-- kogucchan
-- yudaisuzu39
-- touson0317
-- naru-77
-
+## Contributors
+- [kou7306](https://github.com/kou7306) (PO)
+- [takeyamayuki](https://github.com/takeyamayuki) (SM)
+- [kogucchan](https://github.com/kogucchan)
+- [yudaisuzu39](https://github.com/yudaisuzu39)
+- [touson0317](https://github.com/touson0317)
+- [naru-77](https://github.com/naru-77)
 
 
 
