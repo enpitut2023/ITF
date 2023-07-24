@@ -8,7 +8,7 @@
 <body>
     <h1>ITF. - 会員登録</h1>
     <div>
-        <form action="/register" method="POST" id="signup-form">
+        <form action="/None/register" method="POST" id="signup-form">
             ニックネーム(公開されます)
             <input type="text" name="user_name" placeholder="ニックネーム">
             学類
@@ -33,9 +33,14 @@
             </select>
             <input type="submit" value="登録" id="signup">
         </form>
-        <div><a href="/login">登録済みの方はこちら</a></div>
+        <div><a href="/None/login">登録済みの方はこちら</a></div>
     
     </div>
+    <script>
+      if('{{flag}}'=="false"){
+        alert("ユーザー名は使われています");
+      }
+    </script>
 </body>
 </html>
 

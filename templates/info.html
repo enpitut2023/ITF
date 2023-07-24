@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITF. ～マイページ～</title>
+  <link rel="stylesheet" href="/static/css/reset.css">
+  <link rel="stylesheet" href="/static/css/home.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/info.css">
+</head>
+<body>
+  <header>
+    <div class="header">
+      <a href="/" class="title-container">
+        <h1 class="title">ITF.</h1>
+        <p class="title-sub">Informative Textbook Fleamarket</p>
+      </a>
+      <!-- PC用メニュー -->
+      <ul class="menu is-pc">
+        <li><a href="/{{id}}/info">購入情報</a></li>
+        <li><a href="/{{id}}/exhibit">出品</a></li>
+        <li><a href="/{{id}}/mypage">Mypage</a></li>
+      </ul>
+    </div>
+  
+    <!-- SP用メニュー -->
+    <div id="navArea" class="is-sp">
+      <nav>
+        <div class="inner">
+          <ul class="menu">
+            <li><a href="/{{id}}/info">購入情報</a></li>
+            <li><a href="/{{id}}/exhibit">出品</a></li>
+            <li><a href="/{{id}}/mypage">Mypage</a></li>
+          </ul>
+      </nav>
+      <div class="toggle_btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div id="mask"></div>
+    </div>
+  </header>
+
+
+
+
+  
+  <h2>取引成立!</h2>
+  <h3>受け取り場所に向かいましょう！</h3>
+  {% for result in results %}
+  {% if result["状態"] == "sold" %}
+
+  <div class="acceptinf">
+    <div class="product-item">
+      <div class="product-detail">
+        <img src="/static/img/book.png" class="product-img" alt="">
+        <h3 class="product-name">教科書名：{{result["教科書名"]}}</h3>
+      </div>
+      <div>出品者：{{result["出品者"]}}</div>
+      <div>受取人：{{result["受取人"]}}</div>
+      <div class="location">受け取り場所：{{result["受け取り場所"]}}</div>
+      <div class="date">受け取り日時：{{result["受け取り日時"]}}</div>
+      <div class="time">受け取り時間：{{result["受け取り時間"]}}</div>
+  </div>
+</div>
+  {% endif %}
+{% endfor %} 

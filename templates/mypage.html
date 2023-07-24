@@ -43,16 +43,20 @@
     </div>
   </header>
 
-  <h1>Mypage</h1>
-  <ul>
-    <li>ユーザー名</li>
-    <li>{{data["ユーザー名"]}}</li>
-    <li>学年</li>
-    <li>{{data["学年"]}}</li>
-    <li>学類</li>
-    <li>{{data["学類"]}}</li>
+  <h2>Mypage</h2>
+  <div class="info">
+    <ul>
+      <li>ユーザー名</li>
+      <li>学年</li>  
+      <li>学類</li>   
+    </ul>
+    <ul>
+      <li>{{data["ユーザー名"]}}</li>
+      <li>{{data["学年"]}}</li>
+      <li>{{data["学類"]}}</li>
+    </ul>
+  </div>
 
-  </ul>
   <div class="container"></div>
   <div class="product">
     {% for result in results %}
@@ -67,6 +71,6 @@
   </div>
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-  <script src="./static/javascript/script.js"></script>
+  <script src="/static/javascript/script.js"></script>
 </body>
 </html>
