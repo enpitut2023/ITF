@@ -212,6 +212,9 @@ def purchase_confirmation():
     docs_ref.document(doc_id).update({'受け取り時間': time})
     return redirect('/home')
 
+@app.route("/thanks")
+def thanks():
+  return render_template('thanks.html')
 
 
 if __name__ == '__main__':
