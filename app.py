@@ -28,6 +28,7 @@ exhibit_data = {
     "受け取り場所": None,
     "受け取り時間": None,
     "受取人": None,
+    "状態" : None,
 }
 # Firestoreからデータ
 docs_ref = db.collection('exhibit')
