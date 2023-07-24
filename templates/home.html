@@ -69,8 +69,10 @@
         <div class="product-item">
           <div class="product-detail">
             <img src="/static/img/book.png" class="product-img" alt="">
-            <h1 class="product-name">{{result["教科書名"]}}</h1>
-            <p>{{result["出品者"]}}</p>
+            <div class="product-data">
+              <h1 class="product-name">{{result["教科書名"]}}</h1>
+              <p class="product-author">出品者：{{result["出品者"]}}</p>
+            </div><!-- /.product-data -->
           </div><!-- /.product-detail -->
           <div class="tab-product__link product-btn">
             <a class="button-arrow-right" href="/purchase_confirmation">欲しい！</a>
