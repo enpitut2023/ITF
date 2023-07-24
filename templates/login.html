@@ -1,10 +1,29 @@
-<h1>ITF. - ログイン</h1>
-<div>
-    <p>ログイン</p>
-    <form action="/" method="POST">
-        <input type="text" name="user_name" placeholder="uアドレス">
-        <input type="submit" value="ログイン">
-    </form>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>ITF. - ログイン</h1>
+    <div>
+        <p>ログイン</p>
+        <form action="/{flag}/login" method="POST">
+            <input type="text" name="user_name" placeholder="ユーザー名">
+            <input type="submit" value="ログイン">
+        </form>
+    
+        <a href="/None/register">新規会員登録はこちら</a>
+    </div>
+    <script>
+        if('{{flag}}'=="not_verified"){
+            alert("認証されていないユーザーです");
+        }
+        if('{{flag}}'=="no_user"){
+            alert("ユーザー登録がされていません");
+        }
+    </script>   
+</body>
+</html>
 
-    <a href="/signup">新規会員登録はこちら</a>
-</div>

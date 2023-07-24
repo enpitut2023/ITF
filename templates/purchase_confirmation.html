@@ -22,9 +22,9 @@
       </a>
       <!-- PC用メニュー -->
       <ul class="menu is-pc">
-        <li><a href="#">購入情報</a></li>
-        <li><a href="/exhibit">出品</a></li>
-        <li><a href="/mypage">Mypage</a></li>
+        <li><a href="/{{id}}/info">購入情報</a></li>
+        <li><a href="/{{id}}/exhibit">出品</a></li>
+        <li><a href="/{{id}}/mypage">Mypage</a></li>
       </ul>
     </div>
 
@@ -33,9 +33,9 @@
       <nav>
         <div class="inner">
           <ul class="menu">
-            <li><a href="#">購入情報</a></li>
-            <li><a href="/exhibit">出品</a></li>
-            <li><a href="/mypage">Mypage</a></li>
+            <li><a href="/{{id}}/info">購入情報</a></li>
+            <li><a href="/{{id}}/exhibit">出品</a></li>
+            <li><a href="/{{id}}/mypage">Mypage</a></li>
           </ul>
       </nav>
       <div class="toggle_btn">
@@ -54,7 +54,7 @@
       <h3 class="confirm-info-heading">商品情報</h3>
       <div id="confirm-info">
         <!-- 商品情報を表示する要素 -->
-        <p>苦しんで覚えるC言語</p>
+        <p>{{data["教科書名"]}}</p>
       </div>
     </div><!-- /.confirm-info-container -->
 
@@ -66,7 +66,7 @@
 
     <div class="confirm-detail">
       <h3 class="confirm-deal-heading">取引情報</h3>
-      <form action="" method="POST" id="purchase-form">
+      <form action="/{{ id }}/purchase_confirmation/{{ doc_id }}" method="POST" id="purchase-form">
 
         <!-- 取引場所の入力フォーム -->
         <h4 class="confirm-location">取引場所：</h4>
@@ -108,7 +108,7 @@
 
     // Set the action attribute of the form dynamically
     const form = document.getElementById('purchase-form');
-    form.action = `/purchase_confirmation/${doc_id}`;
+    form.action = `/${id}/purchase_confirmation/${doc_id}`;
   </script>
 
 </body>
