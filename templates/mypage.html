@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ITF. ～マイページ～</title>
-  <link rel="stylesheet" href="./static/css/reset.css">
-  <link rel="stylesheet" href="./static/css/home.css">
-  <link rel="stylesheet" href="./static/css/style.css">
+  <link rel="stylesheet" href="/static/css/reset.css">
+  <link rel="stylesheet" href="/static/css/home.css">
+  <link rel="stylesheet" href="/static/css/style.css">
   <link rel="stylesheet" href="/static/css/mypage.css">
 </head>
 <body>
@@ -45,12 +45,28 @@
 
   <h1>Mypage</h1>
   <ul>
+    <li>ユーザー名</li>
+    <li>{{data["ユーザー名"]}}</li>
+    <li>メールアドレス</li>
+    <li>{{data["メール"]}}</li>
     <li>学年</li>
+    <li>{{data["学年"]}}</li>
     <li>学類</li>
-    <li>履修してる授業</li>
-    <li>出品情報</li>
-  </ul>
+    <li>{{data["学類"]}}</li>
 
+  </ul>
+  <div class="container"></div>
+  <div class="product">
+    {% for result in results %}
+    <div class="product-item">
+      <div class="product-detail">
+        <img src="/static/img/book.png" class="product-img" alt="">
+        <h1 class="product-name">{{result["教科書名"]}}</h1>
+      </div><!-- /.product-detail -->
+    </div>
+    {% endfor %}
+  </div>
+  </div>
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script src="./static/javascript/script.js"></script>
