@@ -109,6 +109,23 @@ def veri_flag(id):
 def login():
   if request.method=='GET':
     return render_template("login.html") 
+  else:
+    get_user_name = request.form.get('user_name')
+    # 'user'コレクションの全てのドキュメントのIDを取得
+    user_docs_refs = db.collection('user').get()
+    doc_ids = [doc.id for doc in user_docs_refs]
+    for id in doc_ids:
+      user_docs_ref = db.collection('user').document(id)
+      fetched_user_data=user_docs_ref.get().to_dict()
+      user_name=fetched_user_data["ユーザー名"]
+      auth=fetched_user_data["認証"]
+      if(user_name==get_user_name):
+        if(auth=="verified"):
+          return redirect(f"/{id}/home")
+        else:
+          return redirect("/login")
+# ユーザー名を一意に
+
   
 
 

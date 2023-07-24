@@ -66,6 +66,7 @@
     <div class="container">
       <section class="product">
         {% for result in results %}
+        {% if result["状態"] == None%}
         <div class="product-item">
           <div class="product-detail">
             <img src="/static/img/book.png" class="product-img" alt="">
@@ -79,6 +80,7 @@
           </div>
           
         </div>
+        {% endif %}
         {% endfor %}
 
       </section><!-- /.product -->
