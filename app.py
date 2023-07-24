@@ -221,22 +221,6 @@ def update_data(doc_id):
 #     return redirect('/update')
 
 
-# @app.route("/purchase_confirmation", methods=['GET','POST'])
-# def purchase_confirmation():
-#   if request.method=='GET':
-#     return render_template('purchase_confirmation.html')
-#   else:
-#     doc_id : str = "UrBhoLnreMfl0lYbAp41"
-#     location = request.form.get('location')
-#     date = request.form.get('date')
-#     time = request.form.get('time')
-
-#     docs_ref.document(doc_id).update({'状態': 'sold'})
-#     docs_ref.document(doc_id).update({'受け取り場所': location})
-#     docs_ref.document(doc_id).update({'受け取り日時': date})
-#     docs_ref.document(doc_id).update({'受け取り時間': time})
-#     return redirect('/home')
-
 @app.route("/purchase_confirmation/<doc_id>", methods=['GET', 'POST'])
 def purchase_confirmation(doc_id):
     if request.method == 'GET':
@@ -257,27 +241,6 @@ def purchase_confirmation(doc_id):
 
         exhibit_ref.update(fetched_exhibit_data)
         return redirect("/home")
-
-    # @app.route("/purchase_confirmation/<doc_id>", methods=['GET','POST'])
-    # def purchase_confirmation(doc_id):
-    #     if request.method=='GET':
-    #       return render_template('purchase_confirmation.html')
-    #     else:
-    #       location = request.form.get('location')
-    #       date = request.form.get('date')
-    #       time = request.form.get('time')
-
-    #       try:
-    #           docs_ref.document(doc_id).update({
-    #               '状態': 'sold',
-    #               '受け取り場所': location,
-    #               '受け取り日時': date,
-    #               '受け取り時間': time
-    #           })
-    #           return redirect('/exhibit')
-    #       except Exception as e:
-    #           print(e)
-    #           return {"message": "Failed to update data"}, 500
 
 
 # @app.route("/thanks")
