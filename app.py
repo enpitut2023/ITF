@@ -8,7 +8,7 @@ from google.oauth2.service_account import Credentials
 from firebase_admin import auth, initialize_app
 import re
 from flask_socketio import SocketIO, emit
-import copy
+import requests
 # 環境変数からFirebaseサービスアカウントキーを読み込みます
 # service_account_key = json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_ITF_DATABASE_B9026'))
 
@@ -24,6 +24,7 @@ db = firestore.Client(credentials=credentials)
 # 出品データ
 exhibit_data = {
     "教科書名": None,
+    "画像":None,
     "出品者": None,
     "受け取り場所": None,
     "受け取り日時": None,
@@ -139,17 +140,24 @@ def login(flag):
   
 
  
-@app.route("/<id>/home")
+@app.route("/<id>/home", methods=['GET','POST'])
 def home(id):
   # Firestoreからデータを取得します
   docs =docs_ref.get()
-  # Firestoreから取得したデータをリストに格納します
   results = []
-  for doc in docs:
-      results.append(doc)
-  
-  return render_template('home.html',results=results,id=id)
+  if request.method=='GET':
 
+    # Firestoreから取得したデータをリストに格納します
+    for doc in docs:
+        results.append(doc)
+    
+    return render_template('home.html',results=results,id=id)
+  else:
+    search_text=request.form.get('keyword')
+    for doc in docs:
+      if search_text in doc.to_dict()['教科書名']:
+        results.append(doc)
+    return render_template('home.html',results=results,id=id)
 
 
 
@@ -170,7 +178,13 @@ def mypage(id):
         
   return render_template('mypage.html',data=fetched_user_data,results=results,id=id)
   
-      
+@app.route('/<id>/search', methods=['POST'])
+def search_books(id):
+    book_name = request.form.get('book_name')
+    # Google Books APIへのリクエスト
+    response = requests.get('https://www.googleapis.com/books/v1/volumes', params={'q': book_name})
+    books_data = response.json()
+    return render_template('search_results.html', books=books_data.get('items', []),id=id)      
 
 @app.route("/<id>/exhibit",methods=['GET','POST'])
 def exhibit(id):
@@ -180,10 +194,11 @@ def exhibit(id):
   if request.method=='GET':
     return render_template('exhibit.html',username=username,id=id)
   else:
-    textname = request.form.get('textname')
-
+    textname = request.form.get('bookTitle')
+    image=request.form.get('bookImage')
     exhibit_data['出品者'] = username
     exhibit_data['教科書名'] = textname
+    exhibit_data['画像'] = image
     exhibit_data["状態"] = "available"
 
 
@@ -233,14 +248,7 @@ def delete_data(doc_id,id):
     return redirect(f"/{id}/mypage")
 
 
-# @app.route('/delete/<doc_id>', methods=['GET'])
-# #delete処理
-# def delete_data(
-#       doc_id : str = "3v86oConj2OtW4mI0vxL"
-# ):
-#     doc_ref = docs_ref.document(doc_id)
-#     doc_ref.delete()
-#     return {"message": "Data deleted successfully"}, 200
+
 
 @app.route("/update/<doc_id>", methods=['GET', 'POST'])
 def update_data(doc_id):

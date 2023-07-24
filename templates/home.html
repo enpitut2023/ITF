@@ -62,6 +62,11 @@
     </div>
   </header>
 
+  <h2>検索</h2>
+  <form action="/{{ id }}/home" method="POST">
+    <input type="text" name="keyword" placeholder="教科書名を入力してください">
+    <input type="submit" value="検索">
+  </form>
 
   <div class="container">
     <section class="product">
@@ -69,14 +74,14 @@
       {% if result.to_dict().get("状態") != "sold" %}
       <div class="product-item">
         <div class="product-detail">
-          <img src="/static/img/book.png" class="product-img" alt="">
+          <img src="{{ result.to_dict()['画像'] }}" class="product-img" alt="">
           <div class="product-data">
             <h1 class="product-name">{{ result.to_dict()["教科書名"] }}</h1>
             <p class="product-author">出品者：{{ result.to_dict()["出品者"] }}</p>
           </div><!-- /.product-data -->
         </div><!-- /.product-detail -->
         <div class="tab-product__link product-btn">
-          <a class="button-arrow-right" href="/purchase_confirmation/{{ result.id }}">欲しい！</a>
+          <a class="button-arrow-right" href="/{{id}}/purchase_confirmation/{{ result.id }}">欲しい！</a>
         </div>
       </div>
       {% endif %}
