@@ -49,7 +49,7 @@ def first():
 
 @app.route("/<flag>/register", methods=['GET', 'POST'])
 def register(flag):
-	"""ユーザーデータベース登録"""
+	# ユーザーデータベース登録
     all_user = db.collection('user').get()
     users = []
     for user in all_user:
@@ -65,7 +65,7 @@ def register(flag):
                 flag = "false"
                 return redirect(f"/{flag}/register")
 
-    # データベース登録
+    	# データベース登録
         user_data['ユーザー名'] = user_name
         user_data['学類'] = school
         user_data['学年'] = year
