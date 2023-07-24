@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="/static/css/home.css">
   <link rel="stylesheet" href="/static/css/purchase_confirmation.css">
   <link rel="stylesheet" href="./static/css/style.css">
+
+  
 </head>
 <body>
   <header>
@@ -56,9 +58,10 @@
 
       <!-- ここに商品情報の表示や入力フォームを追加します -->
 
+
       <div class="confirm-detail">
         <h3 class="confirm-deal-heading">取引情報</h3>
-        <form action="/thanks" method="POST">
+        <form action="/thanks" method="POST" id="purchase-form">
           <!-- 取引場所の入力フォーム -->
           <h4 class="confirm-location">取引場所：</h4>
           <div class="confirm-input">
@@ -82,7 +85,7 @@
               <label for="time">受け取り時間：</label>
               <input type="time" id="time" name="time" value="">
             </div><!-- /.confirm-date-container -->
-            <input type="submit" value="場所日時を確定">
+            <input type="submit" id="submit-button" value="場所日時を確定">
           </div><!-- /.confirm-date -->
   
         </form>
@@ -92,5 +95,6 @@
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script src="./static/javascript/script.js"></script>
+
 </body>
 </html>
