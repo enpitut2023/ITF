@@ -49,7 +49,7 @@ def first():
 
 @app.route("/<flag>/register", methods=['GET', 'POST'])
 def register(flag):
-	# ユーザーデータベース登録
+    # ユーザーデータベース登録
     all_user = db.collection('user').get()
     users = []
     for user in all_user:
@@ -65,7 +65,7 @@ def register(flag):
                 flag = "false"
                 return redirect(f"/{flag}/register")
 
-    	# データベース登録
+        # データベース登録
         user_data['ユーザー名'] = user_name
         user_data['学類'] = school
         user_data['学年'] = year
@@ -80,13 +80,13 @@ def register(flag):
 
 @app.route("/<id>/signup")
 def signup(id):
-    """FIrebaseサインアップ入力、メール送信"""
+    # FIrebaseサインアップ入力、メール送信
     return render_template("signup.html", id=id)
 
 
 @app.route("/<id>/auth")
 def mail_auth(id):
-	"""メール認証"""
+    # メール認証
     return render_template("auth.html", id=id)
 
 
@@ -113,7 +113,7 @@ def veri_flag(id):
 
 @app.route("/<flag>/login", methods=['GET', 'POST'])
 def login(flag):
-	# flagはユーザーがないのか、認証されていないのかを判別
+    # flagはユーザーがないのか、認証されていないのかを判別
     if request.method == 'GET':
         return render_template("login.html", flag=flag)
     else:
