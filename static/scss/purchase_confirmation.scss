@@ -75,128 +75,89 @@ body {
   margin: 0 auto;
 }
 
-// .menu{
-//   display: flex;
-//   justify-content: space-around;
-// }
-
-// .header{
-//   display: flex;
-//   justify-content: space-around;
-// }
-
-// li{
-//   margin: 20px;
-//   list-style: none;
-// }
-
 
 /*---------------------
-商品一覧
+詳細ページ
 ---------------------*/
-.product {
-  padding: 10rem 0;
-  font-size: 62.5%;
-
-  @media screen and (min-width: 768px) and (max-width: 1440px)  {
-    font-size: 0.625vw;
-    font-size: 0.52083vw;
-    font-size: 1vw;  // = 40px / (コンテナ幅px / 100vw * 4rem)
+.confirm-container {
+  text-align: center;
+  width: 70%;
+  margin: auto;
+  padding: 50px 0;
+  
+  @include mq(sp) {
+    width: 90%;
   }
 }
 
-.product-item {
-  @include mq(md) {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
+.confirm-heading {
+  font-size: 28px;
+  font-weight: bold;
+}
 
-  @include mq(sp) {
-    text-align: center;
-  }
-
+.confirm-info-container {
   background: #eee;
-  padding: 4rem;
   border-radius: 10px;
+  padding: 30px;
+  margin-top: 50px;
+}
 
-  &:not(:first-child) {
-    margin-top: 3rem;
+.confirm-info-heading {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#confirm-info {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.confirm-deal-heading {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.confirm-location {
+  font-size: 18px;
+  margin-top: 30px;
+}
+
+.confirm-detail {
+  background: #eee;
+  border-radius: 10px;
+  padding: 30px;
+  margin-top: 30px;
+}
+
+.confirm-input {
+  margin-top: 10px;
+
+  input {
+    margin-top: 5px;
   }
 }
 
-.product-detail {
-  @include mq(md) {
-    display: flex;
-  }
-}
-
-.product-img {
-  width: 100%;
-  max-width: 200px;
-  
-  @include mq(sp) {
-    max-width: 300px;
-  }
-}
-
-.product-name {
-  font-size: 2rem;
-
-  @include mq(md) {
-    margin-left: 2rem;
-  }
-  
-  @include mq(sp) {
-    margin-top: 20px;
-    font-size: 22px;
-    
-  }
-}
-
-.product-author {
-  font-size: 1.4rem;
+.confirm-date {
   margin-top: 20px;
 
-  @include mq(md) {
-    margin-left: 2rem;
-  }
-  
-  @include mq(sp) {
-    // margin-top: 20px;
+  label {
     font-size: 16px;
-    
   }
-}
 
-.product-btn {
-  margin-top: 32px;
-  
-  @include mq(sp) {
-    text-align: right;
+  .confirm-date-container {
+    &:not(:first-child) {
+      margin-top: 10px;
+    }
   }
-}
 
-.product-btn a {
-  font-size: 1.4rem;
-  position: relative;
-  display: inline-block;
-  padding: 20px 56px;
-  background: #333;
-  color: #fff;
-  border-radius: 6px;
-  font-weight: bold;
-  white-space: nowrap;
-
-  &::after {
-    content: "";
-    background: transparent url(../img/button-arrow.svg) no-repeat
-      center/contain;
-    width: 15px;
-    height: 15px;
-    position: absolute;
-    top: 50%;
-    right: 5px;
-    transform: translateY(-50%);
+  input[type="submit"] {
+    font-size: 16px;
+    background: #5c87a6;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+    margin-left: auto;
+    margin-top: 20px;
   }
 }
