@@ -97,7 +97,7 @@ def veri_flag(id):
       fetched_user_data=user_docs_ref.get().to_dict()
       fetched_user_data["認証"]="verified"
       user_docs_ref.update(fetched_user_data)
-      return redirect("/home")  
+      return redirect(f"/{id}/home")  
     
   return redirect(f"/{id}/signup")
       
@@ -105,9 +105,11 @@ def veri_flag(id):
     
   
 
-@app.route("/login")
+@app.route("/login",methods=['GET','POST'])
 def login():
-  return render_template("login.html") 
+  if request.method=='GET':
+    return render_template("login.html") 
+  
 
 
 
@@ -115,9 +117,8 @@ def login():
   
 
  
-#仮
-@app.route("/home")
-def home():
+@app.route("/<id>/home")
+def home(id):
   # Firestoreからデータを取得します
   docs =docs_ref.get()
   # Firestoreから取得したデータをリストに格納します
@@ -125,25 +126,17 @@ def home():
   for doc in docs:
       results.append(doc.to_dict())
   
-  return render_template('home.html',results=results)
+  return render_template('home.html',results=results,id=id)
 
 
-@app.route("/<username>/home")
-def userhome(username):
-  # Firestoreからデータを取得します
-  docs =docs_ref.get()
-  # Firestoreから取得したデータをリストに格納します
-  results = []
-  for doc in docs:
-      results.append(doc.to_dict())
-  
-  return render_template('home.html',results=results,username=username)
 
 
-@app.route("/<username>/mypage")
-def mypage(username):
+@app.route("/<id>/mypage")
+def mypage(id):
 
-
+  user_docs_ref = db.collection('user').document(id)
+  fetched_user_data=user_docs_ref.get().to_dict()
+  username=fetched_user_data["ユーザー名"]
     # Firestoreからデータを取得します
   docs =docs_ref.get()
   # Firestoreから取得したデータをリストに格納します
@@ -154,31 +147,17 @@ def mypage(username):
       results.append(doc)
         # Firestoreから取得したデータをリストに格納します
         
-  # Firestoreからデータを取得します
-  docs =user_docs_ref.get()
-  for doc in docs:
-      data = doc.to_dict()
-      if(data["ユーザー名"]==username):
-        return render_template('mypage.html',data=data,results=results)
+    return render_template('mypage.html',data=fetched_user_data,results=results,id=id)
   
       
-#仮
-@app.route("/exhibit",methods=['GET','POST'])
-def testexhibit():
+
+@app.route("/<id>/exhibit",methods=['GET','POST'])
+def exhibit(id):
+  user_docs_ref = db.collection('user').document(id)
+  fetched_user_data=user_docs_ref.get().to_dict()
+  username=fetched_user_data["ユーザー名"]
   if request.method=='GET':
-    return render_template('exhibit.html')
-  else:
-    textname = request.form.get('textname')
-
-    exhibit_data['教科書名']=textname
-
-    docs_ref.add(exhibit_data)
-    return redirect('/exhibit')
-
-@app.route("/<username>/exhibit",methods=['GET','POST'])
-def exhibit(username):
-  if request.method=='GET':
-    return render_template('exhibit.html',username=username)
+    return render_template('exhibit.html',username=username,id=id)
   else:
     textname = request.form.get('textname')
 
@@ -186,7 +165,7 @@ def exhibit(username):
     exhibit_data['教科書名']=textname
 
     docs_ref.add(exhibit_data)
-    return redirect(f'/{username}/home')
+    return redirect(f'/{id}/home')
     
 
 @app.route('/get_data')
@@ -240,6 +219,9 @@ def update_data(
     doc_ref.update(copied_data)
     return redirect('/update')
 
+@app.route("/<id>/info")
+def info():
+  return render_template('info.html',id=id)
 
 
 @app.route("/purchase_confirmation",methods=['GET','POST'])
