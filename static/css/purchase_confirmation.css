@@ -1,0 +1,134 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap");
+@media screen and (max-width: 767.8px) {
+  .is-pc {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .is-sp {
+    display: none !important;
+  }
+}
+
+html {
+  font-size: 62.5%;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1440px) {
+  html {
+    font-size: 0.625vw;
+    font-size: 0.52083vw;
+    font-size: 1vw;
+  }
+}
+
+body {
+  overflow-x: hidden;
+  font-family: "Noto Serif JP", serif;
+  color: #000;
+}
+
+.wrapper {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+
+.container {
+  max-width: 1280px;
+  padding: 0 40px;
+  margin: 0 auto;
+}
+
+/*---------------------
+詳細ページ
+---------------------*/
+.confirm-container {
+  text-align: center;
+  width: 70%;
+  margin: auto;
+  padding: 50px 0;
+}
+
+@media screen and (max-width: 767.8px) {
+  .confirm-container {
+    width: 90%;
+  }
+}
+
+.confirm-heading {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.confirm-info-container {
+  background: #eee;
+  border-radius: 10px;
+  padding: 30px;
+  margin-top: 50px;
+}
+
+.confirm-info-heading {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#confirm-info {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.confirm-deal-heading {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.confirm-location {
+  font-size: 18px;
+  margin-top: 30px;
+}
+
+.confirm-detail {
+  background: #eee;
+  border-radius: 10px;
+  padding: 30px;
+  margin-top: 30px;
+}
+
+.confirm-input {
+  margin-top: 10px;
+}
+
+.confirm-input input {
+  margin-top: 5px;
+}
+
+.confirm-date {
+  margin-top: 20px;
+}
+
+.confirm-date label {
+  font-size: 16px;
+}
+
+.confirm-date .confirm-date-container:not(:first-child) {
+  margin-top: 10px;
+}
+
+.confirm-date input[type="submit"] {
+  font-size: 16px;
+  background: #5c87a6;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  display: block;
+  margin-left: auto;
+  margin-top: 20px;
+}

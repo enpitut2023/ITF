@@ -24,9 +24,10 @@ exhibit_data = {
     "教科書名": None,
     "出品者": None,
     "受け取り場所": None,
+    "受け取り日時": None,
     "受け取り時間": None,
     "受取人": None,
-    "状態" : None,
+    "状態" : "available",
 }
 # Firestoreからデータ
 docs_ref = db.collection('exhibit')
@@ -136,6 +137,7 @@ def exhibit(username):
 
     exhibit_data['出品者']=username
     exhibit_data['教科書名']=textname
+    exhibit_data["状態"]= "available"
 
     docs_ref.add(exhibit_data)
     return redirect(f'/{username}/home')
@@ -194,10 +196,25 @@ def update_data(
 
 
 
-@app.route("/purchase_confirmation")
+@app.route("/purchase_confirmation", methods=['GET','POST'])
 def purchase_confirmation():
-  return render_template('purchase_confirmation.html')
+  if request.method=='GET':
+    return render_template('purchase_confirmation.html')
+  else:
+    doc_id : str = "UrBhoLnreMfl0lYbAp41"
+    location = request.form.get('location')
+    date = request.form.get('date')
+    time = request.form.get('time')
 
+    docs_ref.document(doc_id).update({'状態': 'sold'})
+    docs_ref.document(doc_id).update({'受け取り場所': location})
+    docs_ref.document(doc_id).update({'受け取り日時': date})
+    docs_ref.document(doc_id).update({'受け取り時間': time})
+    return redirect('/home')
+
+@app.route("/thanks")
+def thanks():
+  return render_template('thanks.html')
 
 
 if __name__ == '__main__':
