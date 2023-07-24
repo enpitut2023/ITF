@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ITF. ～購入詳細ページ～</title>
-  <link rel="stylesheet" href="./static/css/reset.css">
+  <link rel="stylesheet" href="/static/css/reset.css">
   <link rel="stylesheet" href="/static/css/home.css">
   <link rel="stylesheet" href="/static/css/purchase_confirmation.css">
-  <link rel="stylesheet" href="./static/css/style.css">
+  <link rel="stylesheet" href="/static/css/style.css">
 
   
 </head>
@@ -59,9 +59,12 @@
       <!-- ここに商品情報の表示や入力フォームを追加します -->
 
 
+
+
+
       <div class="confirm-detail">
         <h3 class="confirm-deal-heading">取引情報</h3>
-        <form action="/thanks" method="POST" id="purchase-form">
+        <form action="" method="POST" id="purchase-form">
           <!-- 取引場所の入力フォーム -->
           <h4 class="confirm-location">取引場所：</h4>
           <div class="confirm-input">
@@ -94,7 +97,16 @@
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-  <script src="./static/javascript/script.js"></script>
+  <script src="/static/javascript/script.js"></script>
+  <script>
+    // Get the doc_id from the URL
+    const url = window.location.href;
+    const doc_id = url.split('/').pop();
+
+    // Set the action attribute of the form dynamically
+    const form = document.getElementById('purchase-form');
+    form.action = `/purchase_confirmation/${doc_id}`;
+</script>
 
 </body>
 </html>
