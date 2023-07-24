@@ -84,6 +84,9 @@ def set_data():
 def purchase_confirmation():
   return render_template('purchase_confirmation.html')
 
+@app.route("/thanks")
+def thanks():
+  return render_template('thanks.html')
 
 @app.route("/signup")
 def signup():
