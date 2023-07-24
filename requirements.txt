@@ -2,3 +2,4 @@ Flask
 gunicorn
 firebase_admin
 google-cloud
+flask_socketio
