@@ -154,6 +154,21 @@ body {
   }
 }
 
+.product-author {
+  font-size: 1.4rem;
+  margin-top: 20px;
+
+  @include mq(md) {
+    margin-left: 2rem;
+  }
+  
+  @include mq(sp) {
+    // margin-top: 20px;
+    font-size: 16px;
+    
+  }
+}
+
 .product-btn {
   margin-top: 32px;
   

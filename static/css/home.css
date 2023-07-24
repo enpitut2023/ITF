@@ -129,6 +129,23 @@ body {
   }
 }
 
+.product-author {
+  font-size: 1.4rem;
+  margin-top: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .product-author {
+    margin-left: 2rem;
+  }
+}
+
+@media screen and (max-width: 767.8px) {
+  .product-author {
+    font-size: 16px;
+  }
+}
+
 .product-btn {
   margin-top: 32px;
 }
