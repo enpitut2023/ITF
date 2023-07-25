@@ -230,40 +230,10 @@ def get_data():
     return render_template('home.html', results=results, id=id)
 
 
-@app.route("/<id>/mypage")
-def mypage(id):
-    user_docs_ref = db.collection('user').document(id)
-    fetched_user_data = user_docs_ref.get().to_dict()
-    username = fetched_user_data["ユーザー名"]
-    # Firestoreからデータを取得します
-    docs = docs_ref.get()
-    # Firestoreから取得したデータをリストに格納します
-    results = []
-    for doc in docs:
-        doc = doc.to_dict()
-        if doc["出品者"] == username:
-            results.append(doc)
-            # Firestoreから取得したデータをリストに格納します
-
-        return render_template('mypage.html', data=fetched_user_data, results=results, id=id)
 
 
-@app.route("/<id>/exhibit", methods=['GET', 'POST'])
-def exhibit(id):
-    user_docs_ref = db.collection('user').document(id)
-    fetched_user_data = user_docs_ref.get().to_dict()
-    username = fetched_user_data["ユーザー名"]
-    if request.method == 'GET':
-        return render_template('exhibit.html', username=username, id=id)
-    else:
-        textname = request.form.get('textname')
 
-        exhibit_data['出品者'] = username
-        exhibit_data['教科書名'] = textname
-        exhibit_data["状態"] = "available"
 
-        docs_ref.add(exhibit_data)
-        return redirect(f'/{id}/home')
 
 
 
