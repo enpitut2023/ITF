@@ -87,35 +87,29 @@ def register(flag):
             if user == user_name:
                 flag = "false"
                 return redirect(f"/{flag}/register")
+        userdata=[user_name,school,year]
 
-        # データベース登録
-        user_data['ユーザー名'] = user_name
-        user_data['学類'] = school
-        user_data['学年'] = year
         # Firestoreからデータ
         user_docs_ref = db.collection('user').document()
-        user_docs_ref.set(user_data)
         id = user_docs_ref.id
-        print(id)
-
-        return redirect(f'/{id}/signup')
+        return redirect(f'/{userdata}/{id}/signup')
 
 
-@app.route("/<id>/signup")
-def signup(id):
+@app.route("/<userdata>/<id>/signup")
+def signup(id,userdata):
     # FIrebaseサインアップ入力、メール送信
-    return render_template("signup.html", id=id, config_data=data)
+    return render_template("signup.html", id=id, config_data=data,userdata=userdata)
 
 
-@app.route("/<id>/auth")
-def mail_auth(id):
+@app.route("/<userdata>/<id>/auth")
+def mail_auth(id,userdata):
     # メール認証
     if is_certified(id):
-        return render_template("auth.html", id=id, config_data=data)
+        return render_template("auth.html", id=id, config_data=data,userdata=userdata)
 
 
-@app.route("/<id>/flag")
-def veri_flag(id):
+@app.route("/<userdata>/<id>/flag")
+def veri_flag(id,userdata):
     if is_certified(id):
         # 認証用のid
         uid = request.args.get('uid')
@@ -131,6 +125,10 @@ def veri_flag(id):
                 user_docs_ref = db.collection('user').document(id)
                 fetched_user_data = user_docs_ref.get().to_dict()
                 fetched_user_data["認証"] = "verified"
+                # データベース登録
+                fetched_user_data['ユーザー名'] = userdata[0]
+                fetched_user_data['学類'] = userdata[1]
+                fetched_user_data['学年'] = userdata[2]
                 fetched_user_data["mail"] = email
                 user_docs_ref.update(fetched_user_data)
                 return redirect(f"/{id}/home")
