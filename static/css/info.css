@@ -65,3 +65,23 @@ body {
     margin-top: 8px;
   }
 }
+
+#buy a{
+  font-size: 3rem;
+  font-weight: bold;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff; /* ボタンの背景色 */
+  color: #fff; /* ボタンのテキスト色 */
+  border: none;
+  border-radius: 5px; /* 角丸 */
+  text-decoration: none; /* リンクの下線を消す */
+
+}
+
+#buy{
+  display: flex;
+  justify-content: center;
+  margin:20px 0 20px;
+
+}

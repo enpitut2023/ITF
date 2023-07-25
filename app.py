@@ -232,11 +232,7 @@ def book_search(id):
         ex_id = docs_ref.id
         return redirect(f'/{id}/exhibit/{ex_id}')
 
-# 購入確定
-@app.route("/<id>/buy/<ex>")
-def buy(id,ex):
-    ex['状態'] = 'sold'
-    return redirect(f"/{id}/info")
+
 
 @app.route("/<id>/exhibit/<ex_id>",methods=['GET','POST'])
 def exhibit(id,ex_id):
@@ -296,12 +292,20 @@ def info(id):
     # Firestoreから取得したデータをリストに格納します
     results = []
     for doc in docs:
-        doc = doc.to_dict()
-        if doc["出品者"] == username or doc["受取人"] == username:
-            if doc["出品者"] != None and doc["受取人"] != None:
+        if doc.to_dict()["出品者"] == username or doc.to_dict()["受取人"] == username:
+            if doc.to_dict()["出品者"] != None and doc.to_dict()["受取人"] != None:
                 results.append(doc)
-    return render_template('info.html', id=id, results=results)
+    return render_template('info.html', id=id, results=results,username=username)
 
+# 購入確定
+@app.route("/<id>/buy/<doc_id>",methods={'GET'})
+def buy(doc_id,id):
+    # firebaseからユーザー情報を取得
+    exhibit_ref = db.collection('exhibit').document(doc_id)
+    fetched_exhibit_data = exhibit_ref.get().to_dict()
+    fetched_exhibit_data['状態'] = 'sold'
+    exhibit_ref.update(fetched_exhibit_data)
+    return redirect(f"/{id}/info")
 
 @app.route("/<id>/purchase_confirmation/<doc_id>", methods=['GET', 'POST'])
 def purchase_confirmation(doc_id, id):

@@ -10,24 +10,26 @@
   <h2 class="info-heading">購入履歴</h2>
   <!-- <h3>受け取り場所に向かいましょう！</h3> -->
   {% for result in results %}
-  {% if result["状態"] == "sold" %}
+  {% if result.to_dict()["状態"] == "sold" and  result.to_dict()["受取人"]==username %}
 
   <div class="acceptinf">
     <div class="product-item">
       <div class="product-detail">
-        {% if result['画像'] != "None" %}
-        <img src="{{ result['画像'] }}" class="product-img" alt="">
+        {% if result.to_dict()['画像'] != "None" %}
+        <img src="{{ result.to_dict()['画像'] }}" class="product-img" alt="">
         {% else %}
         <img src="/static/img/book.png" class="product-img" alt="">
         {% endif %}
-        <h3 class="product-name">教科書名：{{result["教科書名"]}}</h3>
+        <h3 class="product-name">教科書名：{{result.to_dict()["教科書名"]}}</h3>
       </div>
       <div class="info-container">
-        <div class="info">出品者：<br class="is-pc">{{result["出品者"]}}</div>
-        <div class="info">受取人：<br class="is-pc">{{result["受取人"]}}</div>
-        <div class="info">受取場所：<br class="is-pc">{{result["受け取り場所"]}}</div>
-        <div class="info">受取日時：<br class="is-pc">{{result["受け取り日時"]}}</div>
-        <div class="info">受取時間：<br class="is-pc">{{result["受け取り時間"]}}</div>
+        <div class="info">出品者：<br class="is-pc">{{result.to_dict()["出品者"]}}</div>
+        <div class="info">受取人：<br class="is-pc">{{result.to_dict()["受取人"]}}</div>
+        {% for i in result.to_dict()["受け取り場所"] %}
+        <div class="info">受取場所：{{i}}</div>
+        {% endfor %}
+        <div class="info">受取日時：<br class="is-pc">{{result.to_dict()["受け取り日時"]}}</div>
+        <div class="info">受取時間：<br class="is-pc">{{result.to_dict()["受け取り時間"]}}</div>
       </div><!-- /.info-container -->
     </div>
   </div>
@@ -35,30 +37,32 @@
 {% endfor %}
 <h2 class="info-heading">取引中</h2>
 {% for result in results %}
-{% if result["状態"] == "dealing" %}
+{% if result.to_dict()["状態"] == "dealing" and  result.to_dict()["出品者"]==username %}
 
 <div class="acceptinf">
   <div class="product-item">
     <div class="product-detail">
-      {% if result['画像'] != "None" %}
-      <img src="{{ result['画像'] }}" class="product-img" alt="">
+      {% if result.to_dict()['画像'] != "None" %}
+      <img src="{{ result.to_dict()['画像'] }}" class="product-img" alt="">
       {% else %}
       <img src="/static/img/book.png" class="product-img" alt="">
       {% endif %}
-      <h3 class="product-name">教科書名：{{result["教科書名"]}}</h3>
+      <h3 class="product-name">教科書名：{{result.to_dict()["教科書名"]}}</h3>
     </div>
     <div class="info-container">
-      <div class="info">出品者：<br class="is-pc">{{result["出品者"]}}</div>
-      <div class="info">受取人：<br class="is-pc">{{result["受取人"]}}</div>
-      <div class="info">受取場所：<br class="is-pc">{{result["受け取り場所"]}}</div>
-      <div class="info">受取日時：<br class="is-pc">{{result["受け取り日時"]}}</div>
-      <div class="info">受取時間：<br class="is-pc">{{result["受け取り時間"]}}</div>
-    </div><!-- /.info-container -->
+      <div class="info">出品者：<br class="is-pc">{{result.to_dict()["出品者"]}}</div>
+      <div class="info">受取人：<br class="is-pc">{{result.to_dict()["受取人"]}}</div>
+      <p>受取場所：</p>
+      {% for i in result.to_dict()["受け取り場所"] %}
+      <div class="info">{{i}}</div>
+      {% endfor %}
+      <div class="info">受取日時：<br class="is-pc">{{result.to_dict()["受け取り日時"]}}</div>
+      <div class="info">受取時間：<br class="is-pc">{{result.to_dict()["受け取り時間"]}}</div>
+    </div>
   </div>
-  <form action="/{{id}}/buy/{{result}}" method="GET">
-    <!-- ボタンを押すとフォームが送信される -->
-    <button type="submit">取引確定</button>
-</form>
+
+    <div id="buy"><a href="/{{id}}/buy/{{result.id}}" >購入確定</a></div>
+
 </div>
 
 {% endif %}
