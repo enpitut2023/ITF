@@ -232,9 +232,11 @@ def book_search(id):
         ex_id = docs_ref.id
         return redirect(f'/{id}/exhibit/{ex_id}')
 
-
-
-
+# 購入確定
+@app.route("/<id>/buy/<ex>")
+def buy(id,ex):
+    ex['状態'] = 'sold'
+    return redirect(f"/{id}/info")
 
 @app.route("/<id>/exhibit/<ex_id>",methods=['GET','POST'])
 def exhibit(id,ex_id):
@@ -244,6 +246,7 @@ def exhibit(id,ex_id):
     docs_ref = db.collection('exhibit').document(ex_id)
     fetched_data=docs_ref.get().to_dict()
     money = request.form.get('money')
+
 
     location1 = request.form.getlist('location1')
     any_location=request.form.get('any_location')

@@ -55,7 +55,10 @@
       <div class="info">受取時間：<br class="is-pc">{{result["受け取り時間"]}}</div>
     </div><!-- /.info-container -->
   </div>
-  <button >取引確定</button>
+  <form action="/{{id}}/buy/{{result}}" method="GET">
+    <!-- ボタンを押すとフォームが送信される -->
+    <button type="submit">取引確定</button>
+</form>
 </div>
 
 {% endif %}
