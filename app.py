@@ -122,7 +122,7 @@ def veri_flag(id):
 def login(flag):
     # flagはユーザーがないのか、認証されていないのかを判別
     if request.method == 'GET':
-        return render_template("login.html", flag=flag)
+        return render_template("login.html", flag=flag, config_data=data)
     else:
         get_user_name = request.form.get('user_name')
         # 'user'コレクションの全てのドキュメントのIDを取得
