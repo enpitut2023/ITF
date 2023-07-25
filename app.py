@@ -246,8 +246,10 @@ def exhibit(id,ex_id):
     money = request.form.get('money')
 
     location1 = request.form.getlist('location1')
+    any_location=request.form.get('any_location')
     fetched_data['値段'] = money
     fetched_data['受け取り場所'] = location1
+    fetched_data['受け取り場所'].append(any_location)
     
     docs_ref.update(fetched_data)
     return redirect(f'/{id}/home')
@@ -314,7 +316,7 @@ def purchase_confirmation(doc_id, id):
         fetched_user_data = user_docs_ref.get().to_dict()
         username = fetched_user_data["ユーザー名"]
 
-        fetched_exhibit_data['状態'] = 'sold'
+        fetched_exhibit_data['状態'] = 'dealing'
         fetched_exhibit_data['受取人'] = username
         fetched_exhibit_data['受け取り場所'] = location
         fetched_exhibit_data['受け取り日時'] = date
