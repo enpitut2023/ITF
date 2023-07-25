@@ -23,7 +23,6 @@ db = firestore.Client(credentials=credentials)
 with open('firebaseConfig.json') as json_file:
     data = json.load(json_file)
 
-
 # 出品データ
 exhibit_data = {
     "教科書名": None,
@@ -45,6 +44,7 @@ user_data = {
     "認証": None,  # verified or None
     "学類": None,
     "学年": None,
+    "メール": None,
 }
 
 
@@ -112,6 +112,7 @@ def veri_flag(id):
             user_docs_ref = db.collection('user').document(id)
             fetched_user_data = user_docs_ref.get().to_dict()
             fetched_user_data["認証"] = "verified"
+            fetched_user_data["メール"] = email
             user_docs_ref.update(fetched_user_data)
             return redirect(f"/{id}/home")
 
@@ -133,6 +134,7 @@ def login(flag):
             fetched_user_data = user_docs_ref.get().to_dict()
             user_name = fetched_user_data["ユーザー名"]
             auth = fetched_user_data["認証"]
+            email = fetched_user_data["メール"]
             if (user_name == get_user_name):
                 if (auth == "verified"):
                     return redirect(f"/{id}/home")
@@ -141,6 +143,26 @@ def login(flag):
                     return redirect(f"/{flag}/login")
         flag = "no_user"
         return redirect(f"/{flag}/login")
+
+
+@app.route('/receive_username', methods=['POST'])
+def receive_username():
+    # 'user'コレクションの全てのドキュメントのIDを取得
+    user_docs_refs = db.collection('user').get()
+    doc_ids = [doc.id for doc in user_docs_refs]
+    for id in doc_ids:
+        user_docs_ref = db.collection('user').document(id)
+        fetched_user_data = user_docs_ref.get().to_dict()
+        user_name = fetched_user_data["ユーザー名"]
+        auth = fetched_user_data["認証"]
+        email = fetched_user_data["メール"]
+        selected_email = email
+        if (user_name == get_user_name):
+            if (auth == "verified"):
+                return jsonify({'email': email})
+            else:
+                flag = "not_verified"
+                return redirect(f"/{flag}/login")
 
 
 @app.route("/<id>/home", methods=['GET', 'POST'])
