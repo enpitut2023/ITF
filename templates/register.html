@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <title>ITF. - 会員登録 -</title>
 </head>
+
 <body>
     <h1 class="register-heading">ITF. - 会員登録 -</h1>
     <div class="register-form">
@@ -19,20 +21,37 @@
                 </label>
                 <input type="text" name="user_name" id="user_name" placeholder="ニックネーム">
             </div><!-- /.register-name -->
-            
+
             <div class="register-school">
                 <label for="school">
-                    学類
+                    学群・学術院
                     <span class="contact-span-red">必須</span>
                 </label>
-                <select name="school" id="school" class="contact-option">
-                    <option value="" selected>選択してください</option>
-                    <option>情報科学類</option>
+                <select name="school" id="school" class="contact-option" required>
+                    <option value="" hidden>選択してください</option>
+                    <option disabled>---学群生---</option>
+                    <option>人文・文化学群</option>
+                    <option>社会・国際学群</option>
+                    <option>人間学群</option>
+                    <option>生命環境学群</option>
+                    <option>理工学群</option>
+                    <option>情報学群</option>
+                    <option>医学群</option>
+                    <option>体育専門学群</option>
+                    <option>芸術専門学群</option>
+                    <option>総合学域群</option>
+                    <option disabled>---大学院生---</option>
+                    <option>人文社会ビジネス科学学術院</option>
+                    <option>理工情報生命学術院</option>
+                    <option>人間総合科学学術院</option>
+                    <option>グローバル教育院</option>
+                    <!-- <option>情報科学類</option>
                     <option>情報メディア創成学類</option>
                     <option>知識情報・図書館学類</option>
                     <option>理工</option>
                     <option>応理</option>
                     <option>体専</option>
+                    <option>体専</option> -->
                 </select>
             </div><!-- /.register-school -->
 
@@ -41,8 +60,8 @@
                     学年
                     <span class="contact-span-red">必須</span>
                 </label>
-                <select name="year" id="year" class="contact-option">
-                    <option value="" selected>選択してください</option>
+                <select name="year" id="year" class="contact-option" required>
+                    <option value="" hidden>選択してください</option>
                     <option>B1</option>
                     <option>B2</option>
                     <option>B3</option>
@@ -58,13 +77,13 @@
             <input type="submit" value="登録" id="signup" class="btn1 submit-btn">
         </form>
         <div class="registered"><a href="/None/login">登録済みの方はこちら</a></div>
-    
+
     </div>
     <script>
-      if('{{flag}}'=="false"){
-        alert("ユーザー名は使われています");
-      }
+        if ('{{flag}}' == "false") {
+            alert("ユーザー名は使われています");
+        }
     </script>
 </body>
-</html>
 
+</html>

@@ -1,39 +1,47 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/reset.css">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>ITF. - ログイン -</title>
 </head>
-
 <body>
-    <h1>ITF. - ログイン</h1>
-    <div>
-        <p>ログイン</p>
-        <form action="/{flag}/login" method="POST">
-            <input type="text" id="user-name" placeholder="ユーザー名" name="user_name">
-            <input type="password" id="login-password" placeholder="Password">
-            <button type="submit">ログイン</button>
+    <h1 class="login-heading">ITF. - ログイン -</h1>
+        <div class="login-container">
+        <form action="/{flag}/login" method="POST" id="login-form">
+            <div class="name-container">
+                <label for="user-name" class="login-name">
+                    ユーザ名
+                    <span class="contact-span-red">必須</span>
+                </label>
+                <input type="text" id="user-name" placeholder="ユーザー名" name="user_name">
+            </div><!-- /.name-container -->
+            <div class="pass-container">
+                <label for="user-pass" class="login-pass">
+                    パスワード
+                    <span class="contact-span-red">必須</span>
+                </label>
+                <input type="password" id="login-password" placeholder="Password">
+            </div><!-- /.pass-container -->
+            <button type="submit" id="signup" class="btn1 submit-btn">ログイン</button>
         </form>
-        <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
-        <script>
-            const firebaseConfig = {{ config_data | tojson | safe }};
-            // Initialize Firebase
-            firebase.initializeApp(firebaseConfig);
-        </script>
-        <a href="/None/register">新規会員登録はこちら</a>
+
+        <div class="registered">
+            <a href="/None/register">新規会員登録はこちら</a>
+        </div>
     </div>
+
+    
     <script>
-        if ('{{flag}}' == "not_verified") {
+        if('{{flag}}'=="not_verified"){
             alert("認証されていないユーザーです");
         }
-        if ('{{flag}}' == "no_user") {
+        if('{{flag}}'=="no_user"){
             alert("ユーザー登録がされていません");
         }
-    </script>
-    <script src="/static/javascript/login.js"></script>
+    </script>   
 </body>
-
 </html>
