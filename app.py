@@ -55,7 +55,7 @@ def is_certified(user_doc_id):
     user_name = fetched_user_data["ユーザー名"]
     auth = fetched_user_data["認証"]
     try:
-        email = fetched_user_data["メール"]
+        email = fetched_user_data["mail"]
     except:
         email = None
     if (auth == "verified"):
@@ -153,7 +153,7 @@ def login(flag):
             fetched_user_data = user_docs_ref.get().to_dict()
             user_name = fetched_user_data["ユーザー名"]
             auth = fetched_user_data["認証"]
-            email = fetched_user_data["メール"]
+            email = fetched_user_data["mail"]
             if (user_name == get_user_name):
                 if (auth == "verified"):
                     return redirect(f"/{id}/home")
