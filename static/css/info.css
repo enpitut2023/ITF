@@ -12,21 +12,29 @@
 
 body {
   padding-bottom: 50px;
+  background-color: #f5f5f5;
 }
 
 .info-heading {
   font-size: 40px;
   text-align: center;
-  margin-top: 80px;
+  margin: 80px 0 50px 0;
   font-weight: bold;
+  color: #444;
 }
 
 .acceptinf {
   margin-top: 50px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .product-item {
-  display: block !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 95%;
   margin: auto;
 }
@@ -41,8 +49,8 @@ body {
     display: -ms-flexbox;
     display: flex;
     -webkit-box-pack: end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
   }
 }
 
@@ -53,7 +61,8 @@ body {
 }
 
 .info {
-  font-size: 2.0rem;
+  font-size: 1.8rem;
+  color: #444;
 }
 
 .info:not(:first-child) {
@@ -66,37 +75,60 @@ body {
   }
 }
 
-#buy a{
+#buy a {
   font-size: 3rem;
   font-weight: bold;
   display: inline-block;
   padding: 10px 20px;
-  background-color: #007bff; /* ボタンの背景色 */
-  color: #fff; /* ボタンのテキスト色 */
+  background-color: #007bff;
+  /* ボタンの背景色 */
+  color: #fff;
+  /* ボタンのテキスト色 */
   border: none;
-  border-radius: 5px; /* 角丸 */
-  text-decoration: none; /* リンクの下線を消す */
-
+  border-radius: 5px;
+  /* 角丸 */
+  text-decoration: none;
+  /* リンクの下線を消す */
+  transition: background-color 0.3s ease;
 }
 
-#buy{
+#buy a:hover {
+  background-color: #0056b3;
+  /* ボタンの背景色（ホバー時） */
+}
+
+#buy {
   display: flex;
   justify-content: center;
-  margin:20px 0 20px;
+  margin: 20px 0 20px;
 
 }
 
-.date_container{
+.date_container {
   margin: 20px 0 20px;
   text-align: center;
   font-size: 3rem;
 }
 
-.buy_button{
+.buy_button {
   text-align: center;
 }
 
-.final_buy{
+.final_buy {
   font-size: 3rem;
   margin: 20px auto 20px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  /* ボタンの背景色 */
+  color: #fff;
+  /* ボタンのテキスト色 */
+  border: none;
+  border-radius: 5px;
+  /* 角丸 */
+  transition: background-color 0.3s ease;
+}
+
+.final_buy:hover {
+  background-color: #218838;
+  /* ボタンの背景色（ホバー時） */
 }
