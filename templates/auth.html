@@ -31,7 +31,7 @@
         // User is signed in.
         if (user.emailVerified) {
           // If user's email is verified, redirect to a new page.
-          window.location.href = "/{{id}}/flag?uid=" + encodeURIComponent(user.uid) // ここに遷移したいページのURLを書く
+          window.location.href = "/{{userdata}}/{{id}}/flag?uid=" + encodeURIComponent(user.uid) // ここに遷移したいページのURLを書く
         }
         else {
           user.sendEmailVerification();

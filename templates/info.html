@@ -7,10 +7,10 @@
 {% block content %}
 
 
-  <h2 class="info-heading">購入履歴</h2>
+  <h2 class="info-heading">売買情報</h2>
   <!-- <h3>受け取り場所に向かいましょう！</h3> -->
   {% for result in results %}
-  {% if result.to_dict()["状態"] == "sold" and  result.to_dict()["受取人"]==username %}
+  {% if result.to_dict()["状態"] == "sold" and  (result.to_dict()["出品者"]==username or result.to_dict()["受取人"]==username) %}
 
   <div class="acceptinf">
     <div class="product-item">

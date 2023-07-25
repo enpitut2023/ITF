@@ -21,7 +21,7 @@
     firebase.initializeApp(firebaseConfig);
 
     var uiConfig = {
-      signInSuccessUrl: '/{{id}}/auth', // ログインに成功したときに飛ぶページ
+      signInSuccessUrl: '/{{userdata}}/{{id}}/auth', // ログインに成功したときに飛ぶページ
       signInOptions: [
         {
           provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
