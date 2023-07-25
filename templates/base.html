@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITF. ～Informative Textbook Fleamarket～</title>
+  <link rel="stylesheet" href="/static/css/reset.css">
+  <link rel="stylesheet" href="/static/css/home.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <header>
+  <div class="header">
+    <a href="/{{id}}/home" class="title-container">
+      <h1 class="title">ITF.</h1>
+      <p class="title-sub">Informative Textbook Fleamarket</p>
+    </a>
+    <!-- PC用メニュー -->
+    <ul class="menu is-pc">
+      <li><a href="/{{id}}/info">購入情報</a></li>
+      <li><a href="/{{id}}/search_book">出品</a></li>
+      <!-- <li><a href="/{{ username }}/seach_book">出品</a></li> -->
+      <li><a href="/{{id}}/mypage">Mypage</a></li>
+      <li><a href="/None/login">ログアウト</a></li>
+    </ul>
+  </div>
+  
+  
+  <!-- SP用メニュー -->
+  <div id="navArea" class="is-sp">
+    <nav>
+      <div class="inner">
+        <ul class="menu">
+          <li><a href="/{{id}}/info">購入情報</a></li>
+          <li><a href="/{{id}}/search_book">出品</a></li>
+          <li><a href="/{{id}}/mypage">Mypage</a></li>
+          <li><a href="/None/login">ログアウト</a></li>
+        </ul>
+    </nav>
+  
+    <div class="toggle_btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  
+    <!-- SP用メニュー -->
+    <div id="navArea" class="is-sp">
+      <nav>
+        <div class="inner">
+          <ul class="menu">
+            <li><a href="/{{id}}/info">購入情報</a></li>
+            <li><a href="/{{id}}/exhibit">出品</a></li>
+            <li><a href="/{{id}}/mypage">Mypage</a></li>
+            <li><a href="/None/login">ログアウト</a></li>
+          </ul>
+      </nav>
+      <div class="toggle_btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div id="mask"></div>
+    </div>
+  </header>
+  {% block content %} {% endblock %}

@@ -1,51 +1,11 @@
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ITF. ～購入詳細ページ～</title>
-  <link rel="stylesheet" href="/static/css/reset.css">
-  <link rel="stylesheet" href="/static/css/home.css">
+{% extends "base.html" %} 
+  
+{% block extra_css %}
+  <!-- 子テンプレート独自のCSSを読み込む -->
   <link rel="stylesheet" href="/static/css/purchase_confirmation.css">
-  <link rel="stylesheet" href="/static/css/style.css">
+{% endblock %}
+{% block content %}
 
-
-</head>
-
-<body>
-  <header>
-    <div class="header">
-      <a href="/" class="title-container">
-        <h1 class="title">ITF.</h1>
-        <p class="title-sub">Informative Textbook Fleamarket</p>
-      </a>
-      <!-- PC用メニュー -->
-      <ul class="menu is-pc">
-        <li><a href="/{{id}}/info">購入情報</a></li>
-        <li><a href="/{{id}}/exhibit">出品</a></li>
-        <li><a href="/{{id}}/mypage">Mypage</a></li>
-      </ul>
-    </div>
-
-    <!-- SP用メニュー -->
-    <div id="navArea" class="is-sp">
-      <nav>
-        <div class="inner">
-          <ul class="menu">
-            <li><a href="/{{id}}/info">購入情報</a></li>
-            <li><a href="/{{id}}/exhibit">出品</a></li>
-            <li><a href="/{{id}}/mypage">Mypage</a></li>
-          </ul>
-      </nav>
-      <div class="toggle_btn">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div id="mask"></div>
-    </div>
-  </header>
 
   <div class="confirm-container">
     <h2 class="confirm-heading">フリマサイト - 購入情報</h2>
@@ -55,6 +15,7 @@
       <div id="confirm-info">
         <!-- 商品情報を表示する要素 -->
         <p>{{data["教科書名"]}}</p>
+        <p>{{data["値段"]}}</p>
       </div>
     </div><!-- /.confirm-info-container -->
 
@@ -69,27 +30,25 @@
       <form action="/{{ id }}/purchase_confirmation/{{ doc_id }}" method="POST" id="purchase-form">
 
         <!-- 取引場所の入力フォーム -->
-        <h4 class="confirm-location">取引場所：</h4>
         <div class="confirm-input">
-          <input type="radio" id="location1" name="location" value="3gaku">
-          <label for="location1">３学</label><br>
-          <input type="radio" id="location2" name="location" value="kasuga">
-          <label for="location2">春日エリア</label><br>
-          <input type="radio" id="location3" name="location" value="igaku">
-          <label for="location3">医学エリア</label><br>
-          <input type="radio" id="location4" name="location" value="hirakasu">
-          <label for="location4">平カス</label><br>
-          <!-- 他の場所のラジオボタンを追加する場合は、同様にinputとlabelを追加します -->
-        </div><!-- /.confirm-input -->
+          <label for="location">受け取り場所:</label>
+          <select id="location" name="location" required>
+            <option value="３学">３学</option>
+            <option value="春日エリア">春日エリア</option>
+            <option value="医学エリア">医学エリア</option>
+            <option value="平カス">平カス</option>
+            <!-- Add other locations as options if needed -->
+          </select>
+        </div>
 
         <div class="confirm-date">
           <div class="confirm-date-container">
             <label for="date">受け取り日時：</label>
-            <input type="date" id="date" name="date" value="">
+            <input type="date" id="date" name="date" value="" required>
           </div>
           <div class="confirm-date-container">
             <label for="time">受け取り時間：</label>
-            <input type="time" id="time" name="time" value="">
+            <input type="time" id="time" name="time" value="" required>
           </div><!-- /.confirm-date-container -->
           <input type="submit" id="submit-button" value="場所日時を確定">
         </div><!-- /.confirm-date -->
@@ -114,3 +73,4 @@
 </body>
 
 </html>
+{% endblock %}

@@ -1,0 +1,17 @@
+.text {
+  margin: 30px 5% 0;
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+}
+
+.text li {
+  margin-top: 50px;
+}
+
+.text img{
+  margin: 20px 0 20px;
+}
+
+input{
+  width: 80%;
+}

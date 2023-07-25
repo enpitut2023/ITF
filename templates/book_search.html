@@ -6,15 +6,17 @@
 {% endblock %}
 {% block content %}
 
-  <h2>出品</h2>
+  <h2>書籍検索</h2>
   <!-- <form method="POST" action="/{{username}}/exhibit"> -->
-  <form method="POST" action="/{{id}}/exhibit/{{ex_id}}">
-    <input type="text" name="money" placeholder="値段" id="money">
-    <div class="subject">
-      <input type="submit" class="btn-submit" value="出品"  onclick="showAlert()">
+  <form method="POST" action="/{{id}}/search">
+    <div class="name">
+      <input type="text" class="book" placeholder="教科書名" name="book_name" required>
     </div>
+    <!-- <div class="subject">
+      <input type="submit" class="btn-submit" value="出品"  onclick="showAlert()">
+    </div> -->
   </form>
-
+    
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script src="/static/javascript/script.js"></script>

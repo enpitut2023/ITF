@@ -1,0 +1,46 @@
+{% extends "base.html" %} 
+  
+{% block extra_css %}
+  <!-- 子テンプレート独自のCSSを読み込む -->
+  <link rel="stylesheet" href="/static/css/search_result.css">
+{% endblock %}
+{% block content %}
+
+    <h2>検索結果</h2>
+    {% if books %}
+        <ul class="text">
+            {% for book in books %}
+                <li>
+                    <h3>{{ book.volumeInfo.title }}</h3>
+                    {% if book.volumeInfo.authors %}
+                        <p>著者：{{ book.volumeInfo.authors|join(', ') }}</p>
+                    {% endif %}
+                    {% if book.volumeInfo.publisher %}
+                        <p>出版社：{{ book.volumeInfo.publisher }}</p>
+                    {% endif %}
+                    {% if book.volumeInfo.publishedDate %}
+                        <p>出版日：{{ book.volumeInfo.publishedDate }}</p>
+                    {% endif %}
+                    {% if book.volumeInfo.imageLinks %}
+                        <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="{{ book.volumeInfo.title }}の画像">
+                    {% else %}
+                        <img src="/static/img/book.png" alt="{{ book.volumeInfo.title }}の画像">
+                    {% endif %}
+                    <form method="POST" action="/{{id}}/search_book">
+                        <input type="hidden" name="bookTitle" value="{{ book.volumeInfo.title }}">
+                        <input type="hidden" name="bookAuthors" value="{% if book.volumeInfo.authors %}{{ book.volumeInfo.authors|join(', ') }}{% endif %}">
+                        <input type="hidden" name="bookPublisher" value="{% if book.volumeInfo.publisher %}{{ book.volumeInfo.publisher }}{% endif %}">
+                        <input type="hidden" name="bookPublishDate" value="{% if book.volumeInfo.publishedDate %}{{ book.volumeInfo.publishedDate }}{% endif %}">
+                        <input type="hidden" name="bookImage" value="{% if book.volumeInfo.imageLinks %}{{ book.volumeInfo.imageLinks.thumbnail }}{% else %}None{% endif %}">
+                        <input type="submit" value="選択">
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>該当する書籍が見つかりませんでした。</p>
+    {% endif %}
+
+</body>
+</html>
+{% endblock %}

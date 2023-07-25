@@ -1,4 +1,4 @@
-li  {
+.info ul li  {
   font-size: 3rem;
   text-align: center;
 }
@@ -11,5 +11,6 @@ li  {
 
 h2{
   font-size: 3rem;
+  font-weight: bold;
   text-align: center;
 }
