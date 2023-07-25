@@ -299,6 +299,11 @@ def purchase_confirmation(doc_id, id):
         return redirect(f"/{id}/home")
 
 
+@app.route('/chatapp')
+def chat():
+    return render_template('chatapp.html')
+
+
 
 # サーバーサイドのWebSocketを追加
 
