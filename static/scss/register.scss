@@ -1,0 +1,256 @@
+@charset 'utf-8';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap');
+
+//*--------------------//
+//変数
+//--------------------*//
+
+//*-------------- font -------------------*//
+$main-font: 'Noto Serif JP', serif;
+
+//*-------------- 全体 -------------------*//
+$main-color: #fff;
+$font-color: #000;
+
+
+//マップ型変数$breakpointsを定義
+$breakpoints: (
+  //キー  値
+  "sm": "screen and (max-width: 576px)",     //576px以下（スマホ）
+  "sp": "screen and (max-width: 767.8px)",     //767px以下（スマホ）
+  "md": "screen and (min-width: 768px)",     //768px以上（タブレット）
+  "ex-lg": "screen and (max-width: 1200px)",  //1200px以下
+) !default;
+//メディアクエリ用のmixinを定義。デフォ値はsp
+@mixin mq($breakpoint: sp) {
+  //map-get(マップ型変数, キー)で値を取得
+  @media #{map-get($breakpoints, $breakpoint)} {
+    //この中をカスタムできる,
+    @content;
+  }
+}
+
+@include mq(sp) {
+  .is-pc {
+    display: none !important;
+  }
+}
+
+@include mq(md) {
+  .is-sp {
+    display: none !important;
+  }
+}
+
+
+body {
+  overflow-x: hidden;
+  font-family: $main-font;
+  color: $font-color;
+  //line-height: 1.5;
+  padding: 50px;
+  background: #eee;
+
+  @include mq(sp) {
+    padding: 50px 20px;
+  }
+}
+
+.register-heading {
+  font-size: 40px;
+  text-align: center;
+
+  @include mq(sp) {
+    font-size: 28px;
+  }
+}
+
+.register-form {
+    background: #fff;
+    // border-radius: 10px;
+    padding: 60px 120px;
+    margin: auto;
+    margin-top: 60px;
+    max-width: 960px;
+
+    @include mq(sp) {
+        padding: 40px 12px;
+    }
+    
+    label:hover {
+        cursor: pointer;
+    }
+    input, 
+    select {
+        display: inline-block;
+    }
+}
+
+#signup-form {
+    width: 100%;
+    margin: auto;
+}
+
+.register-name {
+    @include mq(md) {
+        display: flex;
+    }
+}
+
+label {
+    min-width:170px;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+
+.register-school,
+.register-year  {
+    margin-top: 40px;
+}
+
+
+#school,
+#year {
+    // margin-left: 100px;
+    @include mq(sp) {
+        margin-top: 14px;
+    }
+}
+
+#user_name {
+    @include mq(md) {
+        margin-left: 30px;
+    }
+}
+
+#school {
+    @include mq(md) {
+        margin-left: 120px;
+    }
+}
+
+#year {
+    @include mq(md) {
+        margin-left: 120px;
+    }
+}
+
+.contact-span-red {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 1;
+    // line-height: 1.6667;
+    color: #fff;
+    background: #ff4646;
+    padding: 2px 8px;
+    margin-left: 6px;
+    border-radius: 2px;
+}
+
+input[type="text"],
+input[type="email"] {
+  color: #707070;
+  border: none;
+  border-bottom: 1px solid #707070;
+  padding: 8px 12px;
+  outline: 0;
+
+  @include mq(md) {
+    width: calc(100%);
+  }
+
+  @include mq(sp) {
+    width: 100%;
+    margin-top: 14px;
+  }
+
+  &:focus-within {
+    outline: 0;
+    // border-bottom: 2px solid rgba(62, 161, 209, 1);
+    border-bottom: none;
+    box-shadow: 0 4px 3px -3px rgba(62, 161, 209, 1);
+  }
+}
+
+.contact-option {
+    font-size: 16px;
+    letter-spacing: 0;
+    padding: 12px;
+  
+    @include mq(sp) {
+      width: 100%;
+    }
+  }
+
+
+  .btn1 {
+    display: inline-block;
+    background: rgba(62, 161, 209, 1);
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 3px 5px rgba(62, 62, 62, 0.2);
+    transition: background 0.3s;
+  
+    &:hover {
+      background: rgb(39, 143, 196);
+    }
+  
+    @include mq(md) {
+      font-size: 18px;
+      letter-spacing: 0.45px;
+      padding: 16px 50px;
+      margin-left: auto;
+    }
+  
+    @include mq(sp) {
+      font-size: 16px;
+      letter-spacing: 0;
+      padding: 16px 32px;
+    }
+  }
+  
+
+  .submit {
+    @include mq(sp) {
+      text-align: center;
+    }
+  }
+  
+  .submit-btn {
+    border: none;
+    margin-top: 50px;
+    line-height: 1;
+    margin-left: auto;
+  
+    @include mq(sp) {
+      padding: 16px 50px;
+    }
+  }
+  
+  input[type="submit"]
+  #js-submit {
+    color: #fff;
+    background: #b2b2b2;
+    padding: 16px 54px;
+    box-shadow: 0 3px 5px rgba(62, 62, 62, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    transition: all 0.5s;
+  
+    &.-active {
+      color: #fff;
+      background: #ffaa3b;
+    }
+  }
+
+  .registered {
+    font-size: 18px;
+    text-align: right;
+    text-decoration: underline;
+
+    @include mq(sp) {
+        margin-top: 30px;
+    }
+  }

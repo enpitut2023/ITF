@@ -1,0 +1,247 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap");
+@media screen and (max-width: 767.8px) {
+  .is-pc {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .is-sp {
+    display: none !important;
+  }
+}
+
+body {
+  overflow-x: hidden;
+  font-family: "Noto Serif JP", serif;
+  color: #000;
+  padding: 50px;
+  background: #eee;
+}
+
+@media screen and (max-width: 767.8px) {
+  body {
+    padding: 50px 20px;
+  }
+}
+
+.register-heading {
+  font-size: 40px;
+  text-align: center;
+}
+
+@media screen and (max-width: 767.8px) {
+  .register-heading {
+    font-size: 28px;
+  }
+}
+
+.register-form {
+  background: #fff;
+  padding: 60px 120px;
+  margin: auto;
+  margin-top: 60px;
+  max-width: 960px;
+}
+
+@media screen and (max-width: 767.8px) {
+  .register-form {
+    padding: 40px 12px;
+  }
+}
+
+.register-form label:hover {
+  cursor: pointer;
+}
+
+.register-form input,
+.register-form select {
+  display: inline-block;
+}
+
+#signup-form {
+  width: 100%;
+  margin: auto;
+}
+
+@media screen and (min-width: 768px) {
+  .register-name {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+
+label {
+  min-width: 170px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.register-school,
+.register-year {
+  margin-top: 40px;
+}
+
+@media screen and (max-width: 767.8px) {
+  #school,
+  #year {
+    margin-top: 14px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #user_name {
+    margin-left: 30px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #school {
+    margin-left: 120px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #year {
+    margin-left: 120px;
+  }
+}
+
+.contact-span-red {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 1;
+  color: #fff;
+  background: #ff4646;
+  padding: 2px 8px;
+  margin-left: 6px;
+  border-radius: 2px;
+}
+
+input[type="text"],
+input[type="email"] {
+  color: #707070;
+  border: none;
+  border-bottom: 1px solid #707070;
+  padding: 8px 12px;
+  outline: 0;
+}
+
+@media screen and (min-width: 768px) {
+  input[type="text"],
+  input[type="email"] {
+    width: calc(100%);
+  }
+}
+
+@media screen and (max-width: 767.8px) {
+  input[type="text"],
+  input[type="email"] {
+    width: 100%;
+    margin-top: 14px;
+  }
+}
+
+input[type="text"]:focus-within,
+input[type="email"]:focus-within {
+  outline: 0;
+  border-bottom: none;
+  -webkit-box-shadow: 0 4px 3px -3px #3ea1d1;
+          box-shadow: 0 4px 3px -3px #3ea1d1;
+}
+
+.contact-option {
+  font-size: 16px;
+  letter-spacing: 0;
+  padding: 12px;
+}
+
+@media screen and (max-width: 767.8px) {
+  .contact-option {
+    width: 100%;
+  }
+}
+
+.btn1 {
+  display: inline-block;
+  background: #3ea1d1;
+  border-radius: 10px;
+  color: #fff;
+  -webkit-box-shadow: 0 3px 5px rgba(62, 62, 62, 0.2);
+          box-shadow: 0 3px 5px rgba(62, 62, 62, 0.2);
+  -webkit-transition: background 0.3s;
+  transition: background 0.3s;
+}
+
+.btn1:hover {
+  background: #278fc4;
+}
+
+@media screen and (min-width: 768px) {
+  .btn1 {
+    font-size: 18px;
+    letter-spacing: 0.45px;
+    padding: 16px 50px;
+    margin-left: auto;
+  }
+}
+
+@media screen and (max-width: 767.8px) {
+  .btn1 {
+    font-size: 16px;
+    letter-spacing: 0;
+    padding: 16px 32px;
+  }
+}
+
+@media screen and (max-width: 767.8px) {
+  .submit {
+    text-align: center;
+  }
+}
+
+.submit-btn {
+  border: none;
+  margin-top: 50px;
+  line-height: 1;
+  margin-left: auto;
+}
+
+@media screen and (max-width: 767.8px) {
+  .submit-btn {
+    padding: 16px 50px;
+  }
+}
+
+input[type="submit"]
+#js-submit {
+  color: #fff;
+  background: #b2b2b2;
+  padding: 16px 54px;
+  -webkit-box-shadow: 0 3px 5px rgba(62, 62, 62, 0.2);
+          box-shadow: 0 3px 5px rgba(62, 62, 62, 0.2);
+  font-size: 14px;
+  line-height: 1;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+input[type="submit"]
+#js-submit.-active {
+  color: #fff;
+  background: #ffaa3b;
+}
+
+.registered {
+  font-size: 18px;
+  text-align: right;
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 767.8px) {
+  .registered {
+    margin-top: 30px;
+  }
+}

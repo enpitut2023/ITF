@@ -1,29 +1,40 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h1>ITF. - ログイン</h1>
     <div>
         <p>ログイン</p>
         <form action="/{flag}/login" method="POST">
-            <input type="text" name="user_name" placeholder="ニックネーム">
-            <input type="submit" value="ログイン">
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-password" placeholder="Password">
+            <input type="text" id="user-name" placeholder="ユーザー名" name="user_name">
+            <button type="submit">ログイン</button>
         </form>
-    
+        <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+        <script>
+            const firebaseConfig = {{ config_data | tojson | safe }};
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+        </script>
         <a href="/None/register">新規会員登録はこちら</a>
     </div>
     <script>
-        if('{{flag}}'=="not_verified"){
+        if ('{{flag}}' == "not_verified") {
             alert("認証されていないユーザーです");
         }
-        if('{{flag}}'=="no_user"){
+        if ('{{flag}}' == "no_user") {
             alert("ユーザー登録がされていません");
         }
-    </script>   
+    </script>
+    <script src="/static/javascript/login.js"></script>
 </body>
-</html>
 
+</html>
