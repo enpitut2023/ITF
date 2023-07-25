@@ -23,7 +23,7 @@
         <div class="product-data">
           <h1 class="product-name">{{ result[0].to_dict()["教科書名"] }}</h1>
           <p class="product-author">
-            <a href="#" onclick="submitForm('{{ result[1] }}')">
+            <a class="user" href="#" onclick="submitForm('{{ result[1] }}')">
               出品者：{{ result[0].to_dict()["出品者"] }}
             </a>
           </p>
