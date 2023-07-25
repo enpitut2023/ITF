@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>Firebase Authentication Sample</title>
@@ -7,6 +8,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
 </head>
+
 <body>
   <h1>メールを送りました。認証してください</h1>
   <div id="main"></div>
@@ -15,36 +17,28 @@
 
 
   <script src="/static/javascript/auth.js"></script>
+  <script src="../config.js"></script>
   <script>
-    var firebaseConfig = {
-      apiKey: "",
-      authDomain: "itf-database-b9026.firebaseapp.com",
-      projectId: "itf-database-b9026",
-      storageBucket: "itf-database-b9026.appspot.com",
-      messagingSenderId: "746644474935",
-      appId: "1:746644474935:web:259a335cfe264d3acc03b2"
-    };
 
-    
     firebase.initializeApp(firebaseConfig);
-    
-    var user=firebase.auth().currentUser;
-    
-    firebase.auth().onAuthStateChanged(function(user) {
+
+    var user = firebase.auth().currentUser;
+
+    firebase.auth().onAuthStateChanged(function (user) {
 
       if (user != null) {
-           // User is signed in.
-           if (user.emailVerified) {
-            // If user's email is verified, redirect to a new page.
-            window.location.href = "/{{id}}/flag?uid=" + encodeURIComponent(user.uid) // ここに遷移したいページのURLを書く
-          }
-          else{
-            user.sendEmailVerification();
-          } 
+        // User is signed in.
+        if (user.emailVerified) {
+          // If user's email is verified, redirect to a new page.
+          window.location.href = "/{{id}}/flag?uid=" + encodeURIComponent(user.uid) // ここに遷移したいページのURLを書く
+        }
+        else {
+          user.sendEmailVerification();
+        }
       } else {
         // No user is signed in.
         console.log("No user is signed in.");
-        
+
       }
     });
 
@@ -57,20 +51,21 @@
     function veri() {
       // 現在のページをリロード
       location.reload();
-      var user=firebase.auth().currentUser
+      var user = firebase.auth().currentUser
       if (user != null) {
         // User is signed in.
         if (user.emailVerified) {
-        // If user's email is verified, redirect to a new page.
-        alert("承認されました");
-        window.location.href = "/{{id}}/flag?uid=" + encodeURIComponent(user.uid) // ここに遷移したいページのURLを書く
-       }
+          // If user's email is verified, redirect to a new page.
+          alert("承認されました");
+          window.location.href = "/{{id}}/flag?uid=" + encodeURIComponent(user.uid) // ここに遷移したいページのURLを書く
+        }
 
-      else{
-        alert("承認されていません");
-      } 
+        else {
+          alert("承認されていません");
+        }
+      }
     }
-  }
   </script>
-  </body>
-  </html>
+</body>
+
+</html>

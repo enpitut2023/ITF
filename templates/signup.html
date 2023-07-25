@@ -1,45 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login / Registration </title>
-    
-    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
-  
-    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
-  </head>
-  <body>
-    <div id="firebaseui-auth-container"></div>
 
-    <script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login / Registration </title>
 
-        var firebaseConfig = {
-        apiKey: "",
-        authDomain: "itf-database-b9026.firebaseapp.com",
-        projectId: "itf-database-b9026",
-        storageBucket: "itf-database-b9026.appspot.com",
-        messagingSenderId: "746644474935",
-        appId: "1:746644474935:web:259a335cfe264d3acc03b2"
-        };
-        // firebase の初期化
-        firebase.initializeApp(firebaseConfig);
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
 
-        var uiConfig = {
-        signInSuccessUrl: '/{{id}}/auth', // ログインに成功したときに飛ぶページ
-        signInOptions: [
-            {
-            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID 
-            //メール認証のみ使用する。google 認証などを使う場合はさらに羅列する。
-            }
-        ],
-        };
+  <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css" />
+</head>
 
-        // firebase auth ui を使用
-        var ui = new firebaseui.auth.AuthUI(firebase.auth());
-        ui.start('#firebaseui-auth-container', uiConfig);
-    </script>
-  </body>
+<body>
+  <div id="firebaseui-auth-container"></div>
+  <script src="../config.js"></script>
+  <script>
+    // firebase の初期化
+    firebase.initializeApp(firebaseConfig);
+
+    var uiConfig = {
+      signInSuccessUrl: '/{{id}}/auth', // ログインに成功したときに飛ぶページ
+      signInOptions: [
+        {
+          provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
+          //メール認証のみ使用する。google 認証などを使う場合はさらに羅列する。
+        }
+      ],
+    };
+
+    // firebase auth ui を使用
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    ui.start('#firebaseui-auth-container', uiConfig);
+  </script>
+</body>
+
 </html>
