@@ -119,7 +119,8 @@ def veri_flag(id):
     if is_certified(id):
         # 認証用のid
         uid = request.args.get('uid')
-        tsukuba_mails = ["@u.tsukuba.ac.jp", "@s.tsukuba.ac.jp"]
+        tsukuba_mails = ["@u.tsukuba.ac.jp",
+                         "@s.tsukuba.ac.jp", "@cs.tsukuba.ac.jp"]
         user = auth.get_user(uid)
         email = user.email
         # uidからメールアドレスを取得し、筑波のものかを確かめる
@@ -306,6 +307,7 @@ def update_data(doc_id):
 @app.route("/<id>/info")
 def info(id):
     if is_certified(id):
+        # firebaseからユーザー情報を取得
         user_docs_ref = db.collection('user').document(id)
         fetched_user_data = user_docs_ref.get().to_dict()
         username = fetched_user_data["ユーザー名"]
@@ -314,11 +316,22 @@ def info(id):
         # Firestoreから取得したデータをリストに格納します
         results = []
         for doc in docs:
-            doc = doc.to_dict()
-            if doc["出品者"] == username or doc["受取人"] == username:
-                if doc["出品者"] != None and doc["受取人"] != None:
+            if doc.to_dict()["出品者"] == username or doc.to_dict()["受取人"] == username:
+                if doc.to_dict()["出品者"] != None and doc.to_dict()["受取人"] != None:
                     results.append(doc)
-        return render_template('info.html', id=id, results=results)
+        return render_template('info.html', id=id, results=results, username=username)
+
+# 購入確定
+
+
+@app.route("/<id>/buy/<doc_id>", methods={'GET'})
+def buy(doc_id, id):
+    # firebaseからユーザー情報を取得
+    exhibit_ref = db.collection('exhibit').document(doc_id)
+    fetched_exhibit_data = exhibit_ref.get().to_dict()
+    fetched_exhibit_data['状態'] = 'sold'
+    exhibit_ref.update(fetched_exhibit_data)
+    return redirect(f"/{id}/info")
 
 
 @app.route("/<id>/purchase_confirmation/<doc_id>", methods=['GET', 'POST'])
