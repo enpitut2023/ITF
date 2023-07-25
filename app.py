@@ -36,6 +36,7 @@ exhibit_data = {
     "値段": None,
     "状態": "available",
 }
+
 # Firestoreからデータ
 docs_ref = db.collection('exhibit')
 
@@ -62,10 +63,44 @@ def is_certified(user_doc_id):
 
 @app.route("/")
 def first():
-    flag = None
-    return redirect(f'/{flag}/register')
+    return redirect('/gest_home')
 
-
+@app.route("/gest_home", methods=['GET', 'POST'])
+def gest_home():
+    docs = docs_ref.get()
+    
+    # 'user'コレクションの全てのドキュメントのIDを取得
+    user_docs_refs = db.collection('user').get()
+    doc_ids = [doc.id for doc in user_docs_refs]
+    if request.method == 'GET':
+        results = []
+        # Firestoreから取得したデータをリストに格納します
+        for doc in docs:
+            for exuser_id in doc_ids:
+                user_docs_ref = db.collection('user').document(exuser_id)
+                fetched_user_data = user_docs_ref.get().to_dict()
+                # 全てのユーザー名と出品者のユーザー名を照合して、出品者のidを取ってくる
+                if fetched_user_data["ユーザー名"] == doc.to_dict()["出品者"]:
+                    pair = (doc, exuser_id)
+                    results.append(pair)
+                    break
+        return render_template('gest_home.html', results=results)
+    else:
+        results = []
+        search_text = request.form.get('keyword')
+        for doc in docs:
+            if search_text in doc.to_dict()['教科書名']:
+                for exuser_id in doc_ids:
+                    user_docs_ref = db.collection(
+                            'user').document(exuser_id)
+                    fetched_user_data = user_docs_ref.get().to_dict()
+                    # 全てのユーザー名と出品者のユーザー名を照合して、出品者のidを取ってくる
+                    if fetched_user_data["ユーザー名"] == doc.to_dict()["出品者"]:
+                        pair = (doc, exuser_id)
+                        results.append(pair)
+                        break
+        return render_template('gest_home.html', results=results)
+        
 @app.route("/<flag>/register", methods=['GET', 'POST'])
 def register(flag):
     # ユーザーデータベース登録
