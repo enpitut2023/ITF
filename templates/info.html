@@ -25,11 +25,18 @@
       <div class="info-container">
         <div class="info">出品者：<br class="is-pc">{{result.to_dict()["出品者"]}}</div>
         <div class="info">受取人：<br class="is-pc">{{result.to_dict()["受取人"]}}</div>
-        {% for i in result.to_dict()["受け取り場所"] %}
-        <div class="info">受取場所：{{i}}</div>
+        <p>受取場所：</p>
+        {% for place in result.to_dict()["受け取り場所"] %}
+        <div class="info">{{place}}</div>
         {% endfor %}
-        <div class="info">受取日時：<br class="is-pc">{{result.to_dict()["受け取り日時"]}}</div>
-        <div class="info">受取時間：<br class="is-pc">{{result.to_dict()["受け取り時間"]}}</div>
+        <p>受取日時：</p>
+        {% for date in result.to_dict()["受け取り日時"] %}
+        <div class="info">{{date}}</div>
+        {% endfor %}
+        <p>受取時間：</p>
+        {% for date in result.to_dict()["受け取り時間"] %}
+        <div class="info">{{time}}</div>
+        {% endfor %}
       </div><!-- /.info-container -->
     </div>
   </div>
@@ -53,11 +60,17 @@
       <div class="info">出品者：<br class="is-pc">{{result.to_dict()["出品者"]}}</div>
       <div class="info">受取人：<br class="is-pc">{{result.to_dict()["受取人"]}}</div>
       <p>受取場所：</p>
-      {% for i in result.to_dict()["受け取り場所"] %}
-      <div class="info">{{i}}</div>
+      {% for place in result.to_dict()["受け取り場所"] %}
+      <div class="info">{{place}}</div>
       {% endfor %}
-      <div class="info">受取日時：<br class="is-pc">{{result.to_dict()["受け取り日時"]}}</div>
-      <div class="info">受取時間：<br class="is-pc">{{result.to_dict()["受け取り時間"]}}</div>
+      <p>受取日時：</p>
+      {% for date in result.to_dict()["受け取り日時"] %}
+      <div class="info">{{date}}</div>
+      {% endfor %}
+      <p>受取時間：</p>
+      {% for date in result.to_dict()["受け取り時間"] %}
+      <div class="info">{{time}}</div>
+      {% endfor %}
     </div>
   </div>
 

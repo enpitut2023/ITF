@@ -101,7 +101,7 @@ def mail_auth(id):
 def veri_flag(id):
     # 認証用のid
     uid = request.args.get('uid')
-    tsukuba_mails = ["@u.tsukuba.ac.jp", "@s.tsukuba.ac.jp"]
+    tsukuba_mails = ["@u.tsukuba.ac.jp", "@s.tsukuba.ac.jp","@cs.tsukuba.ac.jp"]
     user = auth.get_user(uid)
     email = user.email
     # uidからメールアドレスを取得し、筑波のものかを確かめる
