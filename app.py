@@ -54,13 +54,8 @@ def is_certified(user_doc_id):
     # 'user'コレクションの全てのドキュメントのIDを取得
     user_docs_ref = db.collection('user').document(user_doc_id)
     fetched_user_data = user_docs_ref.get().to_dict()
-    user_name = fetched_user_data["ユーザー名"]
     auth = fetched_user_data["認証"]
-    try:
-        email = fetched_user_data["mail"]
-    except:
-        email = None
-    if (auth == "verified"):
+    if auth == "verified":
         return True
     else:
         return False
