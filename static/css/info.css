@@ -39,6 +39,10 @@ body {
   margin: auto;
 }
 
+.product-item {
+  margin-top: 30px;
+}
+
 .info-container {
   margin-top: 30px;
 }
