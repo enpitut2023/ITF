@@ -29,8 +29,8 @@ exhibit_data = {
     "画像": None,
     "出品者": None,
     "受け取り場所": [],
-    "受け取り日時": None,
-    "受け取り時間": None,
+    "受け取り日時": [],
+    "受け取り時間": [],
     "受取人": None,
     "値段": None,
     "状態": "available",
@@ -308,8 +308,8 @@ def purchase_confirmation(doc_id, id):
         return render_template('purchase_confirmation.html', id=id, data=fetched_exhibit_data, doc_id=doc_id)
     else:
         location = request.form.getlist('location')
-        date = request.form.get('date')
-        time = request.form.get('time')
+        date = request.form.getlist('date')
+        time = request.form.getlist('time')
         user_docs_ref = db.collection('user').document(id)
         fetched_user_data = user_docs_ref.get().to_dict()
         username = fetched_user_data["ユーザー名"]
