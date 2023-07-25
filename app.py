@@ -103,6 +103,7 @@ def signup(id,userdata):
 
 @app.route("/<userdata>/<id>/auth")
 def mail_auth(id,userdata):
+    
     # メール認証
     if is_certified(id):
         return render_template("auth.html", id=id, config_data=data,userdata=userdata)
@@ -113,8 +114,7 @@ def veri_flag(id,userdata):
     if is_certified(id):
         # 認証用のid
         uid = request.args.get('uid')
-        tsukuba_mails = ["@u.tsukuba.ac.jp",
-                         "@s.tsukuba.ac.jp", "@cs.tsukuba.ac.jp"]
+        tsukuba_mails = ["tsukuba.ac.jp"]
         user = auth.get_user(uid)
         email = user.email
         # uidからメールアドレスを取得し、筑波のものかを確かめる
