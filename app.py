@@ -184,40 +184,6 @@ def exhibit(id):
         return redirect(f'/{id}/home')
 
 
-@app.route('/get_data')
-def get_data():
-    # Firestoreからデータを取得します
-    docs = docs_ref.get()
-    # Firestoreから取得したデータをリストに格納します
-    results = []
-    for doc in docs:
-        results.append(doc.to_dict())
-
-    # JSON形式でデータを返します
-    return results
-
-
-@app.route('/set_data', methods=['POST'])
-def set_data():
-    textname = request.form.get('textname')
-    exhibit_data['教科書名'] = textname
-
-    docs_ref.add(exhibit_data)
-    return redirect('/exhibit')
-
-
-@app.route('/test_signup', methods=['GET', 'POST'])
-def signup_test():
-    try:
-        user = auth.create_user(
-            email="namiki.takeyama@gmail.com",
-            password="password"
-        )
-        return jsonify({'uid': user.uid}), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400
-
-
 @app.route('/delete/<doc_id>', methods=['GET'])
 # delete処理
 def delete_data(doc_id):
