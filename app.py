@@ -99,6 +99,8 @@ def gest_home():
                         pair = (doc, exuser_id)
                         results.append(pair)
                         break
+        if results == []:
+            results=None
         return render_template('gest_home.html', results=results)
         
 @app.route("/<flag>/register", methods=['GET', 'POST'])
@@ -247,6 +249,8 @@ def home(id):
                             pair = (doc, exuser_id)
                             results.append(pair)
                             break
+            if results == []:
+                results=None
             return render_template('home.html', results=results, id=id)
 
 
@@ -401,6 +405,14 @@ def buy(doc_id, id):
     exhibit_ref.update(fetched_exhibit_data)
     return redirect(f"/{id}/info")
 
+@app.route("/<id>/not_buy/<doc_id>", methods={'GET'})
+def not_buy(doc_id, id):
+    exhibit_ref = db.collection('exhibit').document(doc_id)
+    fetched_exhibit_data = exhibit_ref.get().to_dict()    
+    fetched_exhibit_data['状態'] = 'available'
+    fetched_exhibit_data['受取人'] = None
+    exhibit_ref.update(fetched_exhibit_data)
+    return redirect(f"/{id}/info")
 
 @app.route("/<id>/purchase_confirmation/<doc_id>", methods=['GET', 'POST'])
 def purchase_confirmation(doc_id, id):
