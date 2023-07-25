@@ -7,7 +7,7 @@ from google.cloud import firestore
 from google.oauth2.service_account import Credentials
 from firebase_admin import auth, initialize_app
 import re
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, join_room, leave_room
 import requests
 # 環境変数からFirebaseサービスアカウントキーを読み込みます
 # service_account_key = json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_ITF_DATABASE_B9026'))
@@ -30,6 +30,7 @@ exhibit_data = {
     "受け取り日時": None,
     "受け取り時間": None,
     "受取人": None,
+    "値段": None,
     "状態": "available",
 }
 # Firestoreからデータ
@@ -146,7 +147,6 @@ def home(id):
   docs =docs_ref.get()
   results = []
   if request.method=='GET':
-
     # Firestoreから取得したデータをリストに格納します
     for doc in docs:
         results.append(doc)
@@ -186,13 +186,13 @@ def search_books(id):
     books_data = response.json()
     return render_template('search_results.html', books=books_data.get('items', []),id=id)      
 
-@app.route("/<id>/exhibit",methods=['GET','POST'])
-def exhibit(id):
+@app.route("/<id>/search_book",methods=['GET','POST'])
+def book_search(id):
   user_docs_ref = db.collection('user').document(id)
   fetched_user_data=user_docs_ref.get().to_dict()
   username=fetched_user_data["ユーザー名"]
   if request.method=='GET':
-    return render_template('exhibit.html',username=username,id=id)
+    return render_template('book_search.html',username=username,id=id)
   else:
     textname = request.form.get('bookTitle')
     image=request.form.get('bookImage')
@@ -200,12 +200,24 @@ def exhibit(id):
     exhibit_data['教科書名'] = textname
     exhibit_data['画像'] = image
     exhibit_data["状態"] = "available"
+    # Firestoreからデータ
+    docs_ref = db.collection('exhibit').document()
+    docs_ref.set(exhibit_data)
+    ex_id=docs_ref.id  
+    return redirect(f'/{id}/exhibit/{ex_id}')
 
-
-    docs_ref.add(exhibit_data)
+@app.route("/<id>/exhibit/<ex_id>",methods=['GET','POST'])
+def exhibit(id,ex_id):
+  if request.method=='GET':
+    return render_template('exhibit.html',id=id,ex_id=ex_id)
+  else:
+    money = request.form.get('money')
+    docs_ref = db.collection('exhibit').document(ex_id)
+    fetched_data=docs_ref.get().to_dict()    
+    fetched_data['値段'] = money
+    docs_ref.update(fetched_data)
     return redirect(f'/{id}/home')
-    
-
+  
 @app.route('/get_data')
 def get_data():
     # Firestoreからデータを取得します
@@ -238,6 +250,7 @@ def signup_test():
         return jsonify({'uid': user.uid}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
 
 
 @app.route('/<id>/delete/<doc_id>', methods=['GET'])
@@ -305,9 +318,89 @@ def purchase_confirmation(doc_id,id):
         return redirect(f"/{id}/home")
 
 
-# @app.route("/thanks")
-# def thanks():
-#   return render_template('thanks.html')
+
+# サーバーサイドのWebSocketを追加
+
+# socketio = SocketIO(app)
+# @app.route("/<id>/chat")
+# def chat(id):
+#     user_docs_ref = db.collection('user').document(id)
+#     fetched_user_data=user_docs_ref.get().to_dict()
+#     user=fetched_user_data["ユーザー名"]
+#     return render_template("chat.html",user=user)
+  
+# @socketio.on('message')
+# def handle_message(data):
+#     sender = data['sender']
+#     message = data['message']
+#     emit('message', {'sender': sender, 'message': message}, broadcast=True)
+# app.config['SECRET_KEY'] = 'your-secret-key'
+# socketio = SocketIO(app)
+
+# # チャットルームの辞書。ユーザー名をキー、チャットメッセージのリストを値として持つ。
+# chat_rooms = {}
+
+
+# @app.route('/<id>/chat')
+# def index():
+#     return render_template('chat.html',id=id)
+
+
+# # ユーザーごとのチャットルームのディクショナリ（ユーザーIDをキーに持つ）
+# user_chat_rooms = {}
+
+# # ユーザーのマッチングを行う関数（仮の例として、ユーザーIDの後半2文字が同じ場合にマッチングとします）
+# def matching_users(user1_id, user2_id):
+#     return user1_id[-2:] == user2_id[-2:]
+
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+
+# @socketio.on('connect')
+# def on_connect():
+#     print('Client connected')
+
+# @socketio.on('join')
+# def on_join(data):
+#     user_id = data['user_id']
+#     room = user_chat_rooms.get(user_id)
+
+#     # マッチングしたユーザー同士でチャットルームを作成
+#     if room is None:
+#         room = user_id  # 仮の例として、ユーザーIDをチャットルームのIDとします
+#         user_chat_rooms[user_id] = room
+
+#     # ユーザーをルームに参加させる
+#     join_room(room)
+    
+#     # 参加したユーザーにメッセージを送信
+#     message = f'{user_id}さんが入室しました'
+#     emit('message', {'username': 'システム', 'message': message}, room=room)
+
+# # 以下、略（leaveイベント、messageイベントの処理など）
+
+
+
+# @socketio.on('leave')
+# def on_leave(data):
+#     username = data['username']
+#     room = data['room']
+#     leave_room(room)
+
+
+# @socketio.on('send_message')
+# def send_message(data):
+#     username = data['username']
+#     room = data['room']
+#     message = data['message']
+#     chat_rooms[username].append(message)
+#     emit('new_message', {'username': username, 'message': message}, room=room)
+
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    socketio.run(app, debug=True)
+
+
+# if __name__ == '__main__':
+#     app.run(debug=False)
