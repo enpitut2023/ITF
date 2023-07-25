@@ -44,7 +44,7 @@
 {% endfor %}
 <h2 class="info-heading">取引中</h2>
 {% for result in results %}
-{% if result.to_dict()["状態"] == "dealing" and  result.to_dict()["出品者"]==username %}
+{% if result.to_dict()["状態"] == "dealing" and  (result.to_dict()["出品者"]==username or result.to_dict()["受取人"]==username) %}
 
 <div class="acceptinf">
   <div class="product-item">
