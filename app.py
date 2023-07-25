@@ -101,7 +101,7 @@ def mail_auth(id):
 def veri_flag(id):
     # 認証用のid
     uid = request.args.get('uid')
-    tsukuba_mails = ["@u.tsukuba.ac.jp", "@s.tsukuba.ac.jp"]
+    tsukuba_mails = ["@u.tsukuba.ac.jp", "@s.tsukuba.ac.jp","@cs.tsukuba.ac.jp"]
     user = auth.get_user(uid)
     email = user.email
     # uidからメールアドレスを取得し、筑波のものかを確かめる
@@ -233,25 +233,26 @@ def book_search(id):
         return redirect(f'/{id}/exhibit/{ex_id}')
 
 
-@app.route("/<id>/exhibit/<ex_id>", methods=['GET', 'POST'])
-def exhibit(id, ex_id):
-    if request.method == 'GET':
-        return render_template('exhibit.html', id=id, ex_id=ex_id)
-    else:
-        docs_ref = db.collection('exhibit').document(ex_id)
-        fetched_data = docs_ref.get().to_dict()
-        money = request.form.get('money')
 
-        location1 = request.form.getlist('location1')
-        any_location = request.form.get('any_location')
-        fetched_data['値段'] = money
-        fetched_data['受け取り場所'] = location1
-        fetched_data['受け取り場所'].append(any_location)
-
-        docs_ref.update(fetched_data)
-        return redirect(f'/{id}/home')
+@app.route("/<id>/exhibit/<ex_id>",methods=['GET','POST'])
+def exhibit(id,ex_id):
+  if request.method=='GET':
+    return render_template('exhibit.html',id=id,ex_id=ex_id)
+  else:
+    docs_ref = db.collection('exhibit').document(ex_id)
+    fetched_data=docs_ref.get().to_dict()
+    money = request.form.get('money')
 
 
+    location1 = request.form.getlist('location1')
+    any_location=request.form.get('any_location')
+    fetched_data['値段'] = money
+    fetched_data['受け取り場所'] = location1
+    fetched_data['受け取り場所'].append(any_location)
+    
+    docs_ref.update(fetched_data)
+    return redirect(f'/{id}/home')
+  
 @app.route('/get_data')
 def get_data():
     # Firestoreからデータを取得します
@@ -291,12 +292,20 @@ def info(id):
     # Firestoreから取得したデータをリストに格納します
     results = []
     for doc in docs:
-        doc = doc.to_dict()
-        if doc["出品者"] == username or doc["受取人"] == username:
-            if doc["出品者"] != None and doc["受取人"] != None:
+        if doc.to_dict()["出品者"] == username or doc.to_dict()["受取人"] == username:
+            if doc.to_dict()["出品者"] != None and doc.to_dict()["受取人"] != None:
                 results.append(doc)
-    return render_template('info.html', id=id, results=results)
+    return render_template('info.html', id=id, results=results,username=username)
 
+# 購入確定
+@app.route("/<id>/buy/<doc_id>",methods={'GET'})
+def buy(doc_id,id):
+    # firebaseからユーザー情報を取得
+    exhibit_ref = db.collection('exhibit').document(doc_id)
+    fetched_exhibit_data = exhibit_ref.get().to_dict()
+    fetched_exhibit_data['状態'] = 'sold'
+    exhibit_ref.update(fetched_exhibit_data)
+    return redirect(f"/{id}/info")
 
 @app.route("/<id>/purchase_confirmation/<doc_id>", methods=['GET', 'POST'])
 def purchase_confirmation(doc_id, id):
