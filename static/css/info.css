@@ -1,18 +1,67 @@
-h2{
-  font-size: 5rem;
-  text-align: center;
+@media screen and (max-width: 767.8px) {
+  .is-pc {
+    display: none !important;
+  }
 }
 
-h3{
-  margin-top: 30px;
-  font-size: 3rem;
-  text-align: center;
+@media screen and (min-width: 768px) {
+  .is-sp {
+    display: none !important;
+  }
 }
 
-.acceptinf{
+body {
+  padding-bottom: 50px;
+}
+
+.info-heading {
+  font-size: 40px;
+  text-align: center;
+  margin-top: 80px;
+  font-weight: bold;
+}
+
+.acceptinf {
+  margin-top: 50px;
+}
+
+.product-item {
+  display: block !important;
+  width: 95%;
+  margin: auto;
+}
+
+.info-container {
   margin-top: 30px;
+}
+
+@media screen and (min-width: 768px) {
+  .info-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+  }
+}
+
+@media screen and (max-width: 767.8px) {
+  .info-container {
+    margin-top: 40px;
+  }
 }
 
 .info {
   font-size: 2.0rem;
+}
+
+.info:not(:first-child) {
+  margin-left: 15px;
+}
+
+@media screen and (max-width: 767.8px) {
+  .info:not(:first-child) {
+    margin-top: 8px;
+  }
 }
