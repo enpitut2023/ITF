@@ -85,3 +85,18 @@ body {
   margin:20px 0 20px;
 
 }
+
+.date_container{
+  margin: 20px 0 20px;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.buy_button{
+  text-align: center;
+}
+
+.final_buy{
+  font-size: 3rem;
+  margin: 20px auto 20px;
+}

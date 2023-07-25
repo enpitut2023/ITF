@@ -48,10 +48,12 @@
         <div class="boxes">
           <div class="boxes">
             {% for location in data['受け取り場所'] %}
+            {% if location!="" %}
               <div class="radio-container">
               <input type="radio" name="location" id="box-{{ location }}" value="{{ location }}" checked>
               <label for="box-{{ location }}">{{ location }}</label>
               </div>
+            {% endif %}
             {% endfor %}
           </div>
 

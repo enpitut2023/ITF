@@ -9,20 +9,25 @@
 <div class="container">
   <section class="product">
     {% for result in results %}
-    {% if result.to_dict().get("状態") != "sold" %}
+    {% if result[0].to_dict().get("状態") != "sold" %}
     <div class="product-item">
       <div class="product-detail">
-        {% if result.to_dict()['画像'] != "None" %}
-        <img src="{{ result.to_dict()['画像'] }}" class="product-img" alt="">
+        {% if result[0].to_dict()['画像'] != "None" %}
+        <img src="{{ result[0].to_dict()['画像'] }}" class="product-img" alt="">
         {% else %}
         <img src="/static/img/book.png" class="product-img" alt="">
         {% endif %}
         <div class="product-data">
-          <h1 class="product-name">{{ result.to_dict()["教科書名"] }}</h1>
-          <p class="product-author">出品者：{{ result.to_dict()["出品者"] }}</p>
-          <p class="product-author">値段：{{ result.to_dict()["値段"] }}</p>
-          {% if result.to_dict()["受け取り場所"] != [] %}
-          {% for i in result.to_dict()["受け取り場所"] %}
+          <h1 class="product-name">{{ result[0].to_dict()["教科書名"] }}</h1>
+          <p class="product-author">
+            <a href="#" class="exuser" onclick="submitForm('{{ result[1] }}')">
+              出品者：{{ result[0].to_dict()["出品者"] }}
+            </a>
+          </p>
+          
+          <p class="product-author">値段：{{ result[0].to_dict()["値段"] }}円</p>
+          {% if result[0].to_dict()["受け取り場所"] != [] %}
+          {% for i in result[0].to_dict()["受け取り場所"] %}
           <p class="product-author">{{i}}</p>
           {% endfor %}
           {% endif %}
@@ -30,7 +35,7 @@
         </div><!-- /.product-data -->
       </div><!-- /.product-detail -->
       <div class="tab-product__link product-btn">
-        <a class="button-arrow-right" href="/{{id}}/purchase_confirmation/{{ result.id }}">欲しい！</a>
+        <a class="button-arrow-right" href="/{{id}}/purchase_confirmation/{{ result[0].id }}">欲しい！</a>
       </div>
     </div>
 
@@ -38,12 +43,24 @@
     {% endfor %}
   </section>
 </div>
-<div><a href="/{{id}}/chatapp">チャット</a></div>
+<!-- 隠しフォームを作成 -->
+<form id="exuserForm" action="/{{id}}/userpage" method="POST">
+  <input type="hidden" name="exuser_id" id="exuserIdInput">
+</form>
 
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="/static/javascript/script.js"></script>
+<script>
+  function submitForm(exuserId) {
+    // フォームの入力要素に出品者のIDを設定
+    document.getElementById('exuserIdInput').value = exuserId;
+    
+    // フォームを送信
+    document.getElementById('exuserForm').submit();
+  }
+</script>
 </body>
 
 </html>
