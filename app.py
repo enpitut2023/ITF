@@ -87,7 +87,7 @@ def register(flag):
             if user == user_name:
                 flag = "false"
                 return redirect(f"/{flag}/register")
-        userdata=[user_name,school,year]
+        userdata=user_name + "-" + school + "-" + year
 
         # Firestoreからデータ
         user_docs_ref = db.collection('user').document()
@@ -104,36 +104,34 @@ def signup(id,userdata):
 @app.route("/<userdata>/<id>/auth")
 def mail_auth(id,userdata):
     
-    # メール認証
-    if is_certified(id):
-        return render_template("auth.html", id=id, config_data=data,userdata=userdata)
+    return render_template("auth.html", id=id, config_data=data,userdata=userdata)
 
 
 @app.route("/<userdata>/<id>/flag")
 def veri_flag(id,userdata):
-    if is_certified(id):
         # 認証用のid
-        uid = request.args.get('uid')
-        tsukuba_mails = ["tsukuba.ac.jp"]
-        user = auth.get_user(uid)
-        email = user.email
+    uid = request.args.get('uid')
+    tsukuba_mails = ["tsukuba.ac.jp"]
+    user = auth.get_user(uid)
+    email = user.email
         # uidからメールアドレスを取得し、筑波のものかを確かめる
         # Check if email ends with @u.tsukuba.ac.jp
-        for tsukuba_mail in tsukuba_mails:
-            if tsukuba_mail in email:
+    for tsukuba_mail in tsukuba_mails:
+        if tsukuba_mail in email:
                 # Firestoreからデータ
-                user_docs_ref = db.collection('user').document(id)
-                fetched_user_data = user_docs_ref.get().to_dict()
-                fetched_user_data["認証"] = "verified"
+            user_docs_ref = db.collection('user').document(id)
+            fetched_user_data = user_docs_ref.get().to_dict()
+            fetched_user_data["認証"] = "verified"
+            result_list = userdata.split("-")
                 # データベース登録
-                fetched_user_data['ユーザー名'] = userdata[0]
-                fetched_user_data['学類'] = userdata[1]
-                fetched_user_data['学年'] = userdata[2]
-                fetched_user_data["mail"] = email
-                user_docs_ref.update(fetched_user_data)
-                return redirect(f"/{id}/home")
+            fetched_user_data['ユーザー名'] = result_list[0]
+            fetched_user_data['学類'] = result_list[1]
+            fetched_user_data['学年'] = result_list[2]
+            fetched_user_data["mail"] = email
+            user_docs_ref.set(fetched_user_data)
+            return redirect(f"/{id}/home")
 
-        return redirect(f"/{id}/signup")
+    return redirect(f"/{id}/signup")
 
 
 @app.route("/<flag>/login", methods=['GET', 'POST'])
@@ -375,24 +373,24 @@ def purchase_confirmation(doc_id, id):
         exhibit_ref = db.collection('exhibit').document(doc_id)
         fetched_exhibit_data = exhibit_ref.get().to_dict()
 
-    if request.method == 'GET':
-        return render_template('purchase_confirmation.html', id=id, data=fetched_exhibit_data, doc_id=doc_id)
-    else:
-        location = request.form.getlist('location')
-        date = request.form.getlist('date')
-        time = request.form.getlist('time')
-        user_docs_ref = db.collection('user').document(id)
-        fetched_user_data = user_docs_ref.get().to_dict()
-        username = fetched_user_data["ユーザー名"]
+        if request.method == 'GET':
+            return render_template('purchase_confirmation.html', id=id, data=fetched_exhibit_data, doc_id=doc_id)
+        else:
+            location = request.form.getlist('location')
+            date = request.form.getlist('date')
+            time = request.form.getlist('time')
+            user_docs_ref = db.collection('user').document(id)
+            fetched_user_data = user_docs_ref.get().to_dict()
+            username = fetched_user_data["ユーザー名"]
 
-        fetched_exhibit_data['状態'] = 'dealing'
-        fetched_exhibit_data['受取人'] = username
-        fetched_exhibit_data['受け取り場所'] = location
-        fetched_exhibit_data['受け取り日時'] = date
-        fetched_exhibit_data['受け取り時間'] = time
+            fetched_exhibit_data['状態'] = 'dealing'
+            fetched_exhibit_data['受取人'] = username
+            fetched_exhibit_data['受け取り場所'] = location
+            fetched_exhibit_data['受け取り日時'] = date
+            fetched_exhibit_data['受け取り時間'] = time
 
-        exhibit_ref.update(fetched_exhibit_data)
-        return redirect(f"/{id}/home")
+            exhibit_ref.update(fetched_exhibit_data)
+            return redirect(f"/{id}/home")
 
 
 # @app.route('/<id>/chatapp/<doc_id>')
