@@ -296,6 +296,18 @@ def purchase_confirmation(doc_id, id):
         return redirect(f"/{id}/home")
 
 
+@app.route('/<id>/chatapp/<doc_id>')
+def chat(id,doc_id):
+    user_docs_ref = db.collection('user').document(id)
+    fetched_user_data = user_docs_ref.get().to_dict()
+    
+    exhibit_ref = db.collection('exhibit').document(doc_id)
+    fetched_exhibit_data = exhibit_ref.get().to_dict()
+    
+    return render_template('chatapp.html',id=id, doc_id=doc_id,config_data=data,user_data=fetched_user_data,exhibit_data=fetched_exhibit_data)
+
+
+
 # サーバーサイドのWebSocketを追加
 
 # socketio = SocketIO(app)

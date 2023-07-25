@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+</head>
+<body>
+  <div>
+    <div>
+        <input type="text" id="name" placeholder="名前">
+    </div>
+    <div>
+         <textarea id="message" row="10" placeholder="メッセージ"></textarea>
+         <button id="send">送信</button>
+    </div>
+    <div id="output"></div>
+  </div>
+
+  <script>
+    // Firebaseの設定
+    const firebaseConfig = {{ config_data | tojson | safe }};
+
+    // Firebaseの初期化
+    firebase.initializeApp(firebaseConfig);
+
+    // Realtime Databaseの参照の取得
+    var database = firebase.database();
+    
+    let room = "chat_room";
+    const send = document.getElementById("send");
+    const message = document.getElementById("message");
+    const output = document.getElementById("output");
+
+    send.addEventListener('click', function() {
+        database.ref(room).push({
+            name:{{user_data["ユーザー名"]}},
+            message:message.value
+        });
+        message.value="";
+        name.value="";
+    });
+
+    database.ref(room).on("child_added", function(data) {
+        const v = data.val();
+        const k = data.key;
+        let str = "";
+        str += '<div class="name">名前：'+v.name+'</div>';
+        str += '<div class="text">メッセージ：'+v.message+'</div>';
+        output.innerHTML += str;
+    });
+  </script>
+</body>
+</html>
