@@ -66,7 +66,9 @@
   <input type="text" name="keyword" placeholder="教科書名を入力してください" id="search_box">
   <input type="submit" value="検索" id="search_button">
 </form>
-
+{% if results == None %}
+<p class="notext">商品がありません</p>
+{% else %}
 <div class="container">
   <section class="product">
     {% for result in results %}
@@ -102,6 +104,7 @@
 
     {% endif %}
     {% endfor %}
+    {% endif %}
   </section>
 </div>
 <!-- 隠しフォームを作成 -->
