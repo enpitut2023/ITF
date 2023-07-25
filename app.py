@@ -170,17 +170,34 @@ def home(id):
     # Firestoreからデータを取得します
     docs = docs_ref.get()
     results = []
+    # 'user'コレクションの全てのドキュメントのIDを取得
+    user_docs_refs = db.collection('user').get()
+    doc_ids = [doc.id for doc in user_docs_refs]
     if request.method == 'GET':
+
         # Firestoreから取得したデータをリストに格納します
         for doc in docs:
-            results.append(doc)
-
+            for exuser_id in doc_ids:
+                user_docs_ref = db.collection('user').document(exuser_id)
+                fetched_user_data = user_docs_ref.get().to_dict()
+                # 全てのユーザー名と出品者のユーザー名を照合して、出品者のidを取ってくる
+                if fetched_user_data["ユーザー名"]== doc.to_dict()["出品者"]:
+                    pair=(doc,exuser_id)
+                    results.append(pair)
+                    break
         return render_template('home.html', results=results, id=id)
     else:
         search_text = request.form.get('keyword')
         for doc in docs:
             if search_text in doc.to_dict()['教科書名']:
-                results.append(doc)
+                for exuser_id in doc_ids:
+                    user_docs_ref = db.collection('user').document(exuser_id)
+                    fetched_user_data = user_docs_ref.get().to_dict()
+                    # 全てのユーザー名と出品者のユーザー名を照合して、出品者のidを取ってくる
+                    if fetched_user_data["ユーザー名"]== doc.to_dict()["出品者"]:
+                        pair=(doc,exuser_id)
+                        results.append(pair)
+                        break
         return render_template('home.html', results=results, id=id)
 
 
@@ -201,6 +218,20 @@ def mypage(id):
 
     return render_template('mypage.html', data=fetched_user_data, results=results, id=id)
 
+@app.route("/<id>/userpage", methods=['POST'])
+def userpage(id):
+    exuser_id = request.form.get('exuser_id')
+    user_docs_ref = db.collection('user').document(exuser_id)
+    fetched_user_data = user_docs_ref.get().to_dict()
+    username = fetched_user_data["ユーザー名"]
+    # Firestoreからデータを取得します
+    docs = docs_ref.get()
+    # Firestoreから取得したデータをリストに格納します
+    results = []
+    for doc in docs:
+        if doc.to_dict()["出品者"] == username:
+            results.append(doc)
+    return render_template('userpage.html',id=id,data=fetched_user_data,results=results)  
 
 @app.route('/<id>/search', methods=['POST'])
 def search_books(id):
@@ -300,10 +331,16 @@ def info(id):
 # 購入確定
 @app.route("/<id>/buy/<doc_id>",methods={'GET'})
 def buy(doc_id,id):
+    datetime_value = request.args.get('datetime')
+    # datetime_valueを解析してdateとtimeに分割する処理を行う
+    # 例えば、datetime_valueをアンダースコアで分割してdateとtimeを取得できる
+    date, time = datetime_value.split('_')
     # firebaseからユーザー情報を取得
     exhibit_ref = db.collection('exhibit').document(doc_id)
     fetched_exhibit_data = exhibit_ref.get().to_dict()
     fetched_exhibit_data['状態'] = 'sold'
+    fetched_exhibit_data['受け取り日時'] = [date]
+    fetched_exhibit_data['受け取り時間'] = [time]
     exhibit_ref.update(fetched_exhibit_data)
     return redirect(f"/{id}/info")
 

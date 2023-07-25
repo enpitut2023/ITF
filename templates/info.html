@@ -74,7 +74,26 @@
     </div>
   </div>
 
-    <div id="buy"><a href="/{{id}}/buy/{{result.id}}" >購入確定</a></div>
+  <form id="buy-form" action="/{{id}}/buy/{{result.id}}" method="GET">
+    <div class="date_container">
+      <input type="radio" name="datetime" value="{{ result.to_dict()['受け取り日時'][0] }}_{{ result.to_dict()['受け取り時間'][0] }}" required>
+      <label for="date">{{ result.to_dict()['受け取り日時'][0] }} - {{ result.to_dict()['受け取り時間'][0] }}</label>
+    </div>
+  
+    <div class="date_container">
+      <input type="radio" name="datetime" value="{{ result.to_dict()['受け取り日時'][1] }}_{{ result.to_dict()['受け取り時間'][1] }}" required>
+      <label for="date">{{ result.to_dict()['受け取り日時'][1] }} - {{ result.to_dict()['受け取り時間'][1] }}</label>
+    </div>
+  
+    <div class="date_container">
+      <input type="radio" name="datetime" value="{{ result.to_dict()['受け取り日時'][2] }}_{{ result.to_dict()['受け取り時間'][2] }}" required>
+      <label for="date">{{ result.to_dict()['受け取り日時'][2] }} - {{ result.to_dict()['受け取り時間'][2] }}</label>
+    </div>
+    <div class="buy_button">
+      <input type="submit" class="final_buy" value="購入確定">
+    </div>
+    
+  </form>
 
 </div>
 

@@ -25,6 +25,7 @@
 .info ul li  {
   font-size: 3rem;
   text-align: center;
+  list-style: none;
 }
 
 h2{
