@@ -26,7 +26,7 @@ exhibit_data = {
     "教科書名": None,
     "画像":None,
     "出品者": None,
-    "受け取り場所": None,
+    "受け取り場所": [],
     "受け取り日時": None,
     "受け取り時間": None,
     "受取人": None,
@@ -213,9 +213,11 @@ def exhibit(id,ex_id):
   else:
     money = request.form.get('money')
     docs_ref = db.collection('exhibit').document(ex_id)
+    location_list = request.form.getlist('location')  # 選択された場所をリストとして取得
     fetched_data=docs_ref.get().to_dict()    
     fetched_data['値段'] = money
     docs_ref.update(fetched_data)
+    fetched_data['受け取り場所'] = location_list  # 選択した場所をデータベースに保存
     return redirect(f'/{id}/home')
   
 @app.route('/get_data')
@@ -379,9 +381,9 @@ def purchase_confirmation(doc_id, id):
 #     emit('new_message', {'username': username, 'message': message}, room=room)
 
 
-if __name__ == '__main__':
-    socketio.run(app, debug=True)
-
-
 # if __name__ == '__main__':
-#     app.run(debug=False)
+#     socketio.run(app, debug=True)
+
+
+if __name__ == '__main__':
+    app.run(debug=False)

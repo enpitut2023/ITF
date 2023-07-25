@@ -30,16 +30,46 @@
       <form action="/{{ id }}/purchase_confirmation/{{ doc_id }}" method="POST" id="purchase-form">
 
         <!-- 取引場所の入力フォーム -->
-        <div class="confirm-input">
+ <!--     <div class="confirm-input">
           <label for="location">受け取り場所:</label>
           <select id="location" name="location" required>
             <option value="３学">３学</option>
             <option value="春日エリア">春日エリア</option>
             <option value="医学エリア">医学エリア</option>
             <option value="平カス">平カス</option>
+          -->
             <!-- Add other locations as options if needed -->
-          </select>
+     <!--  </select>
         </div>
+      -->
+
+
+        <h4>希望取引場所を選択してください。</h4>
+        <div class="boxes">
+          <div class="checkbox-container">
+            <input type="checkbox" name="location" id="box-1" value="３学">
+            <label for="box-1">３学</label>
+          </div>
+      
+          <div class="checkbox-container">
+            <input type="checkbox" name="location" id="box-2" value="春日エリア">
+            <label for="box-2">春日エリア</label>
+          </div>
+      
+          <div class="checkbox-container">
+            <input type="checkbox" name="location" id="box-3" value="医学エリア">
+            <label for="box-3">医学エリア</label>
+          </div>
+      
+          <div class="checkbox-container">
+            <input type="checkbox" name="location" id="box-4" value="平砂カスミ">
+            <label for="box-4">平砂カスミ</label>
+          </div>
+
+          
+        </div>
+
+
 
         <div class="confirm-date">
           <div class="confirm-date-container">
