@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/reset.css">
     <link rel="stylesheet" href="/static/css/login.css">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
     <title>ITF. - ログイン -</title>
 </head>
+
 <body>
     <h1 class="login-heading">ITF. - ログイン -</h1>
-        <div class="login-container">
+    <div class="login-container">
         <form action="/{flag}/login" method="POST" id="login-form">
             <div class="name-container">
                 <label for="user-name" class="login-name">
@@ -34,14 +37,15 @@
         </div>
     </div>
 
-    
+
     <script>
-        if('{{flag}}'=="not_verified"){
+        if ('{{flag}}' == "not_verified") {
             alert("認証されていないユーザーです");
         }
-        if('{{flag}}'=="no_user"){
+        if ('{{flag}}' == "no_user") {
             alert("ユーザー登録がされていません");
         }
-    </script>   
+    </script>
 </body>
+
 </html>
