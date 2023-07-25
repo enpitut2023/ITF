@@ -44,7 +44,7 @@ user_data = {
     "認証": None,  # verified or None
     "学類": None,
     "学年": None,
-    "メール": None,
+    "mail": None,
 }
 
 
@@ -112,7 +112,7 @@ def veri_flag(id):
             user_docs_ref = db.collection('user').document(id)
             fetched_user_data = user_docs_ref.get().to_dict()
             fetched_user_data["認証"] = "verified"
-            fetched_user_data["メール"] = email
+            fetched_user_data["mail"] = email
             user_docs_ref.update(fetched_user_data)
             return redirect(f"/{id}/home")
 
@@ -134,7 +134,7 @@ def login(flag):
             fetched_user_data = user_docs_ref.get().to_dict()
             user_name = fetched_user_data["ユーザー名"]
             auth = fetched_user_data["認証"]
-            email = fetched_user_data["メール"]
+            # email = fetched_user_data["mail"]
             if (user_name == get_user_name):
                 if (auth == "verified"):
                     return redirect(f"/{id}/home")
@@ -155,7 +155,7 @@ def receive_username():
         fetched_user_data = user_docs_ref.get().to_dict()
         user_name = fetched_user_data["ユーザー名"]
         auth = fetched_user_data["認証"]
-        email = fetched_user_data["メール"]
+        email = fetched_user_data["mail"]
         selected_email = email
         if (user_name == get_user_name):
             if (auth == "verified"):
@@ -330,15 +330,14 @@ def purchase_confirmation(doc_id, id):
 
 
 @app.route('/<id>/chatapp/<doc_id>')
-def chat(id,doc_id):
+def chat(id, doc_id):
     user_docs_ref = db.collection('user').document(id)
     fetched_user_data = user_docs_ref.get().to_dict()
-    
+
     exhibit_ref = db.collection('exhibit').document(doc_id)
     fetched_exhibit_data = exhibit_ref.get().to_dict()
-    
-    return render_template('chatapp.html',id=id, doc_id=doc_id,config_data=data,user_data=fetched_user_data,exhibit_data=fetched_exhibit_data)
 
+    return render_template('chatapp.html', id=id, doc_id=doc_id, config_data=data, user_data=fetched_user_data, exhibit_data=fetched_exhibit_data)
 
 
 # サーバーサイドのWebSocketを追加
@@ -421,6 +420,5 @@ def chat(id,doc_id):
 
 # if __name__ == '__main__':
 #     socketio.run(app, debug=True)
-
 if __name__ == '__main__':
     app.run(debug=False)
