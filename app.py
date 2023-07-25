@@ -96,9 +96,9 @@ def register(flag):
 
 
 @app.route("/<userdata>/<id>/signup")
-def signup(id,userdata):
+def signup(id, userdata):
     # FIrebaseサインアップ入力、メール送信
-    return render_template("signup.html", id=id, config_data=data,userdata=userdata)
+    return render_template("signup.html", id=id, config_data=data, userdata=userdata)
 
 
 @app.route("/<userdata>/<id>/auth")
@@ -162,6 +162,8 @@ def login(flag):
 
 @app.route('/receive_username', methods=['POST'])
 def receive_username():
+    # usernameに合致するemailを返す
+    get_user_name = request.get_json()['username']
     # 'user'コレクションの全てのドキュメントのIDを取得
     user_docs_refs = db.collection('user').get()
     doc_ids = [doc.id for doc in user_docs_refs]
@@ -171,13 +173,12 @@ def receive_username():
         user_name = fetched_user_data["ユーザー名"]
         auth = fetched_user_data["認証"]
         email = fetched_user_data["mail"]
-        selected_email = email
         if (user_name == get_user_name):
             if (auth == "verified"):
                 return jsonify({'email': email})
             else:
                 flag = "not_verified"
-                return redirect(f"/{flag}/login")
+                return jsonify({'flag': flag})
 
 
 @app.route("/<id>/home", methods=['GET', 'POST'])
@@ -197,8 +198,8 @@ def home(id):
                     user_docs_ref = db.collection('user').document(exuser_id)
                     fetched_user_data = user_docs_ref.get().to_dict()
                     # 全てのユーザー名と出品者のユーザー名を照合して、出品者のidを取ってくる
-                    if fetched_user_data["ユーザー名"]== doc.to_dict()["出品者"]:
-                        pair=(doc,exuser_id)
+                    if fetched_user_data["ユーザー名"] == doc.to_dict()["出品者"]:
+                        pair = (doc, exuser_id)
                         results.append(pair)
                         break
             return render_template('home.html', results=results, id=id)
@@ -207,15 +208,15 @@ def home(id):
             for doc in docs:
                 if search_text in doc.to_dict()['教科書名']:
                     for exuser_id in doc_ids:
-                        user_docs_ref = db.collection('user').document(exuser_id)
+                        user_docs_ref = db.collection(
+                            'user').document(exuser_id)
                         fetched_user_data = user_docs_ref.get().to_dict()
                         # 全てのユーザー名と出品者のユーザー名を照合して、出品者のidを取ってくる
-                        if fetched_user_data["ユーザー名"]== doc.to_dict()["出品者"]:
-                            pair=(doc,exuser_id)
+                        if fetched_user_data["ユーザー名"] == doc.to_dict()["出品者"]:
+                            pair = (doc, exuser_id)
                             results.append(pair)
                             break
             return render_template('home.html', results=results, id=id)
-  
 
 
 @app.route("/<id>/mypage")
@@ -235,6 +236,7 @@ def mypage(id):
 
         return render_template('mypage.html', data=fetched_user_data, results=results, id=id)
 
+
 @app.route("/<id>/userpage", methods=['POST'])
 def userpage(id):
     exuser_id = request.form.get('exuser_id')
@@ -248,7 +250,8 @@ def userpage(id):
     for doc in docs:
         if doc.to_dict()["出品者"] == username:
             results.append(doc)
-    return render_template('userpage.html',id=id,data=fetched_user_data,results=results)  
+    return render_template('userpage.html', id=id, data=fetched_user_data, results=results)
+
 
 @app.route('/<id>/search', methods=['POST'])
 def search_books(id):
@@ -350,8 +353,10 @@ def info(id):
         return render_template('info.html', id=id, results=results, username=username)
 
 # 購入確定
-@app.route("/<id>/buy/<doc_id>",methods={'GET'})
-def buy(doc_id,id):
+
+
+@app.route("/<id>/buy/<doc_id>", methods={'GET'})
+def buy(doc_id, id):
     datetime_value = request.args.get('datetime')
     # datetime_valueを解析してdateとtimeに分割する処理を行う
     # 例えば、datetime_valueをアンダースコアで分割してdateとtimeを取得できる
