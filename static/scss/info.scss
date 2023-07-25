@@ -1,0 +1,82 @@
+//マップ型変数$breakpointsを定義
+$breakpoints: (
+  //キー  値
+  "sm": "screen and (max-width: 576px)",     //576px以下（スマホ）
+  "sp": "screen and (max-width: 767.8px)",     //767px以下（スマホ）
+  "md": "screen and (min-width: 768px)",     //768px以上（タブレット）
+  "ex-lg": "screen and (max-width: 1200px)",  //1200px以下
+) !default;
+//メディアクエリ用のmixinを定義。デフォ値はsp
+@mixin mq($breakpoint: sp) {
+  //map-get(マップ型変数, キー)で値を取得
+  @media #{map-get($breakpoints, $breakpoint)} {
+    //この中をカスタムできる,
+    @content;
+  }
+}
+
+@include mq(sp) {
+  .is-pc {
+    display: none !important;
+  }
+}
+
+@include mq(md) {
+  .is-sp {
+    display: none !important;
+  }
+}
+
+body {
+  padding-bottom: 50px;
+}
+
+.info-heading {
+  font-size: 40px;
+  text-align: center;
+  margin-top: 80px;
+  font-weight: bold;
+}
+
+// h3{
+//   margin-top: 30px;
+//   font-size: 3rem;
+//   text-align: center;
+// }
+
+.acceptinf{
+  margin-top: 50px;
+}
+
+.product-item {
+  display: block !important;
+  width: 95%;
+  margin: auto;
+}
+
+.info-container {
+  @include mq(md) {
+    display: flex;
+    justify-content: flex-end;  
+  }
+  // transform: translateY(-35px);
+  margin-top: 30px;
+
+  @include mq(sp) {
+    margin-top: 40px;
+  }
+}
+
+.info {
+  font-size: 2.0rem;
+
+  &:not(:first-child) {
+    margin-left: 15px;
+  }
+
+  @include mq(sp) {
+    &:not(:first-child) {
+      margin-top: 8px;
+    }
+  }
+}

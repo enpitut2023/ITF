@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
 
-  <h2>検索</h2>
+  <h2 class="search-heading">教科書を検索</h2>
   <form action="/{{ id }}/home" method="POST" id="search">
     <input type="text" name="keyword" placeholder="教科書名を入力してください" id="search_box">
     <input type="submit" value="検索" id="search_button">
