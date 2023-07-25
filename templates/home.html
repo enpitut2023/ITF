@@ -1,67 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ITF. ～Informative Textbook Fleamarket～</title>
-  <link rel="stylesheet" href="/static/css/reset.css">
-  <link rel="stylesheet" href="/static/css/home.css">
-  <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-  <header>
-  <div class="header">
-    <a href="/" class="title-container">
-      <h1 class="title">ITF.</h1>
-      <p class="title-sub">Informative Textbook Fleamarket</p>
-    </a>
-  <a href="/None/login">ログイン（仮）</a>
-    <!-- PC用メニュー -->
-    <ul class="menu is-pc">
-      <li><a href="/{{id}}/info">購入情報</a></li>
-      <li><a href="/{{id}}/exhibit">出品</a></li>
-      <!-- <li><a href="/{{ username }}/exhibit">出品</a></li> -->
-      <li><a href="/{{id}}/mypage">Mypage</a></li>
-    </ul>
-  </div>
-  
-  
-  <!-- SP用メニュー -->
-  <div id="navArea" class="is-sp">
-    <nav>
-      <div class="inner">
-        <ul class="menu">
-          <li><a href="/{{id}}/info">購入情報</a></li>
-          <li><a href="/{{id}}/exhibit">出品</a></li>
-          <li><a href="/{{id}}/mypage">Mypage</a></li>
-        </ul>
-    </nav>
-  
-    <div class="toggle_btn">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  
-    <!-- SP用メニュー -->
-    <div id="navArea" class="is-sp">
-      <nav>
-        <div class="inner">
-          <ul class="menu">
-            <li><a href="/{{id}}/info">購入情報</a></li>
-            <li><a href="/{{id}}/exhibit">出品</a></li>
-            <li><a href="/{{id}}/mypage">Mypage</a></li>
-          </ul>
-      </nav>
-      <div class="toggle_btn">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div id="mask"></div>
-    </div>
-  </header>
+{% extends "base.html" %} {% block content %}
 
+  <h2>検索</h2>
+  <form action="/{{ id }}/home" method="POST" id="search">
+    <input type="text" name="keyword" placeholder="教科書名を入力してください" id="search_box">
+    <input type="submit" value="検索" id="search_button">
+  </form>
 
   <div class="container">
     <section class="product">
@@ -69,20 +12,26 @@
       {% if result.to_dict().get("状態") != "sold" %}
       <div class="product-item">
         <div class="product-detail">
-          <img src="/static/img/book.png" class="product-img" alt="">
+          {% if result.to_dict()['画像'] != "None" %}
+            <img src="{{ result.to_dict()['画像'] }}" class="product-img" alt="">
+          {% else %}
+            <img src="/static/img/book.png" class="product-img" alt="">
+          {% endif %}
           <div class="product-data">
             <h1 class="product-name">{{ result.to_dict()["教科書名"] }}</h1>
             <p class="product-author">出品者：{{ result.to_dict()["出品者"] }}</p>
+            <p class="product-author">値段：{{ result.to_dict()["値段"] }}</p>
           </div><!-- /.product-data -->
         </div><!-- /.product-detail -->
         <div class="tab-product__link product-btn">
-          <a class="button-arrow-right" href="/purchase_confirmation/{{ result.id }}">欲しい！</a>
+          <a class="button-arrow-right" href="/{{id}}/purchase_confirmation/{{ result.id }}">欲しい！</a>
         </div>
       </div>
       {% endif %}
       {% endfor %}
     </section>
   </div>
+  <div><a href="/{{id}}/chat">チャット</a></div>
 
 
     <!-- jQuery -->
@@ -90,3 +39,4 @@
     <script src="/static/javascript/script.js"></script>
 </body>
 </html>
+{% endblock %}

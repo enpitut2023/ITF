@@ -15,8 +15,7 @@ form {
   height: 50px;
 }
 
-.subject{
-}
+
 
 .btn-submit{
   text-align: center;
@@ -45,4 +44,10 @@ input[type="submit"]:hover {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 1s;
+}
+
+#money {
+  width: 30%;
+  font-size: 30px;
+
 }

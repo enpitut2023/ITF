@@ -98,6 +98,7 @@ body {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    width: 50%;
   }
 }
 
@@ -113,7 +114,8 @@ body {
 }
 
 .product-name {
-  font-size: 2rem;
+  font-size: 2.3rem;
+  font-weight: bold;
 }
 
 @media screen and (min-width: 768px) {
@@ -130,7 +132,7 @@ body {
 }
 
 .product-author {
-  font-size: 1.4rem;
+  font-size: 2rem;
   margin-top: 20px;
 }
 
@@ -178,4 +180,23 @@ body {
   right: 5px;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
+}
+
+#search_button, #search_box ,h2{
+  text-align: center;
+  font-size: 2rem;
+}
+
+#search_box {
+  width: 30%;
+}
+
+h2{
+  font-weight: bold;
+}
+
+#search{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
