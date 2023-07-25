@@ -75,6 +75,7 @@ body {
   padding: 4rem;
   border-radius: 10px;
   flex: 1;
+  box-shadow: 4px 4px 5px 1px rgba(0, 0, 0, .2);
 }
 
 @media screen and (min-width: 768px) {
@@ -272,8 +273,8 @@ h2{
   margin-top: 20px;
 }
 
-.exuser{
-  font-weight: bold;
+.user{
+  color: rgb(68, 95, 248);
 }
 
 .notext{
