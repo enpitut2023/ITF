@@ -25,18 +25,18 @@ body {
   }
 }
 
-.register-heading {
+.login-heading {
   font-size: 40px;
   text-align: center;
 }
 
 @media screen and (max-width: 767.8px) {
-  .register-heading {
+  .login-heading {
     font-size: 28px;
   }
 }
 
-.register-form {
+.login-container {
   background: #fff;
   padding: 60px 80px;
   margin: auto;
@@ -45,23 +45,38 @@ body {
 }
 
 @media screen and (max-width: 767.8px) {
-  .register-form {
+  .login-container {
     padding: 40px 12px;
   }
 }
 
-.register-form label:hover {
+.login-container label:hover {
   cursor: pointer;
 }
 
-.register-form input,
-.register-form select {
+.login-container input,
+.login-container select {
   display: inline-block;
 }
 
-#signup-form {
+#login-form {
   width: 100%;
   margin: auto;
+}
+
+@media screen and (min-width: 768px) {
+  .name-container,
+  .pass-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+
+.login-name {
+  min-width: 170px;
+  font-weight: bold;
+  line-height: 1.2;
 }
 
 @media screen and (min-width: 768px) {
@@ -76,6 +91,10 @@ label {
   min-width: 170px;
   font-weight: bold;
   line-height: 1.2;
+}
+
+.pass-container {
+  margin-top: 40px;
 }
 
 .register-school,
@@ -98,7 +117,7 @@ label {
 
 @media screen and (min-width: 768px) {
   #school {
-    margin-left: 55px;
+    margin-left: 120px;
   }
 }
 
@@ -121,7 +140,8 @@ label {
 }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+input[type="password"] {
   color: #707070;
   border: none;
   border-bottom: 1px solid #707070;
@@ -131,21 +151,24 @@ input[type="email"] {
 
 @media screen and (min-width: 768px) {
   input[type="text"],
-  input[type="email"] {
+  input[type="email"],
+  input[type="password"] {
     width: calc(100%);
   }
 }
 
 @media screen and (max-width: 767.8px) {
   input[type="text"],
-  input[type="email"] {
+  input[type="email"],
+  input[type="password"] {
     width: 100%;
     margin-top: 14px;
   }
 }
 
 input[type="text"]:focus-within,
-input[type="email"]:focus-within {
+input[type="email"]:focus-within,
+input[type="password"]:focus-within {
   outline: 0;
   border-bottom: none;
   -webkit-box-shadow: 0 4px 3px -3px #3ea1d1;

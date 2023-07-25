@@ -29,8 +29,8 @@ exhibit_data = {
     "画像": None,
     "出品者": None,
     "受け取り場所": [],
-    "受け取り日時": None,
-    "受け取り時間": None,
+    "受け取り日時": [],
+    "受け取り時間": [],
     "受取人": None,
     "値段": None,
     "状態": "available",
@@ -44,7 +44,7 @@ user_data = {
     "認証": None,  # verified or None
     "学類": None,
     "学年": None,
-    "メール": None,
+    "mail": None,
 }
 
 
@@ -131,7 +131,7 @@ def veri_flag(id):
                 user_docs_ref = db.collection('user').document(id)
                 fetched_user_data = user_docs_ref.get().to_dict()
                 fetched_user_data["認証"] = "verified"
-                fetched_user_data["メール"] = email
+                fetched_user_data["mail"] = email
                 user_docs_ref.update(fetched_user_data)
                 return redirect(f"/{id}/home")
 
@@ -153,10 +153,7 @@ def login(flag):
             fetched_user_data = user_docs_ref.get().to_dict()
             user_name = fetched_user_data["ユーザー名"]
             auth = fetched_user_data["認証"]
-            try:
-                email = fetched_user_data["メール"]
-            except:
-                email = None
+            email = fetched_user_data["メール"]
             if (user_name == get_user_name):
                 if (auth == "verified"):
                     return redirect(f"/{id}/home")
@@ -177,7 +174,7 @@ def receive_username():
         fetched_user_data = user_docs_ref.get().to_dict()
         user_name = fetched_user_data["ユーザー名"]
         auth = fetched_user_data["認証"]
-        email = fetched_user_data["メール"]
+        email = fetched_user_data["mail"]
         selected_email = email
         if (user_name == get_user_name):
             if (auth == "verified"):
@@ -258,24 +255,37 @@ def book_search(id):
             return redirect(f'/{id}/exhibit/{ex_id}')
 
 
-@app.route("/<id>/exhibit/<ex_id>", methods=['GET', 'POST'])
-def exhibit(id, ex_id):
-    if is_certified(id):
-        if request.method == 'GET':
-            return render_template('exhibit.html', id=id, ex_id=ex_id)
-        else:
-            docs_ref = db.collection('exhibit').document(ex_id)
-            fetched_data = docs_ref.get().to_dict()
-            money = request.form.get('money')
 
-            location1 = request.form.getlist('location1')
-            any_location = request.form.get('any_location')
-            fetched_data['値段'] = money
-            fetched_data['受け取り場所'] = location1
-            fetched_data['受け取り場所'].append(any_location)
 
-            docs_ref.update(fetched_data)
-            return redirect(f'/{id}/home')
+
+@app.route("/<id>/exhibit/<ex_id>",methods=['GET','POST'])
+def exhibit(id,ex_id):
+  if request.method=='GET':
+    return render_template('exhibit.html',id=id,ex_id=ex_id)
+  else:
+    docs_ref = db.collection('exhibit').document(ex_id)
+    fetched_data=docs_ref.get().to_dict()
+    money = request.form.get('money')
+
+    location1 = request.form.getlist('location1')
+    any_location=request.form.get('any_location')
+    fetched_data['値段'] = money
+    fetched_data['受け取り場所'] = location1
+    fetched_data['受け取り場所'].append(any_location)
+    
+    docs_ref.update(fetched_data)
+    return redirect(f'/{id}/home')
+  
+@app.route('/get_data')
+def get_data():
+    # Firestoreからデータを取得します
+    docs = docs_ref.get()
+    # Firestoreから取得したデータをリストに格納します
+    results = []
+    for doc in docs:
+        results.append(doc)
+
+    return render_template('home.html', results=results, id=id)
 
 
 @app.route('/<id>/delete/<doc_id>', methods=['GET'])
@@ -321,15 +331,15 @@ def purchase_confirmation(doc_id, id):
         exhibit_ref = db.collection('exhibit').document(doc_id)
         fetched_exhibit_data = exhibit_ref.get().to_dict()
 
-        if request.method == 'GET':
-            return render_template('purchase_confirmation.html', id=id, data=fetched_exhibit_data, doc_id=doc_id)
-        else:
-            location = request.form.getlist('location')
-            date = request.form.get('date')
-            time = request.form.get('time')
-            user_docs_ref = db.collection('user').document(id)
-            fetched_user_data = user_docs_ref.get().to_dict()
-            username = fetched_user_data["ユーザー名"]
+    if request.method == 'GET':
+        return render_template('purchase_confirmation.html', id=id, data=fetched_exhibit_data, doc_id=doc_id)
+    else:
+        location = request.form.getlist('location')
+        date = request.form.getlist('date')
+        time = request.form.getlist('time')
+        user_docs_ref = db.collection('user').document(id)
+        fetched_user_data = user_docs_ref.get().to_dict()
+        username = fetched_user_data["ユーザー名"]
 
             fetched_exhibit_data['状態'] = 'dealing'
             fetched_exhibit_data['受取人'] = username

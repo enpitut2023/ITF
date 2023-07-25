@@ -74,6 +74,7 @@ body {
   background: #eee;
   padding: 4rem;
   border-radius: 10px;
+  flex: 1;
 }
 
 @media screen and (min-width: 768px) {
@@ -141,6 +142,7 @@ body {
 .product-author {
   font-size: 2rem;
   margin-top: 20px;
+  white-space: nowrap;
 }
 
 @media screen and (min-width: 768px) {
