@@ -46,40 +46,42 @@
 
         <h4>希望取引場所を選択してください。</h4>
         <div class="boxes">
-          <div class="checkbox-container">
-            <input type="checkbox" name="location" id="box-1" value="３学">
-            <label for="box-1">３学</label>
-          </div>
-      
-          <div class="checkbox-container">
-            <input type="checkbox" name="location" id="box-2" value="春日エリア">
-            <label for="box-2">春日エリア</label>
-          </div>
-      
-          <div class="checkbox-container">
-            <input type="checkbox" name="location" id="box-3" value="医学エリア">
-            <label for="box-3">医学エリア</label>
-          </div>
-      
-          <div class="checkbox-container">
-            <input type="checkbox" name="location" id="box-4" value="平砂カスミ">
-            <label for="box-4">平砂カスミ</label>
+          <div class="boxes">
+            {% for location in data['受け取り場所'] %}
+              <div class="radio-container">
+              <input type="radio" name="location" id="box-{{ location }}" value="{{ location }}" checked>
+              <label for="box-{{ location }}">{{ location }}</label>
+              </div>
+            {% endfor %}
           </div>
 
 
-        </div>
 
-
-
-        <div class="confirm-date">
+        <div class="confirm-date">受け取り日時
           <div class="confirm-date-container">
-            <label for="date">受け取り日時：</label>
+            <label for="date">候補１：</label>
             <input type="date" id="date" name="date" value="" required>
           </div>
           <div class="confirm-date-container">
-            <label for="time">受け取り時間：</label>
+            <label for="time"></label>
             <input type="time" id="time" name="time" value="" required>
           </div><!-- /.confirm-date-container -->
+          <div class="confirm-date-container">
+            <label for="date">候補２：</label>
+            <input type="date" id="date" name="date" value="" required>
+          </div>
+          <div class="confirm-date-container">
+            <label for="time"></label>
+            <input type="time" id="time" name="time" value="" required>
+          </div>
+          <div class="confirm-date-container">
+            <label for="date">候補３：</label>
+            <input type="date" id="date" name="date" value="" required>
+          </div>
+          <div class="confirm-date-container">
+            <label for="time"></label>
+            <input type="time" id="time" name="time" value="" required>
+          </div>
           <input type="submit" id="submit-button" value="場所日時を確定">
         </div><!-- /.confirm-date -->
 
