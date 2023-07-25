@@ -33,6 +33,33 @@
   </div>
 {% endif %}
 {% endfor %}
+<h2 class="info-heading">取引中</h2>
+{% for result in results %}
+{% if result["状態"] == "dealing" %}
+
+<div class="acceptinf">
+  <div class="product-item">
+    <div class="product-detail">
+      {% if result['画像'] != "None" %}
+      <img src="{{ result['画像'] }}" class="product-img" alt="">
+      {% else %}
+      <img src="/static/img/book.png" class="product-img" alt="">
+      {% endif %}
+      <h3 class="product-name">教科書名：{{result["教科書名"]}}</h3>
+    </div>
+    <div class="info-container">
+      <div class="info">出品者：<br class="is-pc">{{result["出品者"]}}</div>
+      <div class="info">受取人：<br class="is-pc">{{result["受取人"]}}</div>
+      <div class="info">受取場所：<br class="is-pc">{{result["受け取り場所"]}}</div>
+      <div class="info">受取日時：<br class="is-pc">{{result["受け取り日時"]}}</div>
+      <div class="info">受取時間：<br class="is-pc">{{result["受け取り時間"]}}</div>
+    </div><!-- /.info-container -->
+  </div>
+  <button >取引確定</button>
+</div>
+
+{% endif %}
+{% endfor %}
 </body>
 
 </html>
