@@ -29,7 +29,7 @@ exhibit_data = {
     "教科書名": None,
     "画像": None,
     "出品者": None,
-    "受け取り場所": None,
+    "受け取り場所": [],
     "受け取り日時": None,
     "受け取り時間": None,
     "受取人": None,
@@ -211,19 +211,25 @@ def book_search(id):
         return redirect(f'/{id}/exhibit/{ex_id}')
 
 
-@app.route("/<id>/exhibit/<ex_id>", methods=['GET', 'POST'])
-def exhibit(id, ex_id):
-    if request.method == 'GET':
-        return render_template('exhibit.html', id=id, ex_id=ex_id)
-    else:
-        money = request.form.get('money')
-        docs_ref = db.collection('exhibit').document(ex_id)
-        fetched_data = docs_ref.get().to_dict()
-        fetched_data['値段'] = money
-        docs_ref.update(fetched_data)
-        return redirect(f'/{id}/home')
 
 
+
+@app.route("/<id>/exhibit/<ex_id>",methods=['GET','POST'])
+def exhibit(id,ex_id):
+  if request.method=='GET':
+    return render_template('exhibit.html',id=id,ex_id=ex_id)
+  else:
+    docs_ref = db.collection('exhibit').document(ex_id)
+    fetched_data=docs_ref.get().to_dict()
+    money = request.form.get('money')
+
+    location1 = request.form.getlist('location1')
+    fetched_data['値段'] = money
+    fetched_data['受け取り場所'] = location1
+    
+    docs_ref.update(fetched_data)
+    return redirect(f'/{id}/home')
+  
 @app.route('/get_data')
 def get_data():
     # Firestoreからデータを取得します
@@ -279,7 +285,7 @@ def purchase_confirmation(doc_id, id):
     if request.method == 'GET':
         return render_template('purchase_confirmation.html', id=id, data=fetched_exhibit_data, doc_id=doc_id)
     else:
-        location = request.form.get('location')
+        location = request.form.getlist('location')
         date = request.form.get('date')
         time = request.form.get('time')
         user_docs_ref = db.collection('user').document(id)
