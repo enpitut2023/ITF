@@ -1,17 +1,14 @@
-{% extends "base.html" %} 
-  
+{% extends "base.html" %}
+
 {% block extra_css %}
-  <!-- 子テンプレート独自のCSSを読み込む -->
-  <link rel="stylesheet" href="/static/css/info.css">
+<!-- 子テンプレート独自のCSSを読み込む -->
+<link rel="stylesheet" href="/static/css/info.css">
 {% endblock %}
 {% block content %}
 
 
-
-
-  
-  <h2>取引成立!</h2>
-  <h3>受け取り場所に向かいましょう！</h3>
+  <h2 class="info-heading">購入履歴</h2>
+  <!-- <h3>受け取り場所に向かいましょう！</h3> -->
   {% for result in results %}
   {% if result["状態"] == "sold" %}
 
@@ -25,15 +22,18 @@
         {% endif %}
         <h3 class="product-name">教科書名：{{result["教科書名"]}}</h3>
       </div>
-      <div class="info">出品者：<br>{{result["出品者"]}}</div>
-      <div class="info">受取人：<br>{{result["受取人"]}}</div>
-      <div class="info">受け取り場所：<br>{{result["受け取り場所"]}}</div>
-      <div class="info">受け取り日時：<br>{{result["受け取り日時"]}}</div>
-      <div class="info">受け取り時間：<br>{{result["受け取り時間"]}}</div>
+      <div class="info-container">
+        <div class="info">出品者：<br class="is-pc">{{result["出品者"]}}</div>
+        <div class="info">受取人：<br class="is-pc">{{result["受取人"]}}</div>
+        <div class="info">受取場所：<br class="is-pc">{{result["受け取り場所"]}}</div>
+        <div class="info">受取日時：<br class="is-pc">{{result["受け取り日時"]}}</div>
+        <div class="info">受取時間：<br class="is-pc">{{result["受け取り時間"]}}</div>
+      </div><!-- /.info-container -->
+    </div>
   </div>
-</div>
-  {% endif %}
-{% endfor %} 
+{% endif %}
+{% endfor %}
 </body>
+
 </html>
 {% endblock %}
