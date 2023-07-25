@@ -85,6 +85,16 @@ body {
   font-size: 16px;
 }
 
+.book-name {
+  font-size: 18px;
+  margin-top: 30px;
+}
+
+.book-price {
+  font-size: 18px;
+  margin-top: 25px;
+}
+
 .confirm-deal-heading {
   font-size: 20px;
   font-weight: bold;
@@ -111,7 +121,13 @@ body {
 }
 
 .confirm-date {
-  margin-top: 20px;
+  margin-top: 30px;
+}
+
+.date-text {
+  font-size: 16px;
+  margin-bottom: 30px;
+
 }
 
 .confirm-date label {
@@ -133,8 +149,29 @@ body {
   margin-top: 20px;
 }
 
+/* .radio-boxes {
+  width: 100%;
+  max-width: 300px;
+  text-align-last: left;
+  margin: 0;
+  align-items: flex-start;
+} */
+
+.radio-container {
+  font-size: 13px;
+}
+
+.radio-container:not(:first-child) {
+  margin-top: 8px;
+}
+
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+.prefer-place {
+  font-size: 16px;
+  margin-top: 30px;
+}
 
 
 /* チェックボックスとラベルを縦に配置するためのスタイルを追加 */
@@ -142,7 +179,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px; /* 適切な間隔を指定してください */
+  margin-top: 10px; 
+  /* 適切な間隔を指定してください */
 }
 
 /*Checkboxes styles*/
