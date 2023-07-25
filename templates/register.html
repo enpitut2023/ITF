@@ -3,37 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/reset.css">
+    <link rel="stylesheet" href="/static/css/register.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>ITF. - 会員登録 -</title>
 </head>
 <body>
-    <h1>ITF. - 会員登録</h1>
-    <div>
+    <h1 class="register-heading">ITF. - 会員登録 -</h1>
+    <div class="register-form">
         <form action="/None/register" method="POST" id="signup-form">
-            ニックネーム(公開されます)
-            <input type="text" name="user_name" placeholder="ニックネーム">
-            学類
-            <select name="school">
-                <option value="" selected>選択してください</option>
-                <option>情報科学類</option>
-                <option>情報メディア創成学類</option>
-                <option>知識情報・図書館学類</option>
-                <option>理工</option>
-                <option>応理</option>
-                <option>体専</option>
-            </select>
-            学年
-            <select name="year">
-                <option value="" selected>選択してください</option>
-                <option>B1</option>
-                <option>B2</option>
-                <option>B3</option>
-                <option>B4</option>
-                <option>M1</option>
-                <option>M2</option>
-            </select>
-            <input type="submit" value="登録" id="signup">
+            <div class="register-name">
+                <label for="user_name">
+                    ニックネーム<br>(公開されます)
+                    <span class="contact-span-red">必須</span>
+                </label>
+                <input type="text" name="user_name" id="user_name" placeholder="ニックネーム">
+            </div><!-- /.register-name -->
+            
+            <div class="register-school">
+                <label for="school">
+                    学類
+                    <span class="contact-span-red">必須</span>
+                </label>
+                <select name="school" id="school" class="contact-option">
+                    <option value="" selected>選択してください</option>
+                    <option>情報科学類</option>
+                    <option>情報メディア創成学類</option>
+                    <option>知識情報・図書館学類</option>
+                    <option>理工</option>
+                    <option>応理</option>
+                    <option>体専</option>
+                </select>
+            </div><!-- /.register-school -->
+
+            <div class="register-year">
+                <label for="year">
+                    学年
+                    <span class="contact-span-red">必須</span>
+                </label>
+                <select name="year" id="year" class="contact-option">
+                    <option value="" selected>選択してください</option>
+                    <option>B1</option>
+                    <option>B2</option>
+                    <option>B3</option>
+                    <option>B4</option>
+                    <option>M1</option>
+                    <option>M2</option>
+                    <option>D1</option>
+                    <option>D2</option>
+                    <option>D3</option>
+                </select>
+            </div><!-- /.register-year -->
+
+            <input type="submit" value="登録" id="signup" class="btn1 submit-btn">
         </form>
-        <div><a href="/None/login">登録済みの方はこちら</a></div>
+        <div class="registered"><a href="/None/login">登録済みの方はこちら</a></div>
     
     </div>
     <script>

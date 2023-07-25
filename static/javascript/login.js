@@ -1,8 +1,28 @@
 document.getElementById('login-form').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    var email = document.getElementById('login-email').value;
+    var username = document.getElementById('user-name').value;
     var password = document.getElementById('login-password').value;
+
+    fetch('http://127.0.0.1:8000/receive_username', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);  // 全てのレスポンスデータをログに出力
+            email = data.email;  // レスポンスデータからemailフィールドの値を取得
+            console.log(email);  // emailの値をログに出力
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
 
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
