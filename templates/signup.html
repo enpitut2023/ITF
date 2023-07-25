@@ -15,8 +15,8 @@
 
 <body>
   <div id="firebaseui-auth-container"></div>
-  <script src="../config.js"></script>
   <script>
+    const firebaseConfig = {{ config_data | tojson | safe }};
     // firebase の初期化
     firebase.initializeApp(firebaseConfig);
 

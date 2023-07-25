@@ -3,4 +3,4 @@ __pycache__/*
 itf-database-credential.json
 venv/
 .DS_Store
-config.js
+firebaseConfig.json
