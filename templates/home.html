@@ -8,6 +8,9 @@
 
 <div class="container">
   <section class="product">
+    {% if results == None %}
+    <p class="notext">商品がありません</p>
+    {% else %}
     {% for result in results %}
     {% if result[0].to_dict().get("状態") != "sold" %}
     <div class="product-item">
@@ -40,9 +43,10 @@
         <a class="button-arrow-right" href="/{{id}}/purchase_confirmation/{{ result[0].id }}">欲しい！</a>
       </div>
     </div>
-
     {% endif %}
+ 
     {% endfor %}
+    {% endif %}
   </section>
 </div>
 <!-- 隠しフォームを作成 -->
