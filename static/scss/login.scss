@@ -56,7 +56,7 @@ body {
   }
 }
 
-.register-heading {
+.login-heading {
   font-size: 40px;
   text-align: center;
 
@@ -65,7 +65,7 @@ body {
   }
 }
 
-.register-form {
+.login-container {
     background: #fff;
     // border-radius: 10px;
     padding: 60px 80px;
@@ -86,9 +86,22 @@ body {
     }
 }
 
-#signup-form {
+#login-form {
     width: 100%;
     margin: auto;
+}
+
+.name-container,
+.pass-container {
+    @include mq(md) {
+        display: flex; 
+    }
+}
+
+.login-name {
+    min-width:170px;
+    font-weight: bold;
+    line-height: 1.2;
 }
 
 .register-name {
@@ -102,6 +115,11 @@ label {
     font-weight: bold;
     line-height: 1.2;
 }
+
+.pass-container {
+    margin-top: 40px;
+}
+
 
 
 .register-school,
@@ -126,7 +144,7 @@ label {
 
 #school {
     @include mq(md) {
-        margin-left: 55px;
+        margin-left: 120px;
     }
 }
 
@@ -150,7 +168,8 @@ label {
 }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+input[type="password"] {
   color: #707070;
   border: none;
   border-bottom: 1px solid #707070;
