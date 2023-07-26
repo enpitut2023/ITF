@@ -87,9 +87,7 @@
           <div class="product-data">
             <h1 class="product-name">{{ result[0].to_dict()["教科書名"] }}</h1>
             <p class="product-author">
-              <a href="#" class="exuser" onclick="submitForm('{{ result[1] }}')">
                 出品者：{{ result[0].to_dict()["出品者"] }}
-              </a>
             </p>
 
             <p class="product-author">値段：{{ result[0].to_dict()["値段"] }}円</p>
