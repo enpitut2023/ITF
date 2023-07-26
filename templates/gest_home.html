@@ -65,54 +65,59 @@
         <div id="mask"></div>
       </div>
   </header>
+
   <h2 class="search-heading">教科書を検索</h2>
-  <form action="/gest_home" method="POST" id="search">
-    <input type="text" name="keyword" placeholder="教科書名を入力してください" id="search_box">
-    <input type="submit" value="検索" id="search_button">
-  </form>
-  {% if results == None %}
-  <p class="notext">商品がありません</p>
-  {% else %}
-  <div class="container">
-    <section class="product">
-      {% for result in results %}
-      {% if result[0].to_dict().get("状態") != "sold" %}
-      <div class="product-item">
-        <div class="product-detail">
-          {% if result[0].to_dict()['画像'] != "None" %}
-          <img src="{{ result[0].to_dict()['画像'] }}" class="product-img" alt="">
-          {% else %}
-          <img src="/static/img/book.png" class="product-img" alt="">
-          {% endif %}
-          <div class="product-data">
-            <h1 class="product-name">{{ result[0].to_dict()["教科書名"] }}</h1>
+<form action="/gest_home" method="POST" id="search">
+  <input type="text" name="keyword" placeholder="教科書名を入力してください" id="search_box">
+  <input type="submit" value="検索" id="search_button">
+</form>
+{% if results == None %}
+<p class="notext">商品がありません</p>
+{% else %}
+<div class="container">
+  <section class="product">
+    {% for result in results %}
+    {% if result[0].to_dict().get("状態") != "sold" %}
+    <div class="product-item">
+      <div class="product-detail">
+        {% if result[0].to_dict()['画像'] != "None" %}
+        <img src="{{ result[0].to_dict()['画像'] }}" class="product-img" alt="">
+        {% else %}
+        <img src="/static/img/book.png" class="product-img" alt="">
+        {% endif %}
+        <div class="product-data">
+          <h1 class="product-name">{{ result[0].to_dict()["教科書名"] }}</h1>
+          <p class="product-author">
             <p class="product-author">
                 出品者：{{ result[0].to_dict()["出品者"] }}
             </p>
-
-            <p class="product-author">値段：{{ result[0].to_dict()["値段"] }}円</p>
+          </p>
+          <p class="product-price">値段：{{ result[0].to_dict()["値段"] }}円</p>
+          <p class="product-place-heading">受取場所候補一覧</p>
+          <ul>
             {% if result[0].to_dict()["受け取り場所"] != [] %}
             {% for i in result[0].to_dict()["受け取り場所"] %}
-            <p class="product-author">{{i}}</p>
+            <li class="product-place">{{i}}</li>
             {% endfor %}
             {% endif %}
+          </ul>
 
-          </div><!-- /.product-data -->
-        </div><!-- /.product-detail -->
-        <div class="tab-product__link product-btn">
-          <a class="button-arrow-right" href="/None/register">欲しい！</a>
-        </div>
+        </div><!-- /.product-data -->
+      </div><!-- /.product-detail -->
+      <div class="tab-product__link product-btn">
+        <a class="button-arrow-right" href="/None/register">欲しい！</a>
       </div>
-
-      {% endif %}
-      {% endfor %}
-      {% endif %}
-    </section>
-  </div>
-  <!-- 隠しフォームを作成 -->
-  <form id="exuserForm" action="/None/register" method="GET">
-    <input type="hidden" name="exuser_id" id="exuserIdInput">
-  </form>
+    </div>
+    {% endif %}
+ 
+    {% endfor %}
+    {% endif %}
+  </section>
+</div>
+<!-- 隠しフォームを作成 -->
+<form id="exuserForm" action="/None/register" method="GET">
+  <input type="hidden" name="exuser_id" id="exuserIdInput">
+</form>
 
 
   <!-- jQuery -->
