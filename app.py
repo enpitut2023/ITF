@@ -49,13 +49,15 @@ user_data = {
     "mail": None,
 }
 
+user_auth=False
 
-def is_certified(user_doc_id):
-    # 'user'コレクションの全てのドキュメントのIDを取得
-    user_docs_ref = db.collection('user').document(user_doc_id)
-    fetched_user_data = user_docs_ref.get().to_dict()
-    auth = fetched_user_data["認証"]
-    if auth == "verified":
+def is_certified():
+    # # 'user'コレクションの全てのドキュメントのIDを取得
+    # user_docs_ref = db.collection('user').document(user_doc_id)
+    # fetched_user_data = user_docs_ref.get().to_dict()
+    # auth = fetched_user_data["認証"]
+    global user_auth
+    if user_auth == True:
         return True
     else:
         return False
@@ -63,10 +65,12 @@ def is_certified(user_doc_id):
 
 @app.route("/")
 def first():
-    return redirect('/gest_home')
+    global user_auth
+    user_auth=False
+    return redirect('/guest_home')
 
-@app.route("/gest_home", methods=['GET', 'POST'])
-def gest_home():
+@app.route("/guest_home", methods=['GET', 'POST'])
+def guest_home():
     docs = docs_ref.get()
     
     # 'user'コレクションの全てのドキュメントのIDを取得
@@ -84,7 +88,7 @@ def gest_home():
                     pair = (doc, exuser_id)
                     results.append(pair)
                     break
-        return render_template('gest_home.html', results=results)
+        return render_template('guest_home.html', results=results)
     else:
         results = []
         search_text = request.form.get('keyword')
@@ -101,7 +105,7 @@ def gest_home():
                         break
         if results == []:
             results=None
-        return render_template('gest_home.html', results=results)
+        return render_template('guest_home.html', results=results)
         
 @app.route("/<flag>/register", methods=['GET', 'POST'])
 def register(flag):
@@ -162,6 +166,8 @@ def veri_flag(id, userdata):
             copied_user_data['学年'] = result_list[2]
             copied_user_data["mail"] = email
             user_docs_ref.set(copied_user_data)
+            global user_auth
+            user_auth=True
             return redirect(f"/{id}/home")
 
     return redirect(f"/{id}/signup")
@@ -171,6 +177,8 @@ def veri_flag(id, userdata):
 def login(flag):
     # flagはユーザーがないのか、認証されていないのかを判別
     if request.method == 'GET':
+        global user_auth
+        user_auth=False
         return render_template("login.html", flag=flag, config_data=data)
     else:
         get_user_name = request.form.get('user_name')
@@ -185,6 +193,7 @@ def login(flag):
             # email = fetched_user_data["mail"]
             if (user_name == get_user_name):
                 if (auth == "verified"):
+                    user_auth=True
                     return redirect(f"/{id}/home")
                 else:
                     flag = "not_verified"
@@ -217,7 +226,7 @@ def receive_username():
 @app.route("/<id>/home", methods=['GET', 'POST'])
 def home(id):
     # Firestoreからデータを取得します
-    if is_certified(id):
+    if is_certified():
         docs = docs_ref.get()
         results = []
         # 'user'コレクションの全てのドキュメントのIDを取得
@@ -256,7 +265,7 @@ def home(id):
 
 @app.route("/<id>/mypage")
 def mypage(id):
-    if is_certified(id):
+    if is_certified():
         user_docs_ref = db.collection('user').document(id)
         fetched_user_data = user_docs_ref.get().to_dict()
         username = fetched_user_data["ユーザー名"]
@@ -290,7 +299,7 @@ def userpage(id):
 
 @app.route('/<id>/search', methods=['POST'])
 def search_books(id):
-    if is_certified(id):
+    if is_certified():
         book_name = request.form.get('book_name')
         # Google Books APIへのリクエスト
         response = requests.get(
@@ -301,7 +310,7 @@ def search_books(id):
 
 @app.route("/<id>/search_book", methods=['GET', 'POST'])
 def book_search(id):
-    if is_certified(id):
+    if is_certified():
         user_docs_ref = db.collection('user').document(id)
         fetched_user_data = user_docs_ref.get().to_dict()
         username = fetched_user_data["ユーザー名"]
@@ -355,7 +364,7 @@ def get_data():
 @app.route('/<id>/delete/<doc_id>', methods=['GET'])
 # delete処理
 def delete_data(doc_id, id):
-    if is_certified(id):
+    if is_certified():
         doc_ref = docs_ref.document(doc_id)
         doc_ref.delete()
         return redirect(f"/{id}/mypage")
@@ -372,7 +381,7 @@ def update_data(doc_id):
 
 @app.route("/<id>/info")
 def info(id):
-    if is_certified(id):
+    if is_certified():
         # firebaseからユーザー情報を取得
         user_docs_ref = db.collection('user').document(id)
         fetched_user_data = user_docs_ref.get().to_dict()
@@ -416,7 +425,7 @@ def not_buy(doc_id, id):
 
 @app.route("/<id>/purchase_confirmation/<doc_id>", methods=['GET', 'POST'])
 def purchase_confirmation(doc_id, id):
-    if is_certified(id):
+    if is_certified():
         # firebaseからユーザー情報を取得
         exhibit_ref = db.collection('exhibit').document(doc_id)
         fetched_exhibit_data = exhibit_ref.get().to_dict()

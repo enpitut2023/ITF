@@ -16,7 +16,7 @@
 <body>
   <header>
     <div class="header">
-      <a href="/gest_home" class="title-container">
+      <a href="/guest_home" class="title-container">
         <h1 class="title">ITF.</h1>
         <p class="title-sub">Informative Textbook Fleamarket</p>
       </a>
@@ -67,27 +67,26 @@
   </header>
 
   <h2 class="search-heading">教科書を検索</h2>
-<form action="/gest_home" method="POST" id="search">
-  <input type="text" name="keyword" placeholder="教科書名を入力してください" id="search_box">
-  <input type="submit" value="検索" id="search_button">
-</form>
-{% if results == None %}
-<p class="notext">商品がありません</p>
-{% else %}
-<div class="container">
-  <section class="product">
-    {% for result in results %}
-    {% if result[0].to_dict().get("状態") != "sold" %}
-    <div class="product-item">
-      <div class="product-detail">
-        {% if result[0].to_dict()['画像'] != "None" %}
-        <img src="{{ result[0].to_dict()['画像'] }}" class="product-img" alt="">
-        {% else %}
-        <img src="/static/img/book.png" class="product-img" alt="">
-        {% endif %}
-        <div class="product-data">
-          <h1 class="product-name">{{ result[0].to_dict()["教科書名"] }}</h1>
-          <p class="product-author">
+  <form action="/guest_home" method="POST" id="search">
+    <input type="text" name="keyword" placeholder="教科書名を入力してください" id="search_box">
+    <input type="submit" value="検索" id="search_button">
+  </form>
+  {% if results == None %}
+  <p class="notext">商品がありません</p>
+  {% else %}
+  <div class="container">
+    <section class="product">
+      {% for result in results %}
+      {% if result[0].to_dict().get("状態") != "sold" %}
+      <div class="product-item">
+        <div class="product-detail">
+          {% if result[0].to_dict()['画像'] != "None" %}
+          <img src="{{ result[0].to_dict()['画像'] }}" class="product-img" alt="">
+          {% else %}
+          <img src="/static/img/book.png" class="product-img" alt="">
+          {% endif %}
+          <div class="product-data">
+            <h1 class="product-name">{{ result[0].to_dict()["教科書名"] }}</h1>
             <p class="product-author">
                 出品者：{{ result[0].to_dict()["出品者"] }}
             </p>
