@@ -39,6 +39,10 @@ body {
   margin: auto;
 }
 
+.product-item {
+  margin-top: 30px;
+}
+
 .info-container {
   margin-top: 30px;
 }
@@ -154,4 +158,8 @@ body {
 .not_buy:hover {
   background-color: #ff3f49;
   /* ボタンの背景色（ホバー時） */
+}
+
+.product-item {
+  display: block;
 }
