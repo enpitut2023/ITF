@@ -159,3 +159,7 @@ body {
   background-color: #ff3f49;
   /* ボタンの背景色（ホバー時） */
 }
+
+.product-item {
+  display: block;
+}
