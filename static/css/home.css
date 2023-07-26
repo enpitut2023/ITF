@@ -107,7 +107,7 @@ body {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    min-width: 50%;
+    min-width: 70%;
   }
 }
 
