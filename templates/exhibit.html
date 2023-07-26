@@ -9,9 +9,11 @@
   <h2>出品</h2>
   <!-- <form method="POST" action="/{{username}}/exhibit"> -->
     <form method="POST" action="/{{id}}/exhibit/{{ex_id}}">
-      <input type="text" name="money" placeholder="値段（数字を入れてください）" id="moneyInput" required>円
+      <input type="text" name="money" placeholder="値段（数字を入れてください）" id="moneyInput" required>
+      <span class="yen">円</span>
 
       <div class="boxes">
+        <p class="give-place">受け渡し場所候補（複数選択可）</p>
         <div class="checkbox-container">
           <input type="checkbox" name="location1" id="box-1" value="中央図書館前" checked>
           <label for="box-1">中央図書館前</label>
@@ -39,7 +41,7 @@
         
       </div>
       <div>
-        <input type="text" name="any_location" placeholder="その他の場所を追加">
+        <input type="text" name="any_location" placeholder="その他の場所を追加" class="any_location">
       </div>
     
       <div class="subject">
@@ -52,11 +54,9 @@
 
 
   <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-  <script src="/static/javascript/script.js"></script>
+
   <script src="/static/javascript/exhibit.js"></script>
 
-</body>
-</html>
+
 
 {% endblock %}

@@ -107,7 +107,7 @@ body {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    min-width: 50%;
+    min-width: 70%;
   }
 }
 
@@ -273,8 +273,8 @@ h2{
   margin-top: 20px;
 }
 
-.exuser{
-  font-weight: bold;
+.user{
+  color: rgb(68, 95, 248);
 }
 
 .notext{

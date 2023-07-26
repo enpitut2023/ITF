@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/static/css/reset.css">
   <link rel="stylesheet" href="/static/css/home.css">
   <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
   {% block extra_css %}{% endblock %}
 </head>
 
@@ -54,7 +55,7 @@
           <div class="inner">
             <ul class="menu">
               <li><a href="/{{id}}/info">購入情報</a></li>
-              <li><a href="/{{id}}/exhibit">出品</a></li>
+              <li><a href="/{{id}}/search_book">出品</a></li>
               <li><a href="/{{id}}/mypage">Mypage</a></li>
               <li><a href="/None/login">ログアウト</a></li>
             </ul>
@@ -68,3 +69,10 @@
       </div>
   </header>
   {% block content %} {% endblock %}
+
+  <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="/static/javascript/script.js"></script>
+</body>
+
+</html>

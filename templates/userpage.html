@@ -1,38 +1,37 @@
-{% extends "base.html" %} 
-  
+{% extends "base.html" %}
+
 {% block extra_css %}
-  <!-- 子テンプレート独自のCSSを読み込む -->
-  <link rel="stylesheet" href="/static/css/mypage.css">
+<!-- 子テンプレート独自のCSSを読み込む -->
+<link rel="stylesheet" href="/static/css/mypage.css">
 {% endblock %}
 {% block content %}
-    <h1 class="mypage-heading">Userpage</h1><!-- /.mypage-heading -->
-    <div class="info">
-      <ul>
-        <li>ユーザー名：</li>
-        <li>学年：</li>  
-        <li>学類：</li>   
-      </ul>
-      <ul>
-        <li>{{data["ユーザー名"]}}</li>
-        <li>{{data["学年"]}}</li>
-        <li>{{data["学類"]}}</li>
-      </ul>
+<h1 class="mypage-heading">Userpage</h1><!-- /.mypage-heading -->
+<div class="info">
+  <ul>
+    <li>ユーザー名：</li>
+    <li>学年：</li>
+    <li>学群・学術院：</li>
+  </ul>
+  <ul>
+    <li>{{data["ユーザー名"]}}</li>
+    <li>{{data["学年"]}}</li>
+    <li>{{data["学類"]}}</li>
+  </ul>
+</div>
+<div class="container">
+  <div class="product">
+    <h2>出品商品</h2>
+    {% for result in results %}
+    <div class="product-item">
+      <div class="product-detail">
+        {% if result.to_dict()['画像'] != "None" %}
+        <img src="{{ result.to_dict()['画像'] }}" class="product-img" alt="">
+        {% else %}
+        <img src="/static/img/book.png" class="product-img" alt="">
+        {% endif %}
+        <h1 class="product-name">{{result.to_dict()["教科書名"]}}</h1>
+      </div>
     </div>
-    <div class="container">
-        <div class="product">
-          <h2>出品商品</h2>
-        {% for result in results %}
-          <div class="product-item">
-            <div class="product-detail">
-              {% if result.to_dict()['画像'] != "None" %}
-              <img src="{{ result.to_dict()['画像'] }}" class="product-img" alt="">
-              {% else %}
-              <img src="/static/img/book.png" class="product-img" alt="">
-              {% endif %}
-              <h1 class="product-name">{{result.to_dict()["教科書名"]}}</h1>
-            </div>
-        </div> 
-        {% endfor %} 
-</body>
-</html>
-{% endblock %}
+    {% endfor %}
+
+    {% endblock %}

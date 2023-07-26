@@ -15,12 +15,38 @@ form {
   height: 50px;
 }
 
+#moneyInput {
+  margin-top: 30px;
+  padding: 10px;
+  min-width: 220px;
+}
 
+.yen {
+  font-size: 18px;
+}
+
+.give-place {
+  font-size: 18px;
+}
+
+.checkbox-container:first-of-type {
+  margin-top: 30px;
+}
 
 .btn-submit{
   text-align: center;
   margin: 15px;
 }
+
+.any_location {
+  padding: 10px;
+  min-width: 220px;
+}
+
+.subject {
+  margin-top: 20px;
+}
+
 
 input[type="submit"] {
   width: 30%;

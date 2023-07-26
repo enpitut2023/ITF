@@ -8,10 +8,13 @@
   <link rel="stylesheet" href="/static/css/style.css">
   <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+  <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
 </head>
 
 <body>
-  <h1>メールを送りました。認証してください</h1>
+  <h1>メールを送信しました。認証してください。<br>※認証には時間がかかることがあります
+    <p style="font-size: 14px;">お手数ですが何回か”メール認証しました”ボタンを試してください</p>
+  </h1>
   <div id="main"></div>
   <button id="send" onclick="send()">もう一度メールを送る</button>
   <button id="veri" onclick="veri()">メール認証しました</button>

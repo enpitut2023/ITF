@@ -63,6 +63,14 @@
       {% for place in result.to_dict()["受け取り場所"] %}
       <br class="is-pc">{{place}}
       {% endfor %}</div>
+      <div class="info">受取日時：
+        {% for date in result.to_dict()["受け取り日時"] %}
+        <br class="is-pc">{{date}}
+        {% endfor %}</div>
+        <div class="info">受取時間：
+        {% for time in result.to_dict()["受け取り時間"] %}
+        <br class="is-pc">{{time}}
+        {% endfor %}</div>
       
     </div>
   </div>
@@ -95,7 +103,5 @@
 
 {% endif %}
 {% endfor %}
-</body>
 
-</html>
 {% endblock %}
