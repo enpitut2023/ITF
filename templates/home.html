@@ -12,7 +12,7 @@
     <p class="notext">商品がありません</p>
     {% else %}
     {% for result in results %}
-    {% if result[0].to_dict().get("状態") != "sold" %}
+    {% if result[0].to_dict().get("状態") == "available" %}
     <div class="product-item">
       <div class="product-detail">
         {% if result[0].to_dict()['画像'] != "None" %}
