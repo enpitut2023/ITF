@@ -71,7 +71,6 @@
   <input type="text" name="keyword" placeholder="教科書名を入力してください" id="search_box">
   <input type="submit" value="検索" id="search_button">
 </form>
-
 {% if results == None %}
 <p class="notext">商品がありません</p>
 {% else %}
@@ -89,9 +88,9 @@
         <div class="product-data">
           <h1 class="product-name">{{ result[0].to_dict()["教科書名"] }}</h1>
           <p class="product-author">
-            <a class="user" href="#" onclick="submitForm('{{ result[1] }}')">
-              出品者：{{ result[0].to_dict()["出品者"] }}
-            </a>
+            <p class="product-author">
+                出品者：{{ result[0].to_dict()["出品者"] }}
+            </p>
           </p>
           <p class="product-price">値段：{{ result[0].to_dict()["値段"] }}円</p>
           <p class="product-place-heading">受取場所候補一覧</p>
