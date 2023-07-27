@@ -13,6 +13,7 @@ import copy
 # 環境変数からFirebaseサービスアカウントキーを読み込みます
 # service_account_key = json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_ITF_DATABASE_B9026'))
 
+
 # Firebaseクライアントを初期化します
 key_path = 'itf-database-credential.json'
 credentials = Credentials.from_service_account_file(key_path)
@@ -20,6 +21,8 @@ cred = firebase_admin.credentials.Certificate(key_path)
 firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
+# セッションを有効化するためのsecret_keyを設定
+app.secret_key = "your-secret-key"
 db = firestore.Client(credentials=credentials)
 with open('firebaseConfig.json') as json_file:
     data = json.load(json_file)
@@ -49,19 +52,9 @@ user_data = {
     "mail": None,
 }
 
-user_auth=False
-
-def is_certified():
-    # # 'user'コレクションの全てのドキュメントのIDを取得
-    # user_docs_ref = db.collection('user').document(user_doc_id)
-    # fetched_user_data = user_docs_ref.get().to_dict()
-    # auth = fetched_user_data["認証"]
-    global user_auth
-    if user_auth == True:
-        return True
-    else:
-        return False
-
+    # キーが英語じゃないとだめ、この処理のほうが軽い
+        # user_docs_refs = db.collection('user').where("ユーザー名", "==", username).get()
+        
 
 @app.route("/")
 def first():
@@ -166,41 +159,44 @@ def veri_flag(id, userdata):
             copied_user_data['学年'] = result_list[2]
             copied_user_data["mail"] = email
             user_docs_ref.set(copied_user_data)
-            global user_auth
-            user_auth=True
+            session['user_id']=id
             return redirect(f"/{id}/home")
 
     return redirect(f"/{id}/signup")
 
-
-@app.route("/<flag>/login", methods=['GET', 'POST'])
-def login(flag):
-    # flagはユーザーがないのか、認証されていないのかを判別
+# パスワード間違ってても入れるのを直す
+@app.route("/login", methods=['GET', 'POST'])
+def login():
     if request.method == 'GET':
-        global user_auth
-        user_auth=False
-        return render_template("login.html", flag=flag, config_data=data)
+        session.pop('user_id', None)
+        return render_template("login.html", config_data=data)
     else:
-        get_user_name = request.form.get('user_name')
-        # 'user'コレクションの全てのドキュメントのIDを取得
+        udata = request.get_json()
+        username = udata.get("username")
         user_docs_refs = db.collection('user').get()
         doc_ids = [doc.id for doc in user_docs_refs]
         for id in doc_ids:
             user_docs_ref = db.collection('user').document(id)
             fetched_user_data = user_docs_ref.get().to_dict()
-            user_name = fetched_user_data["ユーザー名"]
-            auth = fetched_user_data["認証"]
-            # email = fetched_user_data["mail"]
-            if (user_name == get_user_name):
-                if (auth == "verified"):
-                    user_auth=True
-                    return redirect(f"/{id}/home")
-                else:
-                    flag = "not_verified"
-                    return redirect(f"/{flag}/login")
-        flag = "no_user"
-        return redirect(f"/{flag}/login")
+            # 全てのユーザー名と出品者のユーザー名を照合して、出品者のidを取ってくる
+            if fetched_user_data["ユーザー名"] == username:
+                email = fetched_user_data["mail"]
+                print(email)
+                return jsonify({"email": email, "id": id}), 200        
 
+
+@app.route("/<id>/login_success")
+def login_success(id):
+    session['user_id'] = id 
+    return redirect(f"/{id}/home")   
+
+# セッションがどのくらいで消えるのか、ちゃんとログアウトせず閉じた場合はブラウザを閉じた瞬間閉じる、ブラウザごとにセッションを持つ
+def is_certified():
+
+    if 'user_id' in session:
+        return True
+    else:
+        return False
 
 @app.route('/receive_username', methods=['POST'])
 def receive_username():
@@ -226,14 +222,14 @@ def receive_username():
 @app.route("/<id>/home", methods=['GET', 'POST'])
 def home(id):
     # Firestoreからデータを取得します
-    if is_certified():
-        docs = docs_ref.get()
-        results = []
-        # 'user'コレクションの全てのドキュメントのIDを取得
-        user_docs_refs = db.collection('user').get()
-        doc_ids = [doc.id for doc in user_docs_refs]
-        if request.method == 'GET':
-
+    
+    docs = docs_ref.get()
+    results = []
+    # 'user'コレクションの全てのドキュメントのIDを取得
+    user_docs_refs = db.collection('user').get()
+    doc_ids = [doc.id for doc in user_docs_refs]
+    if request.method == 'GET':
+        if is_certified():
             # Firestoreから取得したデータをリストに格納します
             for doc in docs:
                 for exuser_id in doc_ids:
@@ -245,22 +241,23 @@ def home(id):
                         results.append(pair)
                         break
             return render_template('home.html', results=results, id=id)
-        else:
-            search_text = request.form.get('keyword')
-            for doc in docs:
-                if search_text in doc.to_dict()['教科書名']:
-                    for exuser_id in doc_ids:
-                        user_docs_ref = db.collection(
-                            'user').document(exuser_id)
-                        fetched_user_data = user_docs_ref.get().to_dict()
-                        # 全てのユーザー名と出品者のユーザー名を照合して、出品者のidを取ってくる
-                        if fetched_user_data["ユーザー名"] == doc.to_dict()["出品者"]:
-                            pair = (doc, exuser_id)
-                            results.append(pair)
-                            break
-            if results == []:
-                results=None
-            return render_template('home.html', results=results, id=id)
+        return redirect("/None/login")
+    else:
+        search_text = request.form.get('keyword')
+        for doc in docs:
+            if search_text in doc.to_dict()['教科書名']:
+                for exuser_id in doc_ids:
+                    user_docs_ref = db.collection(
+                        'user').document(exuser_id)
+                    fetched_user_data = user_docs_ref.get().to_dict()
+                    # 全てのユーザー名と出品者のユーザー名を照合して、出品者のidを取ってくる
+                    if fetched_user_data["ユーザー名"] == doc.to_dict()["出品者"]:
+                        pair = (doc, exuser_id)
+                        results.append(pair)
+                        break
+        if results == []:
+            results=None
+        return render_template('home.html', results=results, id=id)
 
 
 @app.route("/<id>/mypage")
@@ -279,7 +276,7 @@ def mypage(id):
                 # Firestoreから取得したデータをリストに格納します
 
         return render_template('mypage.html', data=fetched_user_data, results=results, id=id)
-
+    return redirect("/None/login")
 
 @app.route("/<id>/userpage", methods=['POST'])
 def userpage(id):
@@ -295,45 +292,47 @@ def userpage(id):
         if doc.to_dict()["出品者"] == username:
             results.append(doc)
     return render_template('userpage.html', id=id, data=fetched_user_data, results=results)
-
+    
 
 @app.route('/<id>/search', methods=['POST'])
 def search_books(id):
-    if is_certified():
-        book_name = request.form.get('book_name')
-        # Google Books APIへのリクエスト
-        response = requests.get(
-            'https://www.googleapis.com/books/v1/volumes', params={'q': book_name})
-        books_data = response.json()
-        return render_template('search_results.html', books=books_data.get('items', []), id=id)
-
+    book_name = request.form.get('book_name')
+    # Google Books APIへのリクエスト
+    response = requests.get(
+        'https://www.googleapis.com/books/v1/volumes', params={'q': book_name})
+    books_data = response.json()
+    return render_template('search_results.html', books=books_data.get('items', []), id=id)
 
 @app.route("/<id>/search_book", methods=['GET', 'POST'])
 def book_search(id):
-    if is_certified():
-        user_docs_ref = db.collection('user').document(id)
-        fetched_user_data = user_docs_ref.get().to_dict()
-        username = fetched_user_data["ユーザー名"]
-        if request.method == 'GET':
-            return render_template('book_search.html', username=username, id=id)
-        else:
-            textname = request.form.get('bookTitle')
-            image = request.form.get('bookImage')
-            exhibit_data['出品者'] = username
-            exhibit_data['教科書名'] = textname
-            exhibit_data['画像'] = image
-            exhibit_data["状態"] = "available"
-            # Firestoreからデータ
-            docs_ref = db.collection('exhibit').document()
-            docs_ref.set(exhibit_data)
-            ex_id = docs_ref.id
-            return redirect(f'/{id}/exhibit/{ex_id}')
 
+    user_docs_ref = db.collection('user').document(id)
+    fetched_user_data = user_docs_ref.get().to_dict()
+    username = fetched_user_data["ユーザー名"]
+    if request.method == 'GET':
+        if is_certified():
+            return render_template('book_search.html', username=username, id=id)
+        return redirect("/None/login")
+    else:
+        textname = request.form.get('bookTitle')
+        image = request.form.get('bookImage')
+        exhibit_data['出品者'] = username
+        exhibit_data['教科書名'] = textname
+        exhibit_data['画像'] = image
+        exhibit_data["状態"] = "available"
+        # Firestoreからデータ
+        docs_ref = db.collection('exhibit').document()
+        docs_ref.set(exhibit_data)
+        ex_id = docs_ref.id
+        return redirect(f'/{id}/exhibit/{ex_id}')
+    
 
 @app.route("/<id>/exhibit/<ex_id>", methods=['GET', 'POST'])
 def exhibit(id, ex_id):
     if request.method == 'GET':
-        return render_template('exhibit.html', id=id, ex_id=ex_id)
+        if is_certified():
+            return render_template('exhibit.html', id=id, ex_id=ex_id)
+        return redirect("/None/login")
     else:
         docs_ref = db.collection('exhibit').document(ex_id)
         fetched_data = docs_ref.get().to_dict()
@@ -395,7 +394,7 @@ def info(id):
                 if doc.to_dict()["出品者"] != None and doc.to_dict()["受取人"] != None:
                     results.append(doc)
         return render_template('info.html', id=id, results=results, username=username)
-
+    return redirect("/None/login")
 # 購入確定
 
 
@@ -425,29 +424,31 @@ def not_buy(doc_id, id):
 
 @app.route("/<id>/purchase_confirmation/<doc_id>", methods=['GET', 'POST'])
 def purchase_confirmation(doc_id, id):
-    if is_certified():
-        # firebaseからユーザー情報を取得
-        exhibit_ref = db.collection('exhibit').document(doc_id)
-        fetched_exhibit_data = exhibit_ref.get().to_dict()
 
-        if request.method == 'GET':
+    # firebaseからユーザー情報を取得
+    exhibit_ref = db.collection('exhibit').document(doc_id)
+    fetched_exhibit_data = exhibit_ref.get().to_dict()
+
+    if request.method == 'GET':
+        if is_certified():
             return render_template('purchase_confirmation.html', id=id, data=fetched_exhibit_data, doc_id=doc_id)
-        else:
-            location = request.form.getlist('location')
-            date = request.form.getlist('date')
-            time = request.form.getlist('time')
-            user_docs_ref = db.collection('user').document(id)
-            fetched_user_data = user_docs_ref.get().to_dict()
-            username = fetched_user_data["ユーザー名"]
+        return redirect("/None/login")
+    else:
+        location = request.form.getlist('location')
+        date = request.form.getlist('date')
+        time = request.form.getlist('time')
+        user_docs_ref = db.collection('user').document(id)
+        fetched_user_data = user_docs_ref.get().to_dict()
+        username = fetched_user_data["ユーザー名"]
 
-            fetched_exhibit_data['状態'] = 'dealing'
-            fetched_exhibit_data['受取人'] = username
-            fetched_exhibit_data['受け取り場所'] = location
-            fetched_exhibit_data['受け取り日時'] = date
-            fetched_exhibit_data['受け取り時間'] = time
+        fetched_exhibit_data['状態'] = 'dealing'
+        fetched_exhibit_data['受取人'] = username
+        fetched_exhibit_data['受け取り場所'] = location
+        fetched_exhibit_data['受け取り日時'] = date
+        fetched_exhibit_data['受け取り時間'] = time
 
-            exhibit_ref.update(fetched_exhibit_data)
-            return redirect(f"/{id}/home")
+        exhibit_ref.update(fetched_exhibit_data)
+        return redirect(f"/{id}/home")
 
 
 # @app.route('/<id>/chatapp/<doc_id>')

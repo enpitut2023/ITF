@@ -14,7 +14,7 @@
 <body>
     <h1 class="login-heading">ITF. - ログイン -</h1>
     <div class="login-container">
-        <form action="/{flag}/login" method="POST" id="login-form">
+        <form action="/login" method="POST" id="login-form">
             <div class="name-container">
                 <label for="user-name" class="login-name">
                     ユーザ名
@@ -37,14 +37,61 @@
         </div>
     </div>
 
-
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
     <script>
-        if ('{{flag}}' == "not_verified") {
-            alert("認証されていないユーザーです");
-        }
-        if ('{{flag}}' == "no_user") {
-            alert("ユーザー登録がされていません");
-        }
+
+        // ログインについて
+        const firebaseConfig = {{ config_data | tojson | safe }};
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+    
+        document.getElementById("login-form").addEventListener("submit", (event) => {
+          event.preventDefault();
+          const username = document.getElementById("user-name").value;
+          const password = document.getElementById("login-password").value;
+    
+          // サーバーサイドでユーザー名に対応するメールを取得するAPIエンドポイントにリクエストを送信する
+          fetch("/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username: username })
+          })
+          .then((response) => response.json())  // レスポンスをJSONとして解析する
+          .then((data) => {
+            const serverEmail = data.email;  // レスポンスデータからメールアドレスを取得
+            const id = data.id; // レスポンスデータからユーザーIDを取得
+        
+            if (serverEmail) {
+              // メールが取得できた場合はFirebase Authenticationにログインする
+              auth.signInWithEmailAndPassword(serverEmail, password)
+                .then((userCredential) => {
+                  // ログイン成功時の処理
+                    const user = userCredential.user;
+                // ログイン成功後のリダイレクト
+                    window.location.href = '/'+id+'/login_success'; // ここをリダイレクトしたいURLに変更してください
+
+                  // ログイン成功後のリダイレクトなどの処理を追加する場合はここに記述
+                })
+                .catch((error) => {
+                  // ログイン失敗時の処理
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  alert("ユーザー名かパスワードが間違っています");
+                  // エラーメッセージの表示など、失敗時の処理を追加する場合はここに記述
+                });
+            } else {
+              // ユーザー名が存在しない場合はエラーメッセージを表示
+              alert("ユーザー名が存在しません");
+            }
+          })
+          .catch((error) => {
+            console.error("エラーが発生しました。", error);
+          });
+        });
     </script>
 </body>
 
