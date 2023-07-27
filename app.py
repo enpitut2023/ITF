@@ -254,7 +254,7 @@ def home(id):
                     break        
         if results == []:
             results=None
-        return render_template('guest_home.html', results=results,id=id)
+        return render_template('home.html', results=results,id=id)
 
 
 @app.route("/<id>/mypage")
