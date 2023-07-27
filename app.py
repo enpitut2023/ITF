@@ -81,24 +81,13 @@ def guest_home():
         for doc in docs:
             exuser = doc.to_dict()["seller"]
             user_docs = db.collection('user').where("name", "==", exuser).get()
-            for doc in user_docs:
-                exuser_id = doc.id
+            for user_doc in user_docs:
+                exuser_id = user_doc.id
                 pair = (doc,exuser_id)
                 results.append(pair)
                 break
         return render_template('guest_home.html', results=results)        
-        # # 該当するユーザーが存在するかチェック
-        # for doc in user_docs_refs:
-        #     user_data = doc.to_dict()
-        #     for exuser_id in doc_ids:
-        #         user_docs_ref = db.collection('user').document(exuser_id)
-        #         fetched_user_data = user_docs_ref.get().to_dict()
-        #         # 全てのnameとsellerのnameを照合して、sellerのidを取ってくる
-        #         if fetched_user_data["name"] == doc.to_dict()["seller"]:
-        #             pair = (doc, exuser_id)
-        #             results.append(pair)
-        #             break
-        # return render_template('guest_home.html', results=results)
+
     else:
         results = []
         search_text = request.form.get('keyword')
@@ -106,8 +95,8 @@ def guest_home():
             if search_text in doc.to_dict()['bookname']:
                 exuser = doc.to_dict()["seller"]
                 user_docs = db.collection('user').where("name", "==", exuser).get()
-                for doc in user_docs:
-                    exuser_id = doc.id
+                for user_doc in user_docs:
+                    exuser_id = user_doc.id
                     pair = (doc,exuser_id)
                     results.append(pair)
                     break        
@@ -250,17 +239,6 @@ def home(id):
                     results.append(pair)
                     break
             return render_template('home.html', results=results, id=id)    
-            # # Firestoreから取得したデータをリストに格納します
-            # for doc in docs:
-            #     for exuser_id in doc_ids:
-            #         user_docs_ref = db.collection('user').document(exuser_id)
-            #         fetched_user_data = user_docs_ref.get().to_dict()
-            #         # 全てのnameとsellerのnameを照合して、sellerのidを取ってくる
-            #         if fetched_user_data["name"] == doc.to_dict()["seller"]:
-            #             pair = (doc, exuser_id)
-            #             results.append(pair)
-            #             break
-            # return render_template('home.html', results=results, id=id)
         return redirect("/login")
     else:
         results = []
@@ -269,8 +247,8 @@ def home(id):
             if search_text in doc.to_dict()['bookname']:
                 exuser = doc.to_dict()["seller"]
                 user_docs = db.collection('user').where("name", "==", exuser).get()
-                for doc in user_docs:
-                    exuser_id = doc.id
+                for user_doc in user_docs:
+                    exuser_id = user_doc.id
                     pair = (doc,exuser_id)
                     results.append(pair)
                     break        
