@@ -179,14 +179,16 @@ def login():
         username = udata.get("username")
         # ユーザー名に対応するデータをFirestoreから取得
         user_docs_refs = db.collection('user').where("name", "==", username).get()
-        
-        # 該当するユーザーが存在するかチェック
-        for doc in user_docs_refs:
-            fetched_user_data = doc.to_dict()
-            id=doc.id
-            email = fetched_user_data["mail"]
-            return jsonify({"email": email, "id": id}), 200        
-
+        if len(user_docs_refs) != 0:
+            # 該当するユーザーが存在するかチェック
+            for doc in user_docs_refs:
+                fetched_user_data = doc.to_dict()
+                id=doc.id
+                email = fetched_user_data["mail"]
+                return jsonify({"email": email, "id": id}), 200        
+        else:
+             return jsonify({"email": False, "id": None}), 200
+            
 
 @app.route("/<id>/login_success")
 def login_success(id):
