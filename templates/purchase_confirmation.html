@@ -14,8 +14,8 @@
       <h3 class="confirm-info-heading">商品情報</h3>
       <div id="confirm-info">
         <!-- 商品情報を表示する要素 -->
-        <p class="book-name">{{data["教科書名"]}}</p>
-        <p class="book-price">{{data["値段"]}}円</p>
+        <p class="book-name">{{data["bookname"]}}</p>
+        <p class="book-price">{{data["price"]}}円</p>
       </div>
     </div><!-- /.confirm-info-container -->
 
@@ -47,7 +47,7 @@
         <h4 class="prefer-place">希望取引場所を選択</h4>
         <div class="boxes">
           <div class="boxes radio-boxes">
-            {% for location in data['受け取り場所'] %}
+            {% for location in data['place'] %}
             {% if location!="" %}
               <div class="radio-container">
               <input type="radio" name="location" id="box-{{ location }}" value="{{ location }}" checked>
