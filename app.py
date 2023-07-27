@@ -383,8 +383,7 @@ def info(id):
         # Firestoreからデータを取得します
         docs = docs_ref.get()
         # Firestoreから取得したデータをリストに格納します
-        results = []
-        docs = db.collection('exhibit').where("seller", "==", username).get()    
+        results = []  
         for doc in docs:
             if doc.to_dict()["seller"] == username or doc.to_dict()["receiver"] == username:
                 if doc.to_dict()["seller"] != None and doc.to_dict()["receiver"] != None:
