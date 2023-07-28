@@ -1,22 +1,22 @@
-{% extends "base.html" %} 
-  
+{% extends "base.html" %}
+
 {% block extra_css %}
-  <!-- 子テンプレート独自のCSSを読み込む -->
-  <link rel="stylesheet" href="/static/css/exhibit.css">
+<!-- 子テンプレート独自のCSSを読み込む -->
+<link rel="stylesheet" href="/static/css/exhibit.css">
 {% endblock %}
 {% block content %}
 
-  <h2>書籍検索</h2>
-  <!-- <form method="POST" action="/{{username}}/exhibit"> -->
-  <form method="POST" action="/{{id}}/search">
-    <div class="name">
-      <input type="text" class="book" placeholder="教科書名" name="book_name" required>
-    </div>
-    <!-- <div class="subject">
+<h2>書籍検索</h2>
+<!-- <form method="POST" action="/{{username}}/exhibit"> -->
+<form method="POST" action="/{{id}}/search">
+  <div class="name">
+    <input type="text" class="book" placeholder="教科書名" name="book_name" required>
+  </div>
+  <!-- <div class="subject">
       <input type="submit" class="btn-submit" value="出品"  onclick="showAlert()">
     </div> -->
-  </form>
-    
+</form>
+
 
 
 {% endblock %}
