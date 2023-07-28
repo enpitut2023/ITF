@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Chat Room</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
@@ -9,7 +10,7 @@
         var room = 'chat_room';
 
         socket.on('connect', function () {
-            socket.emit('join', {username: username, room: room});
+            socket.emit('join', { username: username, room: room });
         });
 
         socket.on('load_messages', function (data) {
@@ -29,7 +30,7 @@
         function sendMessage() {
             var userMessage = document.getElementById('user-input').value;
             appendMessage(username, userMessage);
-            socket.emit('send_message', {username: username, room: room, message: userMessage});
+            socket.emit('send_message', { username: username, room: room, message: userMessage });
             document.getElementById('user-input').value = '';
         }
 
@@ -47,17 +48,19 @@
             socket.emit('join', { 'user_id': user_id });
         }
 
-        
 
 
 
-        
+
+
     </script>
 </head>
+
 <body>
     <h1>Chat Room</h1>
     <div id="chat-box"></div>
     <input type="text" id="user-input" placeholder="Enter your message...">
     <button onclick="sendMessage()">Send</button>
 </body>
+
 </html>
