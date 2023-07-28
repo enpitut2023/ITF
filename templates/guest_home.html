@@ -88,35 +88,35 @@
           <div class="product-data">
             <h1 class="product-name">{{ result[0].to_dict()["bookname"] }}</h1>
             <p class="product-author">
-                出品者：{{ result[0].to_dict()["seller"] }}
+              出品者：{{ result[0].to_dict()["seller"] }}
             </p>
-          </p>
-          <p class="product-price">値段：{{ result[0].to_dict()["price"] }}円</p>
-          <p class="product-place-heading">受取場所候補一覧</p>
-          <ul>
-            {% if result[0].to_dict()["place"] != [] %}
-            {% for i in result[0].to_dict()["place"] %}
-            <li class="product-place">{{i}}</li>
-            {% endfor %}
-            {% endif %}
-          </ul>
+            </p>
+            <p class="product-price">値段：{{ result[0].to_dict()["price"] }}円</p>
+            <p class="product-place-heading">受取場所候補一覧</p>
+            <ul>
+              {% if result[0].to_dict()["place"] != [] %}
+              {% for i in result[0].to_dict()["place"] %}
+              <li class="product-place">{{i}}</li>
+              {% endfor %}
+              {% endif %}
+            </ul>
 
-        </div><!-- /.product-data -->
-      </div><!-- /.product-detail -->
-      <div class="tab-product__link product-btn">
-        <a class="button-arrow-right" href="/None/register">欲しい！</a>
+          </div><!-- /.product-data -->
+        </div><!-- /.product-detail -->
+        <div class="tab-product__link product-btn">
+          <a class="button-arrow-right" href="/None/register">欲しい！</a>
+        </div>
       </div>
-    </div>
-    {% endif %}
- 
-    {% endfor %}
-    {% endif %}
-  </section>
-</div>
-<!-- 隠しフォームを作成 -->
-<form id="exuserForm" action="/None/register" method="GET">
-  <input type="hidden" name="exuser_id" id="exuserIdInput">
-</form>
+      {% endif %}
+
+      {% endfor %}
+      {% endif %}
+    </section>
+  </div>
+  <!-- 隠しフォームを作成 -->
+  <form id="exuserForm" action="/None/register" method="GET">
+    <input type="hidden" name="exuser_id" id="exuserIdInput">
+  </form>
 
 
   <!-- jQuery -->
