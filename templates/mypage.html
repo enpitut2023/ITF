@@ -1,25 +1,25 @@
-{% extends "base.html" %} 
-  
+{% extends "base.html" %}
+
 {% block extra_css %}
-  <!-- 子テンプレート独自のCSSを読み込む -->
-  <link rel="stylesheet" href="/static/css/mypage.css">
+<!-- 子テンプレート独自のCSSを読み込む -->
+<link rel="stylesheet" href="/static/css/mypage.css">
 {% endblock %}
 {% block content %}
 
-  <h1 class="mypage-heading">Mypage</h1><!-- /.mypage-heading -->
-  <div class="info">
-    <ul>
-      <li>ユーザー名：</li>
-      <li>学群・学術院：</li>   
-      <li>学年：</li>  
-    </ul>
-    <ul>
-      <li>{{data["name"]}}</li>
-      <li>{{data["faculty"]}}</li>
-      <li>{{data["year"]}}</li>
-    </ul>
-  </div>
-  <div class="container">
+<h1 class="mypage-heading">Mypage</h1><!-- /.mypage-heading -->
+<div class="info">
+  <ul>
+    <li>ユーザー名：</li>
+    <li>学群・学術院：</li>
+    <li>学年：</li>
+  </ul>
+  <ul>
+    <li>{{data["name"]}}</li>
+    <li>{{data["faculty"]}}</li>
+    <li>{{data["year"]}}</li>
+  </ul>
+</div>
+<div class="container">
   <div class="product">
     <h2>出品商品</h2>
     {% for result in results %}
@@ -32,11 +32,12 @@
         {% endif %}
         <h1 class="product-name">{{result.to_dict()["bookname"]}}</h1>
       </div><!-- /.product-detail -->
-      <button class="delete_button"><a class="delete" href="javascript:void(0);" onclick="var yes=confirm('ホントに削除してもよろしいですか'); if(yes) location.href='/{{id}}/delete/{{result.id}}'; return false;">削除</a></button>
+      <button class="delete_button"><a class="delete" href="javascript:void(0);"
+          onclick="var yes=confirm('ホントに削除してもよろしいですか'); if(yes) location.href='/{{id}}/delete/{{result.id}}'; return false;">削除</a></button>
     </div>
     {% endfor %}
   </div>
-  </div>
+</div>
 
 
 {% endblock %}
