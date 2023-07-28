@@ -1,61 +1,61 @@
-{% extends "base.html" %} 
-  
+{% extends "base.html" %}
+
 {% block extra_css %}
-  <!-- 子テンプレート独自のCSSを読み込む -->
-  <link rel="stylesheet" href="/static/css/exhibit.css">
+<!-- 子テンプレート独自のCSSを読み込む -->
+<link rel="stylesheet" href="/static/css/exhibit.css">
 {% endblock %}
 {% block content %}
 
-  <h2>出品</h2>
-  <!-- <form method="POST" action="/{{username}}/exhibit"> -->
-    <form method="POST" action="/{{id}}/exhibit/{{ex_id}}">
-      <input type="text" name="money" placeholder="値段（数字を入れてください）" id="moneyInput" required>
-      <span class="yen">円</span>
+<h2>出品</h2>
+<!-- <form method="POST" action="/{{username}}/exhibit"> -->
+<form method="POST" action="/{{id}}/exhibit/{{ex_id}}">
+  <input type="text" name="money" placeholder="値段（数字を入れてください）" id="moneyInput" required>
+  <span class="yen">円</span>
 
-      <div class="boxes">
-        <p class="give-place">受け渡し場所候補（複数選択可）</p>
-        <div class="checkbox-container">
-          <input type="checkbox" name="location1" id="box-1" value="中央図書館前" checked>
-          <label for="box-1">中央図書館前</label>
-        </div>
-    
-        <div class="checkbox-container">
-          <input type="checkbox" name="location1" id="box-2" value="春日図書館前" checked>
-          <label for="box-2">春日図書館前</label>
-        </div>
-    
-        <div class="checkbox-container">
-          <input type="checkbox" name="location1" id="box-3" value="博士号アヒルボート" checked>
-          <label for="box-3">博士号アヒルボート</label>
-        </div>
-    
-        <div class="checkbox-container">
-          <input type="checkbox" name="location1" id="box-4" value="平砂カスミ" checked>
-          <label for="box-4">平砂カスミ</label>
-        </div>
+  <div class="boxes">
+    <p class="give-place">受け渡し場所候補（複数選択可）</p>
+    <div class="checkbox-container">
+      <input type="checkbox" name="location1" id="box-1" value="中央図書館前" checked>
+      <label for="box-1">中央図書館前</label>
+    </div>
 
-        <div class="checkbox-container">
-          <input type="checkbox" name="location1" id="box-5" value="学生会館" checked>
-          <label for="box-5">学生会館</label>
-        </div>
-        
-      </div>
-      <div>
-        <input type="text" name="any_location" placeholder="その他の場所を追加" class="any_location">
-      </div>
-    
-      <div class="subject">
-        <input type="submit" class="btn-submit" value="出品" >
-      </div>
+    <div class="checkbox-container">
+      <input type="checkbox" name="location1" id="box-2" value="春日図書館前" checked>
+      <label for="box-2">春日図書館前</label>
+    </div>
 
-      
-    </form>
-    
+    <div class="checkbox-container">
+      <input type="checkbox" name="location1" id="box-3" value="博士号アヒルボート" checked>
+      <label for="box-3">博士号アヒルボート</label>
+    </div>
+
+    <div class="checkbox-container">
+      <input type="checkbox" name="location1" id="box-4" value="平砂カスミ" checked>
+      <label for="box-4">平砂カスミ</label>
+    </div>
+
+    <div class="checkbox-container">
+      <input type="checkbox" name="location1" id="box-5" value="学生会館" checked>
+      <label for="box-5">学生会館</label>
+    </div>
+
+  </div>
+  <div>
+    <input type="text" name="any_location" placeholder="その他の場所を追加" class="any_location">
+  </div>
+
+  <div class="subject">
+    <input type="submit" class="btn-submit" value="出品">
+  </div>
 
 
-  <!-- jQuery -->
+</form>
 
-  <script src="/static/javascript/exhibit.js"></script>
+
+
+<!-- jQuery -->
+
+<script src="/static/javascript/exhibit.js"></script>
 
 
 
