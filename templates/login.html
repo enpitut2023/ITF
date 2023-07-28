@@ -2,97 +2,97 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/reset.css">
-    <link rel="stylesheet" href="/static/css/login.css">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
-    <title>ITF. - ログイン -</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/reset.css">
+  <link rel="stylesheet" href="/static/css/login.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+  <title>ITF. - ログイン -</title>
 </head>
 
 <body>
-    <h1 class="login-heading">ITF. - ログイン -</h1>
-    <div class="login-container">
-        <form action="/login" method="POST" id="login-form">
-            <div class="name-container">
-                <label for="user-name" class="login-name">
-                    ユーザ名
-                    <span class="contact-span-red">必須</span>
-                </label>
-                <input type="text" id="user-name" placeholder="ユーザー名" name="user_name" required>
-            </div><!-- /.name-container -->
-            <div class="pass-container">
-                <label for="user-pass" class="login-pass">
-                    パスワード
-                    <span class="contact-span-red">必須</span>
-                </label>
-                <input type="password" id="login-password" placeholder="Password" required>
-            </div><!-- /.pass-container -->
-            <button type="submit" id="signup" class="btn1 submit-btn">ログイン</button>
-        </form>
+  <h1 class="login-heading">ITF. - ログイン -</h1>
+  <div class="login-container">
+    <form action="/login" method="POST" id="login-form">
+      <div class="name-container">
+        <label for="user-name" class="login-name">
+          ユーザ名
+          <span class="contact-span-red">必須</span>
+        </label>
+        <input type="text" id="user-name" placeholder="ユーザー名" name="user_name" required>
+      </div><!-- /.name-container -->
+      <div class="pass-container">
+        <label for="user-pass" class="login-pass">
+          パスワード
+          <span class="contact-span-red">必須</span>
+        </label>
+        <input type="password" id="login-password" placeholder="Password" required>
+      </div><!-- /.pass-container -->
+      <button type="submit" id="signup" class="btn1 submit-btn">ログイン</button>
+    </form>
 
-        <div class="registered">
-            <a href="/None/register">新規会員登録はこちら</a>
-        </div>
+    <div class="registered">
+      <a href="/None/register">新規会員登録はこちら</a>
     </div>
+  </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
-    <script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+  <script>
 
-        // ログインについて
-        const firebaseConfig = {{ config_data | tojson | safe }};
+    // ログインについて
+    const firebaseConfig = {{ config_data | tojson | safe }};
 
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-    
-        document.getElementById("login-form").addEventListener("submit", (event) => {
-          event.preventDefault();
-          const username = document.getElementById("user-name").value;
-          const password = document.getElementById("login-password").value;
-    
-          // サーバーサイドでユーザー名に対応するメールを取得するAPIエンドポイントにリクエストを送信する
-          fetch("/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ username: username })
-          })
-          .then((response) => response.json())  // レスポンスをJSONとして解析する
-          .then((data) => {
-            const serverEmail = data.email;  // レスポンスデータからメールアドレスを取得
-            const id = data.id; // レスポンスデータからユーザーIDを取得
-        
-            if (serverEmail) {
-              // メールが取得できた場合はFirebase Authenticationにログインする
-              auth.signInWithEmailAndPassword(serverEmail, password)
-                .then((userCredential) => {
-                  // ログイン成功時の処理
-                    const user = userCredential.user;
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    document.getElementById("login-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const username = document.getElementById("user-name").value;
+      const password = document.getElementById("login-password").value;
+
+      // サーバーサイドでユーザー名に対応するメールを取得するAPIエンドポイントにリクエストを送信する
+      fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username: username })
+      })
+        .then((response) => response.json())  // レスポンスをJSONとして解析する
+        .then((data) => {
+          const serverEmail = data.email;  // レスポンスデータからメールアドレスを取得
+          const id = data.id; // レスポンスデータからユーザーIDを取得
+
+          if (serverEmail) {
+            // メールが取得できた場合はFirebase Authenticationにログインする
+            auth.signInWithEmailAndPassword(serverEmail, password)
+              .then((userCredential) => {
+                // ログイン成功時の処理
+                const user = userCredential.user;
                 // ログイン成功後のリダイレクト
-                    window.location.href = '/'+id+'/login_success'; // ここをリダイレクトしたいURLに変更してください
+                window.location.href = '/' + id + '/login_success'; // ここをリダイレクトしたいURLに変更してください
 
-                  // ログイン成功後のリダイレクトなどの処理を追加する場合はここに記述
-                })
-                .catch((error) => {
-                  // ログイン失敗時の処理
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-                  alert("ユーザー名かパスワードが間違っています");
-                  // エラーメッセージの表示など、失敗時の処理を追加する場合はここに記述
-                });
-            } else {
-              // ユーザー名が存在しない場合はエラーメッセージを表示
-              alert("ユーザー名かパスワードが間違っています");
-            }
-          })
-          .catch((error) => {
-            console.error("エラーが発生しました。", error);
-          });
+                // ログイン成功後のリダイレクトなどの処理を追加する場合はここに記述
+              })
+              .catch((error) => {
+                // ログイン失敗時の処理
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert("ユーザー名かパスワードが間違っています");
+                // エラーメッセージの表示など、失敗時の処理を追加する場合はここに記述
+              });
+          } else {
+            // ユーザー名が存在しない場合はエラーメッセージを表示
+            alert("ユーザー名かパスワードが間違っています");
+          }
+        })
+        .catch((error) => {
+          console.error("エラーが発生しました。", error);
         });
-    </script>
+    });
+  </script>
 </body>
 
 </html>
