@@ -4,7 +4,7 @@ document.getElementById('login-form').addEventListener('submit', function (e) {
     var username = document.getElementById('user-name').value;
     var password = document.getElementById('login-password').value;
 
-    fetch('http://itf.onrender.com/receive_username', {
+    fetch('/receive_username', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
