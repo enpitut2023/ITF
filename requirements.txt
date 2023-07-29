@@ -3,3 +3,4 @@ gunicorn
 firebase_admin
 google-cloud
 flask_socketio
+google-cloud-secret-manager
