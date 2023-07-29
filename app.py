@@ -1,31 +1,50 @@
-from flask import render_template, jsonify, Flask
-from flask import request, redirect, session
-import os
-import json
-import firebase_admin
-from google.cloud import firestore
-from google.oauth2.service_account import Credentials
-from firebase_admin import auth, initialize_app
-import re
-from flask_socketio import SocketIO, emit, join_room, leave_room
-import requests
 import copy
+import json
+import os
+import re
+
+import firebase_admin
+import requests
+from firebase_admin import auth, initialize_app
+from flask import Flask, jsonify, redirect, render_template, request, session
+from flask_socketio import SocketIO, emit, join_room, leave_room
+from google.cloud import firestore, secretmanager
+from google.oauth2.service_account import Credentials
+
 # 環境変数からFirebaseサービスアカウントキーを読み込みます
 # service_account_key = json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_ITF_DATABASE_B9026'))
+my_project_id = "746644474935"
 
+
+def access_secret_version(secret_id, project_id=my_project_id, version_id="latest"):
+    # Secret Managerクライアントを作成します。
+    client = secretmanager.SecretManagerServiceClient()
+
+    # Secret Managerのリソース名を構築します。
+    name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
+
+    # Secret Managerからシークレットの値を取得します。
+    response = client.access_secret_version(request={"name": name})
+
+    # シークレットの値（ペイロード）を返します。
+    return response.payload.data.decode("UTF-8")
+
+
+firebase_config = access_secret_version("firebaseConfig")
+data = json.loads(firebase_config)
 
 # Firebaseクライアントを初期化します
-key_path = 'itf-database-credential.json'
-credentials = Credentials.from_service_account_file(key_path)
-cred = firebase_admin.credentials.Certificate(key_path)
+itf_credential = access_secret_version("itf-database-credential")
+itf_credential_dict = json.loads(itf_credential)
+credentials = Credentials.from_service_account_info(itf_credential_dict)
+cred = firebase_admin.credentials.Certificate(itf_credential_dict)
 firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
 # セッションを有効化するためのsecret_keyを設定
 app.secret_key = "your-secret-key"
 db = firestore.Client(credentials=credentials)
-with open('firebaseConfig.json') as json_file:
-    data = json.load(json_file)
+
 
 # 出品データ
 exhibit_data = {
